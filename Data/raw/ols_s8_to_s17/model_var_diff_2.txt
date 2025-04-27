@@ -1,0 +1,40 @@
+\begin{center}
+\begin{tabular}{lclc}
+\toprule
+\textbf{Dep. Variable:}    &    diff\_var2    & \textbf{  R-squared:         } &    0.107  \\
+\textbf{Model:}            &       OLS        & \textbf{  Adj. R-squared:    } &    0.097  \\
+\textbf{Method:}           &  Least Squares   & \textbf{  F-statistic:       } &    13.24  \\
+\textbf{Date:}             & Tue, 04 Apr 2023 & \textbf{  Prob (F-statistic):} & 5.89e-16  \\
+\textbf{Time:}             &     11:52:46     & \textbf{  Log-Likelihood:    } &  -223.36  \\
+\textbf{No. Observations:} &         628      & \textbf{  AIC:               } &    462.7  \\
+\textbf{Df Residuals:}     &         620      & \textbf{  BIC:               } &    498.3  \\
+\textbf{Df Model:}         &           7      & \textbf{                     } &           \\
+\textbf{Covariance Type:}  &       HC0        & \textbf{                     } &           \\
+\bottomrule
+\end{tabular}
+%\caption{OLS Regression Results}
+\end{center}\begin{center}
+\begin{tabular}{lcccccc}
+\toprule
+                                  & \textbf{coef} & \textbf{std err} & \textbf{z} & \textbf{P$> |$z$|$} & \textbf{[0.025} & \textbf{0.975]}  \\
+\midrule
+\textbf{Intercept}                &      -0.2437  &        0.058     &    -4.189  &         0.000        &       -0.358    &       -0.130     \\
+\textbf{C(treatment)[T.fullinfo]} &       0.2316  &        0.040     &     5.799  &         0.000        &        0.153    &        0.310     \\
+\textbf{C(treatment)[T.neginfo]}  &      -0.0354  &        0.039     &    -0.898  &         0.369        &       -0.113    &        0.042     \\
+\textbf{C(treatment)[T.posinfo]}  &       0.1536  &        0.052     &     2.979  &         0.003        &        0.053    &        0.255     \\
+\textbf{C(treatment)[T.varinfo]}  &      -0.1040  &        0.041     &    -2.567  &         0.010        &       -0.183    &       -0.025     \\
+\textbf{timer\_all\_chars}        &      -0.0003  &        0.000     &    -0.622  &         0.534        &       -0.001    &        0.001     \\
+\textbf{round\_number}            &      -0.0040  &        0.011     &    -0.354  &         0.723        &       -0.026    &        0.018     \\
+\textbf{loss\_amount}             &   -7.284e-05  &        0.000     &    -0.148  &         0.882        &       -0.001    &        0.001     \\
+\bottomrule
+\end{tabular}
+\end{center}\begin{center}
+\begin{tabular}{lclc}
+\toprule
+\textbf{Omnibus:}       &  2.198 & \textbf{  Durbin-Watson:     } &    2.120  \\
+\textbf{Prob(Omnibus):} &  0.333 & \textbf{  Jarque-Bera (JB):  } &    2.008  \\
+\textbf{Skew:}          &  0.112 & \textbf{  Prob(JB):          } &    0.366  \\
+\textbf{Kurtosis:}      &  3.162 & \textbf{  Cond. No.          } &     410.  \\
+\bottomrule
+\end{tabular}
+\end{center}

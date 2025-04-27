@@ -1,0 +1,82 @@
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>    <td>abs(diff_belief_prob)</td> <th>  R-squared:         </th> <td>   0.148</td>
+</tr>
+<tr>
+  <th>Model:</th>                     <td>OLS</td>          <th>  Adj. R-squared:    </th> <td>   0.139</td>
+</tr>
+<tr>
+  <th>Method:</th>               <td>Least Squares</td>     <th>  F-statistic:       </th> <td>   22.04</td>
+</tr>
+<tr>
+  <th>Date:</th>               <td>Tue, 07 Feb 2023</td>    <th>  Prob (F-statistic):</th> <td>3.28e-37</td>
+</tr>
+<tr>
+  <th>Time:</th>                   <td>17:50:56</td>        <th>  Log-Likelihood:    </th> <td> -4036.4</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>        <td>   935</td>         <th>  AIC:               </th> <td>   8095.</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>            <td>   924</td>         <th>  BIC:               </th> <td>   8148.</td>
+</tr>
+<tr>
+  <th>Df Model:</th>                <td>    10</td>         <th>                     </th>     <td> </td>   
+</tr>
+<tr>
+  <th>Covariance Type:</th>           <td>HC0</td>          <th>                     </th>     <td> </td>   
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+              <td></td>                <th>coef</th>     <th>std err</th>      <th>z</th>      <th>P>|z|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>                <td>   15.3741</td> <td>    5.155</td> <td>    2.982</td> <td> 0.003</td> <td>    5.270</td> <td>   25.478</td>
+</tr>
+<tr>
+  <th>C(treatment)[T.fullinfo]</th> <td>  -13.8051</td> <td>    1.703</td> <td>   -8.107</td> <td> 0.000</td> <td>  -17.143</td> <td>  -10.468</td>
+</tr>
+<tr>
+  <th>C(treatment)[T.neginfo]</th>  <td>    2.0336</td> <td>    1.797</td> <td>    1.131</td> <td> 0.258</td> <td>   -1.489</td> <td>    5.556</td>
+</tr>
+<tr>
+  <th>C(treatment)[T.posinfo]</th>  <td>    2.9480</td> <td>    2.052</td> <td>    1.437</td> <td> 0.151</td> <td>   -1.073</td> <td>    6.969</td>
+</tr>
+<tr>
+  <th>C(treatment)[T.varinfo]</th>  <td>    5.8765</td> <td>    1.939</td> <td>    3.030</td> <td> 0.002</td> <td>    2.075</td> <td>    9.678</td>
+</tr>
+<tr>
+  <th>prob</th>                     <td>   22.5820</td> <td>    9.286</td> <td>    2.432</td> <td> 0.015</td> <td>    4.382</td> <td>   40.782</td>
+</tr>
+<tr>
+  <th>round_number</th>             <td>   -0.4025</td> <td>    0.480</td> <td>   -0.838</td> <td> 0.402</td> <td>   -1.344</td> <td>    0.539</td>
+</tr>
+<tr>
+  <th>var1</th>                     <td>   -1.9387</td> <td>    1.721</td> <td>   -1.126</td> <td> 0.260</td> <td>   -5.313</td> <td>    1.435</td>
+</tr>
+<tr>
+  <th>var2</th>                     <td>   -1.7272</td> <td>    0.562</td> <td>   -3.073</td> <td> 0.002</td> <td>   -2.829</td> <td>   -0.626</td>
+</tr>
+<tr>
+  <th>var3</th>                     <td>   -2.8333</td> <td>    1.599</td> <td>   -1.772</td> <td> 0.076</td> <td>   -5.968</td> <td>    0.301</td>
+</tr>
+<tr>
+  <th>var4</th>                     <td>    1.9651</td> <td>    0.687</td> <td>    2.862</td> <td> 0.004</td> <td>    0.619</td> <td>    3.311</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>121.082</td> <th>  Durbin-Watson:     </th> <td>   1.876</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td> 167.570</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td> 0.986</td>  <th>  Prob(JB):          </th> <td>4.10e-37</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 3.643</td>  <th>  Cond. No.          </th> <td>    120.</td>
+</tr>
+</table>
