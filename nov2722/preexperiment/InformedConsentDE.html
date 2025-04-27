@@ -1,0 +1,92 @@
+{{ block title }}
+    {{ if lang == 'de'}}Informierte Zustimmung{{ else }}Informed Consent{{ endif }}
+{{ endblock }}
+{{ block content }}
+
+<style>
+    body {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+    font-size: 25px;
+    }
+</style>
+    {{ if lang == 'de' }}
+    <p> Vielen Dank, dass Sie an diesem wirtschaftswissenschaftlichen Entscheidungsexperiment teilnehmen. Das Forschungsteam besteht
+        aus Forschern der Goethe Universität Frankfurt. Auf den folgenden Bildschirmen finden Sie die Instruktionen für das Experiment.
+        Das Experiment wird genau so durchgeführt, wie in den Instruktionen beschrieben.  </p>
+
+    <p> Während des Experiments treffen Sie Entscheidungen an Ihrem Computer. Während des Experiments können Sie Geld verdienen.
+        Die Höhe des Geldbetrags hängt von Ihren Entscheidungen und möglicherweise den Entscheidungen anderer Teilnehmer
+        im Experiment ab. Ihr Verdienst wird Ihnen am Ende des Experiments in bar ausbezahlt. Den Erhalt des Geldbetrags müssen Sie uns aus
+        buchhalterischen Gründen mit Ihrem Namen und einer Unterschrift bestätigen.
+    </p>
+
+    <p> Durch Ihre Teilnahme an dem Experiment stimmen Sie zu, dass die erhobenen Daten für Forschungszwecke genutzt werden. Alle Mitglieder des Forschungsteams
+        werden nur anonymisierte Daten analysieren. Wir werden zu keiner Zeit das Verhalten in dem Experiment mit Ihren persönlichen Daten,
+        in der FLEX-Datenbank verknüpfen. Die Datenschutz Bestimmungen von FLEX werden eingehalten.
+    </p>
+
+    <p> Die Teilnahme an dem Experiment ist freiwillig. Sie können das Experiment jederzeit abbrechen. Bitte melden Sie sich, falls Sie dies wünschen.
+        In diesem Fall können wir Ihnen leider kein Geld auszahlen. Ein vorzeitiger Abbruch wird keinen negativen Einfluss auf Ihr Verhältnis zu einer
+        Person des Forschungsteams oder den oben genannten Institutionen haben. Allerdings führt ein vorzeitiger Abbruch des Experiments dazu, dass
+        die erhobenen Daten nutzlos werden.
+    </p>
+
+    <p> Bitte kommunizieren Sie zu keiner Zeit mit den anderen Teilnehmern, wenn dies nicht explizit erlaubt wird. Wenn Sie Fragen haben, heben Sie bitte die Hand.
+        Ein Experimentator wird dann zu Ihnen kommen. Die Benutzung Ihres Telefons ist während des gesamten Experiments nicht gestattet.
+        Eine Zusammenfassung der gesamten Studie wird nach deren Veröffentlichung auf der FLEX Homepage zur Verfügung gestellt.
+    </p>
+
+    <p> Durch Klicken auf Weiter erklären Sie, (i) dass Sie verstehen, dass Sie nach Ihrer Einwilligung zur Teilnahme an dem Experiment gefragt wurden;
+        (ii) dass Sie die Informationen über das Experiment gelesen und verstanden haben; (iii) dass Sie damit einverstanden sind, dass die
+        erhobenen Daten für Forschungszwecke genutzt werden; (iv) dass Sie freiwillig teilnehmen und verstanden haben, dass Sie das Experiment
+        jederzeit abbrechen können; (v) dass Sie mindestens 18 Jahre alt sind.
+    </p>
+    {{ else }}
+    <p>
+        Thank you for participating in this economic experiment.
+        The research team consists of researchers from the Goethe University Frankfurt.
+        On the following screens you will find the instructions for the experiment.
+        The experiment will be conducted exactly as described in the instructions.
+
+    </p>
+
+    <p>
+        During the experiment you make decisions on your computer with which you can earn money.
+        What you earn depends on your decisions and possibly the decisions of other participants in the experiment.
+        Your earnings will be paid to you via PayPal after the experiment.
+
+    </p>
+
+    <p>
+        By participating in the experiment, you consent to the data collected being used for research purposes.
+        All members of the research team  will only analyze anonymized data.
+        At no time will we link the behavior in the experiment to your personal data in the FLEX database.
+        FLEX's privacy policy will be followed.
+    </p>
+
+    <p>
+        Participation in the experiment is voluntary. You can cancel the experiment at any time.
+        In this case, unfortunately, we cannot pay you any money.
+        An early termination will not have a negative impact on your relationship with any of the Research Team person or the institutions mentioned above.
+        However, premature termination of the experiment will result in the collected data becoming useless.
+    </p>
+
+    <p>
+        Please do not communicate with the other participants unless this is explicitly allowed.
+        A summary of the study will be made available on the FLEX homepage after its publication.
+    </p>
+
+    <p>
+        By clicking Continue, you confirm (i) that you understand that you have been asked for your consent to participate in the experiment;
+        (ii) that you have read and understood the information about the experiment; (iii) that you consent to the use of the
+        used for research purposes; (iv) that you are participating voluntarily and understand that you can stop the experiment at any time; and
+        discontinue the experiment at any time; (v) that you are at least 18 years of age.
+    </p> <br>
+    
+
+    {{ endif }}
+
+    {{ next_button }}
+
+
+{{ endblock }}

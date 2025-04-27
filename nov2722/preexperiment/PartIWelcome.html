@@ -1,0 +1,24 @@
+{{ block title }} {{ if lang == 'de' }}Wilkommen zu Teil I{{ else }}Welcome to
+Part I{{ endif }} {{ endblock }} {{ block content }}
+
+<style>
+  body {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    font-size: 25px;
+  }
+</style>
+
+{{ if lang == 'de' }} Dieser Teil beginnt mit einer Umfrage. <br />
+Bitte beantworten Sie alle Fragen auf der nächsten Seite. <br />
+Sie können nicht weitermachen, wenn Sie die Umfrage nicht vollständig ausgefüllt
+haben. <br />
+Sie erhalten {{ C.survey_reward }} Punkte für das Abschließen der Umfrage.
+<br />
+{{ else }} The beginning of this part is a survey.<br />
+Please answer all the questions on the following page. <br />
+You will not be able to proceed without completing the survey. <br />
+You will receive {{ C.survey_reward }} p for completing the survey. <br />
+{{ endif }}
+<br />
+{{ next_button }} {{ endblock }}

@@ -1,0 +1,14 @@
+{{ block title }}
+    Gneezy Potters investment game
+{{ endblock }}
+{{ block content }}
+
+<script>
+    document.getElementsByClassName('otree-wait-page__title card-header')[0].innerHTML = "{{ if lang == 'de' }}Bitte warten{{ else }}Please wait{{ endif }}"
+    document.getElementsByClassName('otree-wait-page__body')[0].innerHTML = "{{ if lang == 'de' }}Warten auf andere Teilnehmern{{ else }}Waiting for other participants{{ endif }}"
+
+</script>
+
+    {{ next_button }}
+
+{{ endblock }}

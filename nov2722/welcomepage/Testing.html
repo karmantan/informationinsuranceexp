@@ -1,0 +1,17 @@
+{{ block title }}
+    {{ if lang == 'de' }} Wilkommen {{ else }} Welcome {{ endif }}
+{{ endblock }}
+{{ block content }}
+
+
+{{ if lang == 'de' }}
+    Sie haben Deutsch gewählt.
+{{ else }}
+    You have chosen English.
+{{ endif }}
+<br>
+
+
+    {{ next_button }}
+
+{{ endblock }}

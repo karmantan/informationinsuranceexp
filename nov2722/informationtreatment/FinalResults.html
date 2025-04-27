@@ -1,0 +1,290 @@
+{{ block title }} {{ if lang == 'de' }}Zusammenfassung{{ else }}Summary{{ endif
+}} {{ endblock }} {{ block content }}
+
+<style>
+  body {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    font-size: 25px;
+  }
+</style>
+
+<span style="font-weight: bold; font-size: 20pt"
+  >{{ if lang == 'de' }}TEIL I{{ else }}PART I{{ endif }}</span
+>
+<br />
+{{ if lang == 'de' }}Sie haben an einer Umfrage teilgenommen und {{
+C.survey_reward }} Punkte verdient. Sie wurden dann gefragt, ob Sie Ihren
+Verdienst investieren möchten.{{ else }}You have participated in a survey and
+earned {{ C.survey_reward }} p. You were then asked if you would like to invest
+your earnings.{{ endif }} <br />
+{{ if invested != 0 }} {{ if lang == 'de' }}Sie haben sich für eine Investition
+{{ invested }} Punkte von 1000 Punkte entschieden.{{ else }}Out of {{
+C.survey_reward }} p, you have chosen to invest {{ invested|to0 }} p. {{ endif
+}}<br />
+{{ if invest_win == 1 }} {{ if lang == 'de' }}Herzlichen Glückwunsch, Ihre
+Investition hat sich gelohnt.{{ else }}Congratulations, your investment has paid
+off.{{ endif }} <br />
+{{ else }} {{ if lang == 'de' }}Tut mir leid, Sie haben Ihre Investition
+verloren.{{ else }}Sorry, you have lost your investment. {{ endif }}<br />
+{{ endif}} {{ else }} {{ if lang == 'de' }}Sie haben sich entschieden, nicht zu
+investieren.{{ else }}You have chosen not to invest. {{ endif }}<br />
+{{ endif }}
+
+<span style="font-weight: bold; font-size: 14pt"
+  >{{ if lang == 'de' }}GESAMTERTRAG TEIL I:{{ else }}TOTAL EARNINGS PART I:{{
+  endif }} {{ part1payoff|to0 }} p</span
+>
+<br />
+<br />
+<span style="font-weight: bold; font-size: 20pt"
+  >{{ if lang == 'de' }}TEIL II{{ else }}PART II{{ endif }}</span
+>
+<br />
+<span style="font-weight: bold"
+  >{{ if lang == 'de' }}Aufgabe{{ else }}Task{{ endif }} 1
+</span>
+<br />
+{{ if lang == 'de' }}Szenario Nummer {{ picked_a_lottery }} wurde ausgewählt.
+<br />{{ else }}Scenario number {{ picked_a_lottery }} was selected. <br />{{
+endif }} {{ if choseHL == True }} {{ if lang == 'de' }}Sie haben Lotterie A
+gewählt. <br />{{ else }}You have chosen lottery A. <br />{{ endif }} {{ else }}
+{{ if lang == 'de' }}Sie haben Lotterie B gewählt. <br />{{ else }}You have
+chosen lottery B. <br />{{ endif }} {{ endif }} {{ if wonHL == True }} {{ if
+lang == 'de' }}Herzlichen Glückwunsch, Sie haben im Lotto gewonnen. <br />{{
+else }}Congratulations, you won the lottery. <br />{{ endif }} {{ else }} {{ if
+lang == 'de' }}Tut mir leid, Sie haben im Lotto verloren. <br />
+{{ else }}Sorry, you lost the lottery. <br />{{ endif }} {{ endif }} {{ if lang
+== 'de' }}Ihr Gewinn beträgt {{ HL_payout }} Punkte.{{ else }}Your earnings are
+{{ HL_payout }} p.{{ endif }}
+<br />
+<span style="font-weight: bold"
+  >{{ if lang == 'de' }}Aufgabe{{ else }}Task{{ endif }} 2
+</span>
+<br />
+{{ if lang == 'de' }}Szenario Nummer {{ picked_another_lottery }} wurde
+ausgewählt. <br />{{ else }}Scenario number {{ picked_another_lottery }} was
+selected. <br />{{ endif }} {{ if choseHLLF == True }} {{ if lang == 'de' }}Sie
+haben Lotterie A gewählt. <br />{{ else }}You have chosen lottery A. <br />{{
+endif }} {{ else }} {{ if lang == 'de' }}Sie haben Lotterie B gewählt. <br />{{
+else }}You have chosen lottery B. <br />{{ endif }} {{ endif }} {{ if wonHLLF ==
+True }} {{ if lang == 'de' }}Herzlichen Glückwunsch, Sie haben im Lotto
+gewonnen. <br />{{ else }}Congratulations, you won the lottery. <br />{{ endif
+}} {{ else }} {{ if lang == 'de' }}Tut mir leid, Sie haben im Lotto verloren.
+<br />
+{{ else }}Sorry, you lost the lottery. {{ endif }} {{ endif }} {{ if lang ==
+'de' }}Ihr Gewinn beträgt {{ HLLF_payout }} Punkte.{{ else }}Your earnings are
+{{ HLLF_payout }} p.{{ endif }}
+<br />
+
+<span style="font-weight: bold; font-size: 14pt"
+  >{{ if lang == 'de' }}GESAMTERTRAG TEIL II:{{ else }}TOTAL EARNINGS PART II:{{
+  endif }} {{ part2payout }} p</span
+>
+<br />
+<br />
+
+<span style="font-weight: bold; font-size: 20pt"
+  >{{ if lang == 'de' }}TEIL III{{ else }}PART III{{ endif }}</span
+>
+
+<div>
+  <table>
+    <thead>
+      <tr>
+        <th>{{ if lang == 'de' }}Runde{{ else }}Round{{ endif }} &nbsp;</th>
+        <th>&nbsp; 1 &nbsp;</th>
+        <th>&nbsp; 2 &nbsp;</th>
+        <th>&nbsp; 3 &nbsp;</th>
+        <th>&nbsp; 4 &nbsp;</th>
+        <th>&nbsp; 5 &nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-weight: bold">
+          {{ if lang == 'de' }}Betrag{{ else }}Endowment{{ endif }} &nbsp;
+        </td>
+        <td>&nbsp;{{ endowment }} p &nbsp;</td>
+        <td>&nbsp;{{ endowment }} p &nbsp;</td>
+        <td>&nbsp;{{ endowment }} p &nbsp;</td>
+        <td>&nbsp;{{ endowment }} p &nbsp;</td>
+        <td>&nbsp;{{ endowment }} p &nbsp;</td>
+      </tr>
+      <tr>
+        <td style="font-weight: bold">
+          {{ if lang == 'de' }}Verlust{{ else }}Loss{{ endif }} &nbsp;
+        </td>
+        <td>&nbsp;{{ loss_1|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ loss_2|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ loss_3|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ loss_4|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ loss_5|to0 }} p &nbsp;</td>
+      </tr>
+      <tr>
+        <td style="font-weight: bold">
+          {{ if lang == 'de' }}Risikoeinschätzung{{ else }}Belief{{ endif }}
+          &nbsp;
+        </td>
+        <td>
+          &nbsp;{{ if lang == 'de' }}{{ if belief_right_1 == 1 }}Ja{{ else
+          }}Nein{{ endif }}{{ else }}{{ if belief_right_1 == 1 }}Yes{{ else
+          }}No{{ endif }}{{ endif }} &nbsp;
+        </td>
+        <td>
+          &nbsp;{{ if lang == 'de' }}{{ if belief_right_2 == 1 }}Ja{{ else
+          }}Nein{{ endif }}{{ else }}{{ if belief_right_2 == 1 }}Yes{{ else
+          }}No{{ endif }}{{ endif }} &nbsp;
+        </td>
+        <td>
+          &nbsp;{{ if lang == 'de' }}{{ if belief_right_3 == 1 }}Ja{{ else
+          }}Nein{{ endif }}{{ else }}{{ if belief_right_3 == 1 }}Yes{{ else
+          }}No{{ endif }}{{ endif }} &nbsp;
+        </td>
+        <td>
+          &nbsp;{{ if lang == 'de' }}{{ if belief_right_4 == 1 }}Ja{{ else
+          }}Nein{{ endif }}{{ else }}{{ if belief_right_4 == 1 }}Yes{{ else
+          }}No{{ endif }}{{ endif }} &nbsp;
+        </td>
+        <td>
+          &nbsp;{{ if lang == 'de' }}{{ if belief_right_5 == 1 }}Ja{{ else
+          }}Nein{{ endif }}{{ else }}{{ if belief_right_5 == 1 }}Yes{{ else
+          }}No{{ endif }}{{ endif }} &nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="font-weight: bold">
+          {{ if lang == 'de' }}Erträge{{ else }}Earnings{{ endif }} &nbsp;
+        </td>
+        <td>&nbsp;{{ belief_round_1|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ belief_round_2|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ belief_round_3|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ belief_round_4|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ belief_round_5|to0 }} p &nbsp;</td>
+      </tr>
+      <tr>
+        <td style="font-weight: bold">
+          {{ if lang == 'de' }}Maximalpreis{{ else }}Maximum price{{ endif }}
+          &nbsp;
+        </td>
+        <td>&nbsp;{{ wtp_round_1|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ wtp_round_2|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ wtp_round_3|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ wtp_round_4|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ wtp_round_5|to0 }} p &nbsp;</td>
+      </tr>
+      <tr>
+        <td style="font-weight: bold">
+          {{ if lang == 'de' }}Versicherung gekauft{{ else }}Insurance bought{{
+          endif }} &nbsp;
+        </td>
+        <td>
+          &nbsp;{{ if lang == 'de' }}{{ if insurance_buy_1 == 1 }}Ja{{ else
+          }}Nein{{ endif }}{{ else }}{{ if insurance_buy_1 == 1 }}Yes{{ else
+          }}No{{ endif }}{{ endif }}&nbsp;
+        </td>
+        <td>
+          &nbsp;{{ if lang == 'de' }}{{ if insurance_buy_2 == 1 }}Ja{{ else
+          }}Nein{{ endif }}{{ else }}{{ if insurance_buy_2 == 1 }}Yes{{ else
+          }}No{{ endif }}{{ endif }}&nbsp;
+        </td>
+        <td>
+          &nbsp;{{ if lang == 'de' }}{{ if insurance_buy_3 == 1 }}Ja{{ else
+          }}Nein{{ endif }}{{ else }}{{ if insurance_buy_3 == 1 }}Yes{{ else
+          }}No{{ endif }}{{ endif }}&nbsp;
+        </td>
+        <td>
+          &nbsp;{{ if lang == 'de' }}{{ if insurance_buy_4 == 1 }}Ja{{ else
+          }}Nein{{ endif }}{{ else }}{{ if insurance_buy_4 == 1 }}Yes{{ else
+          }}No{{ endif }}{{ endif }}&nbsp;
+        </td>
+        <td>
+          &nbsp;{{ if lang == 'de' }}{{ if insurance_buy_5 == 1 }}Ja{{ else
+          }}Nein{{ endif }}{{ else }}{{ if insurance_buy_5 == 1 }}Yes{{ else
+          }}No{{ endif }}{{ endif }}&nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="font-weight: bold">
+          {{ if lang == 'de' }}Versicherungspreis{{ else }}Insurance price{{
+          endif }} &nbsp;
+        </td>
+        <td>&nbsp;{{ insurance_round_1|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ insurance_round_2|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ insurance_round_3|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ insurance_round_4|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ insurance_round_5|to0 }} p &nbsp;</td>
+      </tr>
+      <tr>
+        <td style="font-weight: bold">
+          {{ if lang == 'de' }}Zustand{{ else }}State{{ endif }} &nbsp;
+        </td>
+        <td>
+          &nbsp;{{ if lang == 'de' }}{{ if state_round_1 == 'ill' }}Gut{{ else
+          }}Schlecht{{ endif }}{{ else }}{{ if state_round_1 == 'ill' }}Bad{{
+          else }}Good{{ endif }}{{ endif }} &nbsp;
+        </td>
+        <td>
+          &nbsp;{{ if lang == 'de' }}{{ if state_round_2 == 'ill' }}Gut{{ else
+          }}Schlecht{{ endif }}{{ else }}{{ if state_round_2 == 'ill' }}Bad{{
+          else }}Good{{ endif }}{{ endif }} &nbsp;
+        </td>
+        <td>
+          &nbsp;{{ if lang == 'de' }}{{ if state_round_3 == 'ill' }}Gut{{ else
+          }}Schlecht{{ endif }}{{ else }}{{ if state_round_3 == 'ill' }}Bad{{
+          else }}Good{{ endif }}{{ endif }} &nbsp;
+        </td>
+        <td>
+          &nbsp;{{ if lang == 'de' }}{{ if state_round_4 == 'ill' }}Gut{{ else
+          }}Schlecht{{ endif }}{{ else }}{{ if state_round_4 == 'ill' }}Bad{{
+          else }}Good{{ endif }}{{ endif }} &nbsp;
+        </td>
+        <td>
+          &nbsp;{{ if lang == 'de' }}{{ if state_round_5 == 'ill' }}Gut{{ else
+          }}Schlecht{{ endif }}{{ else }}{{ if state_round_5 == 'ill' }}Bad{{
+          else }}Good{{ endif }}{{ endif }} &nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="font-weight: bold">
+          {{ if lang == 'de' }}Ergebnisse{{ else }}Results{{ endif }} &nbsp;
+        </td>
+        <td>&nbsp;{{ result_round_1|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ result_round_2|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ result_round_3|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ result_round_4|to0 }} p &nbsp;</td>
+        <td>&nbsp;{{ result_round_5|to0 }} p &nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<br />
+<span style="font-weight: bold; font-size: 14pt"
+  >{{ if lang == 'de' }}GESAMTERTRAG TEIL III:{{ else }}TOTAL EARNINGS PART
+  III:{{ endif }} {{ part3payoff|to0 }} p</span
+>
+<br />
+<br />
+<br />
+<span style="font-weight: bold; font-size: 24pt"
+  >{{ if lang == 'de' }}GESAMTERTRAG:{{ else }}TOTAL EARNINGS:{{ endif }} {{
+  player.final_payoff|to0 }} p</span
+>
+<br />
+<span style="font-weight: bold; font-size: 24pt"
+  >{{ if lang == 'de' }}GESAMTERTRAG EURO:{{ else }}TOTAL BONUS EARNINGS GBP:{{
+  endif }} {{ player.display_payoff_euro|to2 }}</span
+>
+<br />
+<span style="font-weight: bold; font-size: 24pt"
+  >{{ if lang == 'de' }}Vielen Dank, dass Sie sich an diesem Experiment
+  beteiligt haben!{{ else }}Thank you for participating in this experiment!{{
+  endif }}</span
+>
+
+<br />
+<span style="font-weight: bold; font-size: 24pt"
+  >Please note that processing the bonus payment may take a few hours.
+</span>
+{{ next_button }} {{ endblock }}

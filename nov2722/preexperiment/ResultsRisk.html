@@ -1,0 +1,22 @@
+{{ block title }} {{ if lang == 'de' }}Ergebnisse des Investitionsspiels{{ else
+}}Results of the Investment Game{{ endif }} {{ endblock }} {{ block content }}
+<style>
+  body {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    font-size: 25px;
+  }
+</style>
+
+{{ if lang == 'de' }} Sie haben sich entschieden, {{ player.number_entered }}
+Punkte zu investieren. <br />
+Am Ende des Experiments werden Sie über das Ergebnis informiert. {{ else }} You
+have chosen to invest {{ player.number_entered|to0 }} p. <br />
+You will be informed of your earnings at the end of the experiment. {{ endif }}
+
+<!--    {{ if winrisk == 1 }}-->
+<!--    Congratulations, you have won your bet! Your total earnings are now {{ resultrisk }}.-->
+<!--    {{ else }}-->
+<!--    Sorry, you have lost your bet. Your total earnings are now {{ resultrisk }}.-->
+<!--    {{ endif }}-->
+{{ next_button }} {{ endblock }}

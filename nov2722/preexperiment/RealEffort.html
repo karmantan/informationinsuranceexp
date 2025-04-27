@@ -1,0 +1,329 @@
+{{ block title }} Real Effort Task {{ endblock }} {{ block content }}
+
+<style>
+  h1 {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+  }
+  p {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+  }
+
+  .englishbutton {
+    width: 400px;
+    padding-left: 10px;
+
+    line-height: 40px;
+    background: #eceded;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    transition: background-color 0.1s ease-in;
+  }
+
+  .englishbutton:hover {
+    background-color: #bfe5ff;
+  }
+  .englishbutton:active {
+    background-color: #2d546f;
+    color: #ffffff;
+  }
+  .englishselected {
+    background-color: #226fa3;
+    color: #ffffff;
+  }
+  .englishselected:hover {
+    background-color: #4d99cc;
+  }
+
+  .germanbutton {
+    width: 400px;
+    padding-left: 10px;
+    line-height: 40px;
+    background: #eceded;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    transition: background-color 0.1s ease-in;
+  }
+
+  .germanbutton:hover {
+    background-color: #bfffed;
+  }
+  .germanbutton:active {
+    background-color: #2d6f57;
+    color: #ffffff;
+  }
+  .germanselected {
+    background-color: #1e9a79;
+    color: #ffffff;
+  }
+  .germanselected:hover {
+    background-color: #4dcc97;
+  }
+</style>
+
+<p>Please match the words to the correct translation.
+  Once you have selected an English word and a German word,
+  click "Check" to see the match is correct. Once you have completed the task,
+click "Proceed" to go onto the next page.</p>
+
+<table>
+  <tr>
+    <td><div class="englishbutton" id="word1">introspection</div></td>
+    <td><div class="englishbutton" id="word2">antidote</div></td>
+  </tr>
+  <tr>
+    <td><div class="englishbutton" id="word3">ambiguous</div></td>
+    <td><div class="englishbutton" id="word4">braggart</div></td>
+  </tr>
+  <tr>
+    <td><div class="englishbutton" id="word5">alleviate</div></td>
+    <td><div class="englishbutton" id="word6">entice</div></td>
+  </tr>
+  <tr>
+    <td><div class="englishbutton" id="word7">abhor</div></td>
+    <td><div class="englishbutton" id="word8">amalgamate</div></td>
+  </tr>
+  <tr>
+    <td><div class="englishbutton" id="word9">conjoin</div></td>
+    <td><div class="englishbutton" id="word10">abscond</div></td>
+  </tr>
+  <tr>
+    <td><div class="englishbutton" id="word11">affable</div></td>
+    <td><div class="englishbutton" id="word12">moribund</div></td>
+  </tr>
+  <tr>
+    <td><div class="englishbutton" id="word13">aberration</div></td>
+    <td><div class="englishbutton" id="word14">perjury</div></td>
+  </tr>
+  <tr>
+    <td><div class="englishbutton" id="word15">tractable</div></td>
+    <td><div class="englishbutton" id="word16">coagulation</div></td>
+  </tr>
+  <tr>
+    <td><div class="englishbutton" id="word17">chortle</div></td>
+    <td><div class="englishbutton" id="word18">misanthrope</div></td>
+  </tr>
+  <tr>
+    <td><div class="englishbutton" id="word19">dexterity</div></td>
+    <td><div class="englishbutton" id="word20">incongruous</div></td>
+  </tr>
+</table>
+
+<br />
+
+
+<br />
+<br />
+<table>
+  <tr>
+    <td>
+      <div class="germanbutton" data-id="word14" id="ans14">Meineid</div>
+    </td>
+    <td>
+      <div class="germanbutton" data-id="word6" id="ans6">locken</div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="germanbutton" data-id="word18" id="ans18">Menschenfeind</div>
+    </td>
+    <td>
+      <div class="germanbutton" data-id="word15" id="ans15">handhabbar</div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="germanbutton" data-id="word1" id="ans1">
+        Selbstbeobachtung
+      </div>
+    </td>
+    <td>
+      <div class="germanbutton" data-id="word13" id="ans13">Abweichung</div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="germanbutton" data-id="word8" id="ans8">verschmelzen</div>
+    </td>
+    <td>
+      <div class="germanbutton" data-id="word3" id="ans3">zweideutig</div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="germanbutton" data-id="word12" id="ans12">sterbend</div>
+    </td>
+    <td>
+      <div class="germanbutton" data-id="word2" id="ans2">Gegenmittel</div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="germanbutton" data-id="word9" id="ans9">verbinden</div>
+    </td>
+    <td>
+      <div class="germanbutton" data-id="word4" id="ans4">Angeber</div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="germanbutton" data-id="word5" id="ans5">lindern</div>
+    </td>
+    <td>
+      <div class="germanbutton" data-id="word19" id="ans19">
+        Geschicklichkeit
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="germanbutton" data-id="word7" id="ans7">verabscheuen</div>
+    </td>
+    <td>
+      <div class="germanbutton" data-id="word20" id="ans20">unpassend</div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="germanbutton" data-id="word10" id="ans10">fliehen</div>
+    </td>
+    <td>
+      <div class="germanbutton" data-id="word17" id="ans17">glucksen</div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="germanbutton" data-id="word11" id="ans11">freundlich</div>
+    </td>
+    <td>
+      <div class="germanbutton" data-id="word16" id="ans16">Gerinnung</div>
+    </td>
+  </tr>
+</table>
+
+<br><br>
+
+<table>
+  <tr>
+    <td>
+      <div
+        class="checkAnswerbutton"
+        style="
+          cursor: pointer;
+          font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
+            sans-serif;
+          text-decoration: underline;
+        "
+        onclick="checkAnswer()"
+      >
+        Check
+      </div>
+    </td>
+    <td>
+      <div
+        class="checkifEmptybutton"
+        style="
+          cursor: pointer;
+          font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
+            sans-serif;
+          text-decoration: underline;
+        "
+        onclick="checkifEmpty()"
+      >
+        Proceed
+      </div>
+    </td>
+    <td>
+      <button
+        class="otree-btn-next btn btn-primary"
+        id="nextButton"
+        disabled="disabled"
+      >
+        Next
+      </button>
+    </td>
+  </tr>
+</table>
+
+<script>
+  let wordEl;
+  let ansEl;
+  let wordId;
+  let ansId;
+
+  var englishWords = document.querySelectorAll(".englishbutton");
+  englishWords.forEach(function (el) {
+    el.addEventListener(
+      "click",
+      function () {
+        selectedEl = document.querySelector(".englishselected");
+        // If there was a selected element which is not this
+        if (selectedEl && selectedEl !== this) {
+          selectedEl.classList.remove("englishselected");
+        }
+        // Toggle this
+        this.classList.toggle("englishselected");
+      },
+      false
+    );
+  });
+
+  englishWords.forEach(function (el) {
+    el.addEventListener("click", populateWord, false);
+    function populateWord() {
+      wordEl = el;
+      wordId = el.getAttribute("id");
+    }
+  });
+
+  var germanWords = document.querySelectorAll(".germanbutton");
+  germanWords.forEach(function (el) {
+    el.addEventListener(
+      "click",
+      function () {
+        selectedEl = document.querySelector(".germanselected");
+        // If there was a selected element which is not this
+        if (selectedEl && selectedEl !== this) {
+          selectedEl.classList.remove("germanselected");
+        }
+        // Toggle this
+        this.classList.toggle("germanselected");
+      },
+      false
+    );
+  });
+
+  germanWords.forEach(function (el) {
+    el.addEventListener("click", populateAns, false);
+    function populateAns() {
+      ansEl = el;
+      ansId = el.getAttribute("data-id");
+    }
+  });
+
+  function checkAnswer() {
+    if (wordId == ansId) {
+      wordEl.remove();
+      ansEl.remove();
+    } else {
+      alert("Incorrect! Please try again.");
+    }
+  }
+
+  function checkifEmpty() {
+    const nxtbtn = document.getElementById("nextButton");
+    if (document.querySelector(".englishbutton") !== null) {
+      nxtbtn.disabled = true;
+      alert("Please complete the task!")
+    } else {
+      nxtbtn.disabled = false;
+    }
+  }
+</script>
+
+{{ endblock }}

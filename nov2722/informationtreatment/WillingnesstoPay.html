@@ -1,0 +1,1140 @@
+{{ block title }} {{ if lang == 'de' }}Zahlungsbereitschaft{{ else }}Willingness
+to Pay{{ endif }} {{ endblock }} {{ block content }}
+
+<style>
+  .mgslider-wrapper {
+    border-spacing: 10px;
+  }
+  .mgslider-limit {
+    width: 10%;
+    min-width: 75px;
+    height: 40px;
+    margin: 100px;
+    text-align: center;
+    background: #eee;
+    border: 1px solid #888;
+  }
+  .mgslider-limit,
+  .mgslider-value {
+    font-variant-numeric: tabular-nums;
+  }
+  .mgslider-before {
+    height: 16px;
+    width: 100%;
+    background: #1e5bff;
+  }
+  body {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    font-size: 25px;
+  }
+
+  .button-28blue {
+    appearance: none;
+    background-color: transparent;
+    border: 2px solid blue;
+    border-radius: 30px;
+    box-sizing: border-box;
+    color: blue;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0;
+    min-height: 60px;
+    min-width: 0;
+    outline: none;
+    padding: 16px 24px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: 100%;
+    will-change: transform;
+  }
+
+  .button-28blue:disabled {
+    pointer-events: none;
+  }
+
+  .button-28blue:hover {
+    color: #fff;
+    background-color: blue;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+  }
+
+  .button-28blue:active {
+    box-shadow: none;
+    transform: translateY(0);
+  }
+
+  .effectbox {
+    display: none;
+    background: rgb(255, 255, 255);
+    /* width: 300px; */
+    font-size: 16px;
+    font-family: sans-serif;
+
+    border-width: 2px;
+
+    border-radius: 150px;
+
+    padding: 30px 45px 30px 60px; /* give 50 px between the border and text with the background color */
+  }
+
+  .show {
+    display: block;
+  }
+
+  .aansbutton {
+    width: 150px;
+    padding-left: 10px;
+
+    line-height: 40px;
+    background: #eceded;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    transition: background-color 0.1s ease-in;
+  }
+
+  .aansbutton:hover {
+    background-color: #bfe5ff;
+  }
+  .aansbutton:active {
+    background-color: #2d546f;
+    color: #ffffff;
+  }
+  .aansselected {
+    background-color: #226fa3;
+    color: #ffffff;
+  }
+  .aansselected:hover {
+    background-color: #4d99cc;
+  }
+
+  .checkAnswerbutton {
+    cursor: pointer;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
+    sans-serif;
+    text-decoration: underline; 
+    color: blue;
+  }
+  .checkAnswerbutton:hover {
+    background-color:#1e5bff;
+    color:white;
+    cursor: pointer;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
+    sans-serif;
+    text-decoration: underline; 
+  }
+
+  .bansbutton {
+    width: 150px;
+    padding-left: 10px;
+
+    line-height: 40px;
+    background: #eceded;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    transition: background-color 0.1s ease-in;
+  }
+
+  .bansbutton:hover {
+    background-color: #bfe5ff;
+  }
+  .bansbutton:active {
+    background-color: #2d546f;
+    color: #ffffff;
+  }
+  .bansselected {
+    background-color: #226fa3;
+    color: #ffffff;
+  }
+  .bansselected:hover {
+    background-color: #4d99cc;
+  }
+
+  .checkifEmptybutton {
+    cursor: pointer;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-decoration: underline;
+    color: blue;
+  }
+
+  .checkifEmptybutton:hover {
+    cursor: pointer;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-decoration: underline;
+    color: white;
+    background-color: #1e5bff;
+  }
+</style>
+
+<script>
+  var mgsliders = Array();
+
+  mgsliders.lookup = function (which) {
+    for (var j = 0; j < mgsliders.length; j++) {
+      if (mgsliders[j].field == which) {
+        return mgsliders[j].obj;
+      }
+    }
+
+    return undefined;
+  };
+
+  function mgslider(field, min, max, step, text) {
+    this.field = field;
+    this.min = parseFloat(min);
+    this.max = parseFloat(max);
+    this.step = parseFloat(step);
+    this.digits = this.suggest_digits(step);
+
+    this.prefix = "mgslider_yF5sTZLy";
+    this.textDescription = text.toString();
+
+    mgsliders.push({ field: field, obj: this });
+  }
+
+  mgslider.prototype.fzero = function (s) {
+    for (var c = s.length - 1; c >= 0; c--) {
+      if (s[c] != "0") {
+        return c;
+      }
+    }
+
+    return 0;
+  };
+
+  mgslider.prototype.suggest_digits = function (x) {
+    x = x.toFixed(10);
+    return this.fzero(x) - x.search(/\./);
+  };
+
+  mgslider.prototype.f2s = function (val, detect) {
+    if (detect) {
+      return val.toFixed(this.suggest_digits(val)).replace("-", "&ndash;");
+    }
+    return val.toFixed(this.digits).replace("-", "&ndash;");
+  };
+
+  mgslider.prototype.id = function (id_) {
+    if (id_ === undefined) {
+      id_ = "";
+    }
+
+    return this.prefix + "_" + this.field + "_" + id_;
+  };
+
+  mgslider.prototype.markup = function () {
+    return (
+      "\
+            <table id='" +
+      this.id("wrapper") +
+      "' class='mgslider-wrapper' border='0'>\
+                <tr>\
+                    <td class='mgslider-limit'>" +
+      this.f2s(this.min, true) +
+      "</td>\
+                    <td width='90%'>\
+                        <div id='" +
+      this.id("before") +
+      "' class='mgslider-before' onclick='mgsliders.lookup(\"" +
+      this.field +
+      "\").reveal(event)'></div>\
+                        <input type='range' id='" +
+      this.id() +
+      "' min='" +
+      this.min +
+      "' max='" +
+      this.max +
+      "' step='" +
+      this.step +
+      "' value='' class='mgslider form-range' oninput='mgsliders.lookup(\"" +
+      this.field +
+      "\").change()' onchange='mgsliders.lookup(\"" +
+      this.field +
+      "\").change()'>\
+                    </td>\
+                    <td class='mgslider-limit'>" +
+      this.f2s(this.max, true) +
+      "</td>\
+                </tr>\
+                <tr class='mgslider-feedback'>\
+                    <td id='" +
+      this.id("show") +
+      "' class='mgslider-show' colspan='3'><i> " +
+      this.textDescription +
+      "</i>: <b><span id='" + this.id("cur") +"' class='mgslider-value'></span> p</b></td>\</tr>\
+            </table>\
+            \
+            <input type='hidden' id='" + this.id("input") +"' name='" +this.field +"' value='' />"
+    );
+  };
+
+  mgslider.prototype.hide = function () {
+    document.getElementById(this.id()).style.display = "none";
+    document.getElementById(this.id("show")).style.visibility = "hidden";
+    document.getElementById(this.id("show")).style.textAlign = "center";
+    document.getElementById(this.id("before")).style.display = "block";
+  };
+
+  mgslider.prototype.print = function (el) {
+    el.innerHTML += this.markup();
+    this.hide();
+  };
+
+  mgslider.prototype.value = function () {
+    return parseFloat(document.getElementById(this.id()).value);
+  };
+
+  mgslider.prototype.change = function () {
+    document.getElementById(this.id("cur")).innerHTML = this.f2s(
+      this.value(),
+      false
+    );
+    document.getElementById(this.id("input")).value = this.value();
+  };
+
+  mgslider.prototype.reveal = function (event) {
+    var now;
+
+    if (event !== undefined && typeof event.offsetX !== undefined) {
+      var max = parseInt(
+        getComputedStyle(
+          document.getElementById(this.id("before"))
+        ).width.replace("px", "")
+      );
+      var cur = event.offsetX;
+
+      now = (cur / max) * (this.max - this.min) + this.min;
+    } else {
+      now = this.min + Math.random() * (this.max - this.min);
+    }
+
+    now = Math.round(now / this.step) * this.step;
+
+    document.getElementById(this.id()).style.display = "block";
+    document.getElementById(this.id("before")).style.display = "none";
+    document.getElementById(this.id("show")).style.visibility = "visible";
+
+    document.getElementById(this.id()).value = now;
+    this.change();
+  };
+</script>
+
+{{ if lang == 'de' }} 
+<span style="font-style:italic">Sie </span><span style="font-style:italic;text-decoration: underline;">glauben </span>
+<span style="font-style:italic">, dass die Wahrscheinlichkeit in dieser Rune, einen Verlust von </span>
+<span style="font-style:italic; text-decoration: underline;">{{ player.loss_amount|to0 }}</span>
+<span style="font-style:italic"> Punkten zu erleiden, beträgt ist:</span>
+<span style="font-weight: bold"> {{ player.belief }}% </span> <br />
+Sie haben jetzt die Möglichkeit, sich gegen Ihren Schaden zu versichern. <br>
+<br>
+
+<span style="font-style:italic;font-size:16 pt">Klicken Sie auf die unten stehenden Links, um mehr über die Versicherung zu erfahren.</span>
+
+<table>
+  <tr>
+    <th><span style="color:blue">FAQs</span></th>
+  </tr>
+  <tr>
+    <td>
+      <div class="button-28blue" data-id="coverage">
+        Was ist der Versicherungsschutz?
+      </div>
+      <div class="effectbox"
+      style="box-shadow: blue 0px 1px 2px 0px, blue 0px 1px 3px 1px"
+      id="coverage">
+      Die Versicherung erstattet Ihnen den Schaden vollständig.
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="button-28blue" data-id="noinsurance">
+        Was tun, wenn man auf eine Versicherung verzichten möchte?
+      </div>
+      <div class="effectbox" style="box-shadow: blue 0px 1px 2px 0px, blue 0px 1px 3px 1px" id="noinsurance">
+        Falls Sie die Versicherung auf keinen Fall kaufen möchten, können Sie den Schieberegler einfach auf 0 stellen.
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="button-28blue" data-id="howitworks">
+        Wie kauft man eine Versicherung?
+      </div>
+      <div class="effectbox" style="box-shadow: blue 0px 1px 2px 0px, blue 0px 1px 3px 1px" id="howitworks">
+        Sie kennen derzeit den <span style="font-weight:bold">tatsächlichen Preis der Versicherung </span> nicht, daher müssen Sie 
+        <span style="font-weight:bold"> die maximale Anzahl von Punkten</span>eingeben, die Sie bereit sind, für die Versicherung zu zahlen. <br>
+        - Falls der <span style="font-weight:bold">tatsächliche Preis Ihren Maximalpreis </span> <span style="font-style:italic; text-decoration:underline">nicht übersteigt</span>:
+        <span style="color:blue">Sie müssen die Versicherung zum</span><span style="color:blue; font-weight:bold">tatsächlichen Preis verbindlich abschließen</span> <br>
+        - Falls der <span style="font-weight:bold">tatsächliche Preis Ihren Maximalpreis </span> <span style="font-style:italic; text-decoration:underline">übersteigt</span>:
+        <span style="color:blue">Sie können</span><span style="color:blue; font-weight:bold">keine Versicherung abschließen</span> <br>
+        *** <span style="font-style:italic;text-decoration:underline">WICHTIG:</span> Es liegt in Ihrem eigenen Interesse, die wahre Höchstpunktzahl einzugeben, die Sie bereit sind, für die Versicherung zu zahlen.
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="button-28blue" data-id="choiceaffectsprice">
+        Was ist der tatsächliche Preis der Versicherung?
+      </div>
+      <div class="effectbox" style="box-shadow: blue 0px 1px 2px 0px, blue 0px 1px 3px 1px" id="choiceaffectsprice">
+        Der tatsächliche Preis eine Zufallszahl zwischen 0 und {{
+        player.loss_amount }} Punkten, wobei alle Preise in diesem Intervall gleich
+        wahrscheilich sein. <br>
+        <span style="font-style: italic; text-decoration:underline"> Wichtig:</span> Beachten Sie bitte, dass der Maximalpreis, den Sie wählen,
+        keinen Einfluss auf den tatsächlichen Preis hat.
+      </div>
+    </td>
+  </tr>
+</table>
+<br />
+{{ else }} 
+<span style="font-style:italic">Your </span><span style="font-style:italic; text-decoration:underline">belief</span>
+<span style="font-style:italic"> of the probability of suffering a loss of </span>
+<span style="font-style:italic;text-decoration:underline">{{ player.loss_amount|to0 }} p </span>
+<span style="font-style:italic">in this round is:</span>
+<span style="font-weight: bold"> {{ player.belief }}% </span> <br />
+
+You now have the opportunity to purchase insurance against your loss. <br /><br>
+<span style="font-style:italic;font-size:16pt">Click on the links below to find out more about the insurance. </span>
+<br />
+
+<table>
+  <tr>
+    <th>
+      <span style="color: blue">FAQs</span>
+    </th>
+  </tr>
+  <tr>
+    <td>
+      <div class="button-28blue" data-id="coverage">
+        What is the coverage of the insurance?
+      </div>
+      <div
+        class="effectbox"
+        style="box-shadow: blue 0px 1px 2px 0px, blue 0px 1px 3px 1px"
+        id="coverage"
+      >
+        The insurance will fully reimburse your loss.
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="button-28blue" data-id="noinsurance">
+        What should you do if you want to forgo insurance?
+      </div>
+      <div
+        class="effectbox"
+        style="box-shadow: blue 0px 1px 2px 0px, blue 0px 1px 3px 1px"
+        id="noinsurance"
+      >
+        Move the slider to 0.
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="button-28blue" data-id="howitworks">
+        How do you purchase insurance?
+      </div>
+      <div
+        class="effectbox"
+        style="box-shadow: blue 0px 1px 2px 0px, blue 0px 1px 3px 1px"
+        id="howitworks"
+      >
+        You currently do not know the
+        <span style="font-weight: bold">actual price</span> of insurance, hence
+        you need to enter the
+        <span style="font-weight: bold">maximum</span> you are
+        prepared to pay for insurance.<br />
+        - If the <span style="font-weight: bold">actual price</span> is
+        <span style="font-style: italic; text-decoration: underline"
+          >less than or equal to</span
+        >
+        the <span style="font-weight: bold">maximum</span> you
+        have entered: <span style="color: blue">insurance purchasing is</span
+        ><span style="color: blue; font-weight: bold"> binding</span
+        ><span style="color: blue"> at the </span
+        ><span style="color: blue; font-weight: bold">actual price</span> <br />
+        - If the <span style="font-weight: bold">actual price</span> is
+        <span style="font-style: italic; text-decoration: underline"
+          >more than or equal to</span
+        >
+        the <span style="font-weight: bold">maximum</span> you
+        have entered: <span style="color: blue">you will </span
+        ><span style="color: blue; font-weight: bold">NOT </span
+        ><span style="color: blue">be able to purchase insurance</span> <br />
+        ***
+        <span style="text-decoration: underline; font-style: italic"
+          >IMPORTANT:</span
+        >
+        <span style="font-style: italic"
+          >It is in your best interest to enter the true maximum you are willing to pay for insurance.</span
+        >
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="button-28blue" data-id="choiceaffectsprice">
+        What is the actual price of insurance?
+      </div>
+      <div
+        class="effectbox"
+        style="box-shadow: blue 0px 1px 2px 0px, blue 0px 1px 3px 1px"
+        id="choiceaffectsprice"
+      >
+        The actual price is a random number between 0 and {{ player.loss_amount|to0
+        }} p. All prices in this interval are equally likely. <br />
+        <span style="font-style: italic; text-decoration: underline">Note:</span
+        ><span style="font-style: italic"></span>
+          Your choice of the maximum you are willing to pay for insurance does not affect the actual
+          price.</span
+        >
+      </div>
+    </td>
+  </tr>
+</table> 
+
+{{ endif }}
+<br>
+
+{{ if player.round_number == 1 }}
+
+{{ if lang == 'de' }}
+<div id="checkprompts"><span style="font-style:italic; font-size: 16pt">Um zu überprüfen, ob Sie verstehen, wie Versicherungen funktionieren, beantworten Sie bitte die folgenden Fragen. Sobald Sie die Frage richtig beantwortet haben, wird eine neue Frage angezeigt. Es gibt zwei Fragen. </span></div> <br>
+{{ else }}
+<div id="checkprompts"><span style="font-style:italic; font-size: 16pt">To check if you understand how insurance works, please answer the following questions. Once you answer the question correctly, a new question will appear. There are two questions. </span></div> <br>
+{{ endif }}
+
+<div class="testingquestions"> 
+<div class="tablerow" cid="quesprimero" id="quesprimerocontainer">
+  {{ if lang == 'de' }}
+<p class="question" data-id="ques1" cid="quesprimero">A) Wenn die <span style="font-weight:bold"> maximale Anzahl von Punkten</span>, die Sie für die Versicherung zu zahlen bereit sind, <span style="font-weight:bold;color:blue"> 20 p </span> beträgt und der <span style="font-weight: bold;">tatsächliche Versicherungspreis</span> <span style="font-weight:bold; color:blue">12 p </span> beträgt</p>
+{{ else}}
+<p class="question" data-id="ques1" cid="quesprimero">A) If the <span style="font-weight:bold">maximum</span> you are willing to pay for insurance is <span style="font-weight:bold; color:blue">20 p </span></li> and the <span style="font-weight:bold"> actual price</span> of insurance is <span style="font-weight:bold;color:blue">12 p</span> </p> 
+{{ endif }}
+  <table>
+    <tr>
+      <td> 
+        <ul>
+          {{ if lang == 'de' }}
+          <li class="question" style="padding-right:10px; padding-bottom: -5px" cid="quesprimero" data-id="ques1">Wie viel kostet die Versicherung in diesem Szenario?</li>
+          {{ else }}
+          <li class="question" style="padding-right:10px; padding-bottom: -5px" cid="quesprimero" data-id="ques1">What is the price of insurance in this scenario?</li>
+          {{ endif }}
+        </ul> </td>
+      <td><div class="aansbutton" id="wrong" quesno="ques1" cid="quesprimero">20 p</div></td>
+      <td><div class="aansbutton" id="correct" quesno="ques1" cid="quesprimero">12 p</div></td>
+    </tr>
+    <tr>
+      <td><ul>
+            {{ if lang == 'de' }}
+            <li class="question" style="padding-right:10px; padding-bottom: -5px" data-id="ques1" cid="quesprimero">Werden Sie in diesem Szenario eine Versicherung abschließen?</li>
+            {{ else }}
+            <li class="question" style="padding-right:10px; padding-bottom: -5px" data-id="ques1" cid="quesprimero">Do you purchase insurance in this scenario?</li>
+            {{ endif }}
+          </ul></td>
+      <td><div class="bansbutton" data-id="correct" id="ques1correct" quesno="ques1" cid="quesprimero">{{ if lang == 'de' }}Ja{{ else }}Yes{{ endif }}</div></td>
+      <td><div class="bansbutton" data-id="wrong" id="ques1wrong" quesno="ques1" cid="quesprimero">{{ if lang == 'de' }}Nein{{ else }}No{{ endif }}</div></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><div
+        class="checkAnswerbutton"
+        id ="ques1"
+        onclick="checkAnswer1(); hideAndRemoveDiv();"
+        cid="quesprimero"
+      >
+        {{ if lang == 'de' }}Prüfen{{ else }}Check{{ endif }}
+      </div></td>
+      <td></td>
+    </tr>
+    </table>
+</div>
+<div class="tablerow" cid="quessecundo" id="quessecundocontainer" style="display:none">
+  {{ if lang == 'de' }}
+<p class="question" data-id="ques1" cid="quessecundo">B) Wenn die <span style="font-weight:bold"> maximale Anzahl von Punkten</span>, die Sie für die Versicherung zu zahlen bereit sind, <span style="font-weight:bold;color:blue"> 15 p</span> beträgt und der <span style="font-weight: bold;">tatsächliche Versicherungspreis</span> <span style="font-weight:bold; color:blue">18 p </span> beträgt</p>
+{{ else }}
+<p class="question" data-id="ques2" cid="quessecundo">B) If the <span style="font-weight:bold">maximum</span> you are willing to pay for insurance is <span style="font-weight:bold; color:blue">15 p</span></li> and the <span style="font-weight:bold"> actual price</span> of insurance is <span style="font-weight:bold;color:blue">18 p</span> </p> 
+{{ endif }}
+<table>
+<tr>
+  <td> 
+    <ul>
+      {{ if lang == 'de' }} 
+      <li class="question" style="padding-right:10px; padding-bottom: -5px" data-id="ques2" cid="quessecundo">Wie viel kostet die Versicherung in diesem Szenario?</li>
+      {{ else }}
+      <li class="question" style="padding-right:10px; padding-bottom: -5px" data-id="ques2" cid="quessecundo">What is the price of insurance in this scenario?</li>
+      {{ endif }}
+    </ul> </td>
+  <td><div class="aansbutton" id="wrong" quesno="ques2" cid="quessecundo">15 p</div></td>
+  <td><div class="aansbutton" id="correct" quesno="ques2" cid="quessecundo">18 p</div></td>
+</tr>
+<tr>
+  <td><ul> 
+        {{ if lang == 'de' }}
+        <li class="question" style="padding-right:10px; padding-bottom: -5px" data-id="ques2" cid="quessecundo">Können Sie eine Versicherung abschließen in diesem Szenario?</li>
+        {{ else}}
+        <li class="question" style="padding-right:10px; padding-bottom: -5px" data-id="ques2" cid="quessecundo">Are you able to purchase insurance in this scenario?</li>
+        {{ endif }}
+      </ul></td>
+  <td><div class="bansbutton" data-id="wrong" id="ques2wrong" quesno="ques2" cid="quessecundo">{{ if lang == 'de' }}Ja{{ else }}Yes{{ endif }}</div></td>
+  <td><div class="bansbutton" data-id="correct" id="ques2correct" quesno="ques2" cid="quessecundo">{{ if lang == 'de' }}Nein{{ else }}No{{ endif }}</div></td>
+</tr>
+<tr>
+  <td></td>
+  <td><div
+    class="checkAnswerbutton"
+    id="ques2"
+    onclick="checkAnswer2(); hideAndRemoveDiv();"
+    cid="quessecundo"
+  >
+    {{ if lang == 'de' }}Prüfen{{ else }}Check{{ endif }}
+  </div></td>
+  <td></td>
+</tr>
+</table>
+</div>
+<table>
+  <tr>
+    <td><span style="color: white">********</span></td>
+    <td><span style="color: white">********</span></td>
+    <td><span style="color: white">********</span></td>
+    <td id="error"></td>
+    <td id="righto"></td>
+  </tr>
+</table>
+</div>
+<br>
+<!-- <div
+    class="checkifEmptybutton"
+    onclick="checkifEmpty()"
+    id="proceed"
+    style="width:85px;"
+  >
+    {{ if lang == 'de' }}Weiter{{ else }}Proceed{{ endif }}
+  </div> -->
+
+
+<div id="wtpquestion" style="display:none">
+<span class="finalquestion" style="font-weight:bold;text-decoration:underline">{{ if lang == 'de' }}Was sind Sie bereit, maximal zu zahlen, um sich gegen den Verlust zu versichern?{{ else }}What is the maximum you are prepared to pay to insure yourself
+  against the loss?{{ endif }}</span>
+
+<p>
+  <span style="font-style: italic; font-size: 12pt"
+    >{{ if lang == 'de' }}Klicken Sie auf den blauen Balken, um den
+    Schieberegler einzublenden.{{ else }}Click on the blue bar to reveal the
+    slider.{{ endif }}</span
+  >
+</p>
+<div id="sliders_here2"></div>
+<button class="otree-btn-next btn btn-primary" id="nextButton">Next</button>
+</div>
+
+{{ else }}
+<div id="wtpquestion">
+  <span class="finalquestion" style="font-weight:bold;text-decoration:underline">{{ if lang == 'de' }}Was sind Sie bereit, maximal zu zahlen, um sich gegen den Verlust zu versichern?{{ else }}What is the maximum you are prepared to pay to insure yourself
+    against the loss?{{ endif }}</span>
+  
+  <p>
+    <span style="font-style: italic; font-size: 12pt"
+      >{{ if lang == 'de' }}Klicken Sie auf den blauen Balken, um den
+      Schieberegler einzublenden.{{ else }}Click on the blue bar to reveal the
+      slider.{{ endif }}</span
+    >
+  </p>
+  <div id="sliders_here2"></div>
+  <button class="otree-btn-next btn btn-primary" id="nextButton">Next</button>
+  </div>
+{{ endif }}
+
+
+<script>
+  var maxAmount = "{{ player.loss_amount }}";
+  $(document).ready(function (event) {
+    slider2 = new mgslider(
+      "WTP",
+      0,
+      maxAmount,
+      1,
+      "{{ if lang == 'de' }}Ihre Bereitschaft, für die Versicherung zu zahlen (Punkte){{ else }}Your willingness to pay for insurance{{ endif }}"
+    );
+    slider2.print(document.getElementById("sliders_here2"));
+  });
+</script>
+
+{{ formfield_errors 'WTP' }}
+<script>
+  let timerID;
+  let counter = 0;
+  let trackerCoverage = 0;
+  let trackerNoinsurance = 0;
+  let trackerHowitworks = 0;
+  let trackerChoiceaffectsprice = 0;
+  let holdStart = 0;
+  let holdTime = 0;
+
+  let pressHoldEvent = new CustomEvent("pressHold");
+  let pressHoldDuration = 1000000000000000000000000000000000000000000000;
+
+  var buttontoShowBox = document.querySelectorAll(".button-28blue");
+  var infoBox = document.querySelectorAll(".effectbox");
+
+  buttontoShowBox.forEach(function (el) {
+    el.addEventListener("mousedown", pressingDown, false);
+    el.addEventListener("mouseup", notPressingDown, false);
+
+    function pressingDown(e) {
+      e.preventDefault();
+      holdStart = Date.now()
+
+      var id = el.getAttribute("data-id");
+      document.getElementById(id).classList.add("show");
+    }
+
+    function notPressingDown(e) {
+      holdTime = Date.now() - holdStart;
+      counter = holdTime;
+    
+      var id = el.getAttribute("data-id");
+      document.getElementById(id).classList.remove("show");
+
+      if (id == "coverage") {
+        trackerCoverage += counter;
+        sendTracker1();
+      } else if (id == "noinsurance") {
+        trackerNoinsurance += counter;
+        sendTracker2();
+      } else if (id == "howitworks") {
+        trackerHowitworks += counter;
+        sendTracker3();
+      } else {
+        trackerChoiceaffectsprice += counter;
+        sendTracker4();
+      }
+
+      console.log(
+        "Time: " +
+          trackerCoverage +
+          ", " +
+          trackerNoinsurance +
+          ", " +
+          trackerHowitworks +
+          ", " +
+          trackerChoiceaffectsprice
+      );
+      counter = 0;
+    }
+
+  });
+
+  //
+  // Runs at 60fps when you are pressing down
+  //
+
+  function sendTracker1() {
+    liveSend({ which_char: "char_coverage", value: trackerCoverage });
+  }
+
+  function sendTracker2() {
+    liveSend({ which_char: "char_noinsurance", value: trackerNoinsurance });
+  }
+
+  function sendTracker3() {
+    liveSend({ which_char: "char_howitworks", value: trackerHowitworks });
+  }
+
+  function sendTracker4() {
+    liveSend({
+      which_char: "char_choiceaffectsprice",
+      value: trackerChoiceaffectsprice,
+    });
+  }
+
+  function doSomething(e) {
+    console.log("pressHold event fired!");
+  }
+</script>
+
+<script>
+  document.getElementsByClassName(
+    "otree-form-errors alert alert-danger"
+  )[0].innerHTML =
+    "{{ if lang == 'de' }}Bitte beheben Sie die Fehler.{{ else }}Please fix the errors.{{ endif }}";
+  document.getElementsByClassName("form-control-errors")[0].innerHTML =
+    "{{ if lang == 'de' }}Dieses Feld ist erforderlich.{{ else }}This field is required.{{ endif }}";
+</script>
+
+<script>
+  let quesAEl;
+  let quesAAnsId;
+  let quesAQuesno;
+  let quesBEl;
+  let quesBAnsId;
+  let quesBQuesno;
+  let otherAEl;
+  let otherAAnsId;
+  let otherAQuesno;
+  let otherBEl;
+  let otherBAnsId;
+  let otherBQuesno;
+  let quesno;
+
+  var quesAAnswers = document.querySelectorAll('.aansbutton')
+  var quesBAnswers = document.querySelectorAll('.bansbutton')
+
+  quesAAnswers.forEach(function (el) {
+    el.addEventListener(
+      "click",
+      function () {
+        selectedEl = document.querySelector(".aansselected");
+        // If there was a selected element which is not this
+        if (selectedEl && selectedEl !== this) {
+          selectedEl.classList.remove("aansselected");
+        }
+        // Toggle this
+        this.classList.toggle("aansselected");
+      },
+      false
+    );
+  });
+
+  quesAAnswers.forEach(function(el) {
+    el.addEventListener("click", populateWord, false);
+    el.addEventListener("click", populateOthers, false);
+
+    function populateWord() {
+      quesAEl = el;
+      quesAAnsId = el.getAttribute("id");
+      quesAQuesno = el.getAttribute("quesno")
+    }
+
+    function populateOthers() {
+      quesAAnswers.forEach(function(e) {
+        let tempId = e.getAttribute("id")
+        let tempquesno = e.getAttribute("quesno")
+          if (tempId !== quesAAnsId && tempquesno == quesAQuesno) {
+            otherAEl = e;
+            otherAAnsId = e.getAttribute("id")
+          }
+      })
+    }
+  
+  })
+
+  quesBAnswers.forEach(function (el) {
+    el.addEventListener(
+      "click",
+      function () {
+        selectedEl = document.querySelector(".bansselected");
+        // If there was a selected element which is not this
+        if (selectedEl && selectedEl !== this) {
+          selectedEl.classList.remove("bansselected");
+        }
+        // Toggle this
+        this.classList.toggle("bansselected");
+      },
+      false
+    );
+  });
+
+  quesBAnswers.forEach(function(el) {
+    el.addEventListener("click", populateAns, false);
+    el.addEventListener("click", populateOthersB, false);
+
+    function populateAns() {
+      quesBEl = el;
+      quesBAnsId = el.getAttribute("data-id");
+      quesBQuesno = el.getAttribute("quesno")
+    }
+
+    function populateOthersB() {
+      quesBAnswers.forEach(function(e) {
+        let tempIdB = e.getAttribute("data-id")
+        let tempBQuesno = e.getAttribute("quesno")
+        if (tempIdB !== quesBAnsId && tempBQuesno == quesBQuesno) {
+          otherBEl = e;
+          otherBAnsId = e.getAttribute("data-id")
+        }
+      })
+    }
+
+  });
+
+  // quesBAnswers.foreach(function(el) {
+  //   if (el.getAttribute("id") !== quesBAnsId) {
+  //       otherBEl = el;
+  //       otherBAnsId = el;
+  //   }
+  // })
+
+  var questions = document.querySelectorAll(".question")
+  var alltablerow = document.querySelectorAll(".tablerow")
+  var checkButtons = document.querySelectorAll(".checkAnswerbutton")
+
+  function hideAndRemoveDiv() {
+    if ((quesAQuesno == quesBQuesno) && (quesAQuesno == "ques1") && (quesAAnsId == "correct" && quesBAnsId == "correct")) {
+      if (quesAQuesno == "ques1") {
+        document.getElementById("quessecundocontainer").style.display = "block";
+        document.getElementById("quesprimerocontainer").style.display = "none";
+      } else {
+      }
+    }
+    if ((quesAQuesno == quesBQuesno) && (quesAQuesno == "ques2") && (quesAAnsId == "correct" && quesBAnsId == "correct")) {
+      checkifEmpty();
+    }
+  }
+
+
+  function checkAnswer1() {
+    if (!quesAEl && !quesBEl) {
+      displayErrors();
+    }
+    else if (!quesAEl) {
+      displayErrors();
+    }
+    else if (!quesBEl) {
+      displayErrors();
+    }
+    else {
+      if ((quesAQuesno == quesBQuesno) && (quesAQuesno == "ques1") && (quesAAnsId == "correct" && quesBAnsId == "correct")) {
+        questions.forEach(function(elem) {
+        if (elem.getAttribute("data-id") == quesAQuesno) {
+          elem.remove()
+          }
+        });
+
+        checkButtons.forEach(function(button) {
+          if (button.getAttribute("id") == quesAQuesno) {
+            button.remove()
+          }
+        });
+
+        quesAEl.remove()
+        quesBEl.remove()
+        otherAEl.remove()
+        otherBEl.remove()
+        var righto = document.getElementById("righto");
+        righto.textContent =
+        "{{ if lang == 'de' }}Richtig!{{ else }}Correct!{{ endif }}";
+        righto.style.color = "green";
+        setTimeout(function () {
+          righto.textContent = "";
+        }, 1000);
+        quesAEl = undefined;
+        quesBEl = undefined;
+        // checkifEmpty();
+      };
+      if ((quesAQuesno == quesBQuesno) && (quesAQuesno == "ques1") && (quesAAnsId !== quesBAnsId)) {
+        var error = document.getElementById("error");
+        error.textContent =
+        "{{ if lang == 'de' }}Falsch! Bitte versuchen Sie es erneut.{{ else }}Incorrect! Please try again.{{ endif }}";
+        error.style.color = "red";
+        setTimeout(function () {
+          error.textContent = "";
+        }, 1000);
+        setTimeout(function(){
+          quesBEl.classList.remove("bansselected");
+          quesAEl.classList.remove("aansselected");
+          quesAAnsId = null;
+          quesBAnsId = null;
+          quesAEl = undefined
+          quesBEl = undefined
+        }, 1002)
+      };
+
+      if ((quesAQuesno == quesBQuesno) && (quesAQuesno == "ques1") && (quesAAnsId == "wrong" && quesBAnsId == "wrong")) {
+        var error = document.getElementById("error");
+        error.textContent =
+        "{{ if lang == 'de' }}Falsch! Bitte versuchen Sie es erneut.{{ else }}Incorrect! Please try again.{{ endif }}";
+        error.style.color = "red";
+        setTimeout(function () {
+          error.textContent = "";
+        }, 1000);
+        setTimeout(function(){
+          quesBEl.classList.remove("bansselected");
+          quesAEl.classList.remove("aansselected");
+          quesAAnsId = null;
+          quesBAnsId = null;
+          quesAEl = undefined
+          quesBEl = undefined
+        }, 1002)};
+  }}
+
+  function checkAnswer2() {
+    if (!quesAEl && !quesBEl) {
+      displayErrors();
+    }
+    else if (!quesAEl) {
+      displayErrors();
+    }
+    else if (!quesBEl) {
+      displayErrors();
+    }
+    else {
+      if ((quesAQuesno == quesBQuesno) && (quesAQuesno == "ques2") && (quesAAnsId == "correct" && quesBAnsId == "correct")) {
+        questions.forEach(function(elem) {
+        if (elem.getAttribute("data-id") == quesAQuesno) {
+          elem.remove()
+          }
+        });
+
+        checkButtons.forEach(function(button) {
+          if (button.getAttribute("id") == quesAQuesno) {
+            button.remove()
+          }
+        });
+
+        quesAEl.remove()
+        quesBEl.remove()
+        otherAEl.remove()
+        otherBEl.remove()
+        var righto = document.getElementById("righto");
+        righto.textContent =
+        "{{ if lang == 'de' }}Richtig!{{ else }}Correct!{{ endif }}";
+        righto.style.color = "green";
+        setTimeout(function () {
+          righto.textContent = "";
+        }, 1000);
+        quesAEl = undefined;
+        quesBEl = undefined;
+        // checkifEmpty();
+      };
+      if ((quesAQuesno == quesBQuesno) && (quesAQuesno == "ques2") && (quesAAnsId !== quesBAnsId)) {
+        var error = document.getElementById("error");
+        error.textContent =
+        "{{ if lang == 'de' }}Falsch! Bitte versuchen Sie es erneut.{{ else }}Incorrect! Please try again.{{ endif }}";
+        error.style.color = "red";
+        setTimeout(function () {
+          error.textContent = "";
+        }, 1000);
+        setTimeout(function(){
+          quesBEl.classList.remove("bansselected");
+          quesAEl.classList.remove("aansselected");
+          quesAAnsId = null;
+          quesBAnsId = null;
+          quesAEl = undefined
+          quesBEl = undefined
+        }, 1002)
+      };
+
+      if ((quesAQuesno == quesBQuesno) && (quesAQuesno == "ques2") && (quesAAnsId == "wrong" && quesBAnsId == "wrong")) {
+        var error = document.getElementById("error");
+        error.textContent =
+        "{{ if lang == 'de' }}Falsch! Bitte versuchen Sie es erneut.{{ else }}Incorrect! Please try again.{{ endif }}";
+        error.style.color = "red";
+        setTimeout(function () {
+          error.textContent = "";
+        }, 1000);
+        setTimeout(function(){
+          quesBEl.classList.remove("bansselected");
+          quesAEl.classList.remove("aansselected");
+          quesAAnsId = null;
+          quesBAnsId = null;
+          quesAEl = undefined
+          quesBEl = undefined
+        }, 1002)};
+  }}
+
+
+function displayErrors() {
+  if ((quesAEl == undefined) && (quesBEl == undefined)) {
+    var error = document.getElementById("error");
+      error.textContent =
+      "{{ if lang == 'de' }}Bitte beantworten Sie die Fragen.{{ else }}Please answer the questions.{{ endif }}";
+      error.style.color = "red";
+      setTimeout(function () {
+        error.textContent = "";
+      }, 1000);
+  }
+  else if ((quesBEl !== undefined) && (quesAEl == undefined)) {
+    var error = document.getElementById("error");
+      error.textContent =
+      "{{ if lang == 'de' }}Bitte beantworten Sie die andere Teilfrage.{{ else }}Please answer the other subquestion.{{ endif }}";
+      error.style.color = "red";
+      setTimeout(function () {
+        error.textContent = "";
+      }, 1000);
+      setTimeout(function(){
+        quesBEl.classList.remove("bansselected");
+      }, 1001)
+      setTimeout(function(){
+        // quesAEl = undefined;
+        // quesAAnsId = null;
+        quesBEl = undefined;
+        quesBAnsId = null;
+      },1002)
+  }
+  else if ((quesAEl !== undefined) && (quesBEl == undefined)) {
+    var error = document.getElementById("error");
+      error.textContent =
+      "{{ if lang == 'de' }}Bitte beantworten Sie die andere Teilfrage.{{ else }}Please answer the other subquestion.{{ endif }}";
+      error.style.color = "red";
+      setTimeout(function () {
+        error.textContent = "";
+      }, 1000);
+      setTimeout(function(){
+        quesAEl.classList.remove("aansselected");
+      }, 1001)
+      setTimeout(function(){
+        quesAEl = undefined;
+        quesAAnsId = null;
+        // quesBEl = undefined;
+        // quesBAnsId = null;
+      },1002)
+  }
+  else {
+  }
+}
+  
+  
+ 
+
+  function setquesABEltonull() {
+      quesAEl = null;
+      quesBEl = null;
+    };
+
+  function checkifEmpty() {
+    const nxtbtn = document.getElementById("nextButton");
+    let empty = document.querySelector(".aansbutton")
+    if (empty !== null) {
+      nxtbtn.disabled = true;
+      document.getElementById("wtpquestion").style.display = "none"
+      var error = document.getElementById("error");
+      error.textContent =
+      "{{ if lang == 'de' }}Bitte beantworten Sie die Fragen.{{ else }}Please answer the questions.{{ endif }}";
+      error.style.color = "red";
+      setTimeout(function () {
+        error.textContent = "";
+      }, 1000);
+    } else {
+      nxtbtn.disabled = false;
+      document.getElementById("wtpquestion").style.display = "block"
+      // document.getElementById("proceed").style.display = "none"
+      document.getElementById("checkprompts").style.display = "none"
+      document.querySelector(".testingquestions").remove()
+      document.getElementById("checkprompts").remove()
+    }
+  }
+
+</script>
+
+{{ endblock }}

@@ -1,0 +1,17 @@
+{{ block title }}
+    Which lottery would you like to participate in?
+{{ endblock }}
+{{ block content }}
+
+    Option A: You have a {{ player.round_number }}/10 chance of winning a bet.
+    If you win the bet, your earnings are {{ C.A_win }}.
+    If you lose the bet, your earnings are {{ C.A_lose }}. <br>
+
+    Option B: You have a {{ player.round_number }}/10 chance of winning a bet.
+    If you win the bet, your earnings are {{ C.B_win }}.
+    If you lose the bet, your earnings are {{ C.B_lose }}.
+
+    {{ formfields }}
+    {{ next_button }}
+
+{{ endblock }}

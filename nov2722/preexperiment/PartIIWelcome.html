@@ -1,0 +1,32 @@
+{{ block title }} {{ if lang == 'de' }}Willkommen zu Teil II{{ else }}Welcome to
+Part II{{ endif }} {{ endblock }} {{ block content }}
+
+<style>
+  body {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    font-size: 25px;
+  }
+</style>
+
+{{ if lang == 'de' }} In diesem Teil werden Sie gebeten, zwei Aufgaben zu
+erfüllen. <br />
+In jeder Aufgabe werden Ihnen 10 Szenarien mit jeweils zwei verschiedenen
+Lotterien (A oder B) präsentiert. <br />
+Sie müssen nun für jedes Szenario angeben, ob Sie Lotterie A oder Lotterie B
+bevorzugen. <br />
+Am Ende des Experiments werden wir für jede der beiden Aufgaben jeweils ein
+zufälliges Szenario auswählen. Diese beiden Szenarien werden dann für Sie
+auszahlungsrelevant.<br />
+Das Maximum, das Sie bei jeder Aufgabe verdienen können, ist {{ C.B_win }}
+Punkte und das Minimum ist {{ C.B_lose }} Punkte. <br />
+{{ else }} In this part, you are asked to complete two tasks. <br />
+In each task, you will face 10 scenarios each with two lotteries (A and B).
+<br />
+For each scenario, you need to state whether you prefer Lottery A or Lottery B.
+<br />
+At the end of the experiment, we will randomly select one scenario from each
+task. These two scenarios will be payoff-relevant for you.<br />
+The maximum you can earn in each task is {{ C.B_win }} p and the minimum is {{
+C.B_lose }} p. <br />
+{{ endif }} {{ next_button }} {{ endblock }}

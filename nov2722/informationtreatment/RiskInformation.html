@@ -1,0 +1,39 @@
+{{ block title }} {{ if lang == 'de' }}Ihr Einkommen{{ else }}Your income{{
+endif }} {{ endblock }} {{ block content }}
+
+<style>
+  body {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    font-size: 25px;
+  }
+</style>
+
+{{ if lang == 'de' }} In dieser Runde erhalten Sie {{ C.earningseachround }}
+Punkte. <br />
+Es besteht die Gefahr, dass Sie ein Ereignis erleben, das zu einem Punkteverlust
+führt.<br />
+Die Wahrscheinlichkeit, dass Sie das Ereignis erleben (und damit Punkte
+verlieren), hängt von Ihren Eigenschaften ab, die auf der nächsten Seite
+aufgeführt sind. <br />
+Bei einer Niederlage in dieser Runde, verlieren Sie {{ player.loss_amount|to0 }}
+Punkte. <br />
+Sie können jedoch eine Vollkaskoversicherung für dieses Schadensereignis
+abschließen, die Ihnen die verlorenen Punkte vollständig erstattet. {{ else }}
+In this round, you received an income of:
+<span style="font-weight: bold">{{ C.earningseachround }} p</span>. <br />
+You face a risk of experiencing an event which will result in you losing {{ if
+player.loss_amount == 100 }}
+<span style="font-weight: bold"
+  >your entire income ({{ player.loss_amount|to0 }} p)</span
+>
+in this round. {{ else }}
+<span style="font-weight: bold">{{ player.loss_amount|to0 }} p</span> in this
+round. {{ endif }}
+<br />
+Your probability of experiencing the event depends on your characteristics,
+which will be shown on the next page.
+<br />
+You can, however, purchase full insurance which will fully reimburse the
+<span style="font-weight: bold">{{ player.loss_amount|to0 }} p</span> in case
+you suffer the loss event. {{ endif }} {{ next_button }} {{ endblock }}

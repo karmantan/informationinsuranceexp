@@ -1,0 +1,29 @@
+{{ block title }}
+    Results
+{{ endblock }}
+
+{{ block content }}
+
+    {{ if player.choice == True }}
+    You have chosen Option A.
+        {{ if win == 1 }}
+        Congratulations. You have won your bet.
+        {{ else }}
+        Sorry. You have lost your bet.
+        {{ endif }}
+    {{ else }}
+    You have chosen Option B.
+        {{ if win == 1 }}
+        Congratulations. You have won your bet.
+        {{ else }}
+        Sorry. You have lost your bet.
+        {{ endif }}
+    {{ endif }}
+    Your earnings for this round are {{ result }}. <br>
+
+TOTAL EARNINGS: {{ participant.payoff }}
+
+    {{ next_button }}
+{{ endblock }}
+
+

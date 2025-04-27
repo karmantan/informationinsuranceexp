@@ -1,0 +1,283 @@
+{{ block title }} {{ if lang == 'de' }}Umfrage{{ else }}Survey{{ endif }} {{
+endblock }} {{ block content }}
+<style>
+  body {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    font-size: 25px;
+  }
+
+  form {
+    background-color: #fff;
+    max-width: 3000px;
+    margin: 50px auto;
+    padding: 30px 20px;
+    box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  .form-con {
+    text-align: left;
+    margin-bottom: 25px;
+    font-size: 25px;
+    border: 0.2px solid #cccccc;
+    border-radius: 1px;
+    padding: 10px;
+    display: block;
+    width: 95%;
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
+  }
+
+  .form-con label {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  button {
+    background-color: #05c46b;
+    border: 1px solid #777;
+    border-radius: 2px;
+    font-family: inherit;
+    font-size: 21px;
+    display: block;
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 20px;
+  }
+</style>
+
+{{ if lang == 'de' }}Bitte beantworten Sie die folgenden Fragen. <br />{{ else
+}}Please answer all the questions below. <br />{{ endif }} <br />
+
+<div class="form-con">
+  <label for="age" id="label-age">
+    {{ if lang == 'de' }}1. Wie alt sind Sie?{{ else }}1. What is your age? {{
+    endif }}
+  </label>
+
+  {{ formfield 'questionnaire_age' }}
+</div>
+
+<div class="form-con">
+  <label>
+    {{ if lang == 'de' }}2. Bitte nennen Sie Ihr Geschlecht?{{ else }}2. Please
+    indicate your gender? {{ endif }}
+  </label>
+
+  {{ if lang == 'de' }} {{ formfield 'questionnaire_genderde' }} {{ else }} {{
+  formfield 'questionnaire_gender' }} {{ endif }}
+</div>
+
+<div class="form-con">
+  <label>
+    {{ if lang == 'de' }}3. Sind Sie Raucher? {{ else }}3. Are you a smoker? {{
+    endif }}
+  </label>
+
+  {{ if lang == 'de' }} {{ formfield 'questionnaire_smokerde' }} {{
+  formfield_errors 'questionnaire_smokerde' }} {{ else }} {{ formfield
+  'questionnaire_smoker' }} {{ formfield_errors 'questionnaire_smoker' }} {{
+  endif }}
+</div>
+
+<div class="form-con">
+  <label>
+    {{ if lang == 'de' }}4. Wie würden Sie Ihren Gesundheitszustand auf einer
+    Skala von 0 bis 10 bewerten, wobei 0 am ungesündesten und 10 am gesündesten
+    ist?{{ else }}4. On a scale of 0 to 10 where 0 is most unhealthy and 10 is
+    most healthy, how would you rate your health? {{ endif }}
+  </label>
+
+  {{ if lang == 'de' }} {{ formfield 'questionnaire_healthde' }} {{
+  formfield_errors 'questionnaire_healthde' }} {{ else }} {{ formfield
+  'questionnaire_health' }} {{ formfield_errors 'questionnaire_health' }} {{
+  endif }}
+</div>
+
+<div class="form-con">
+  <label>
+    {{ if lang == 'de' }}5. Wie viele Tage pro Woche treiben Sie Sport?{{ else
+    }}5. How many days do you exercise per week? {{ endif }}
+  </label>
+
+  {{ if lang == 'de' }} {{ formfield 'questionnaire_exercisedaysde' }} {{
+  formfield_errors 'questionnaire_exercisedaysde' }} {{ else }} {{ formfield
+  'questionnaire_exercisedays' }} {{ formfield_errors
+  'questionnaire_exercisedays' }} {{ endif }}
+</div>
+
+<div class="form-con">
+  <label for="exhours" id="label-exhours">
+    {{ if lang == 'de' }}6. Wie viele Stunden treiben Sie durchschnittlich pro
+    Tag Sport (an Tagen, an denen Sie tatsächlich trainieren)?{{ else }}6. How
+    many hours do you exercise per day on average (on a day you choose to
+    exercise, for example)?{{ endif }}
+  </label>
+  {{ formfield 'questionnaire_exercisehours' }}
+</div>
+
+<div class="form-con">
+  <label>
+    {{ if lang == 'de' }}7. Sind Sie gesetzlich oder privat krankenversichert?{{
+    else }}7. Are you publicly or privately insured for health?{{ endif }}
+  </label>
+
+  {{ if lang == 'de' }} {{ formfield 'questionnaire_insurancehealthde' }} {{
+  formfield_errors 'questionnaire_insurancehealthde' }} {{ else }} {{ formfield
+  'questionnaire_insurancehealth' }} {{ formfield_errors
+  'questionnaire_insurancehealth' }} {{ endif }}
+</div>
+
+<div class="form-con">
+  <label>
+    {{ if lang == 'de' }}8. Haben Sie eine Lebensversicherung?{{ else }}8. Do
+    you have life insurance?{{ endif }}</label
+  >
+
+  {{ if lang == 'de' }} {{ formfield 'questionnaire_lifeinsurancede' }} {{
+  formfield_errors 'questionnaire_lifeinsurancede' }} {{ else }} {{ formfield
+  'questionnaire_lifeinsurance' }} {{ formfield_errors
+  'questionnaire_lifeinsurance' }} {{ endif }}
+</div>
+
+<br />&nbsp;<br />
+
+{{ if lang == 'de' }} Der folgende Abschnitt enthält Fragen, die Ihre
+Risikobereitschaft betreffen. Die Antwort 0 bedeutet immer, dass Sie überhaupt
+nicht bereit sind, Risiken einzugehen, und 10, dass Sie sehr risikobereit sind.
+{{ else }} The following section will contain questions on your risk
+preferences. Please state your willingness to take risks in the following
+domains, where 0 means you are not willing to take risks at all and 10 means you
+are very willing to take risks. {{ endif }}
+
+<br />&nbsp;<br />
+
+<div class="form-con">
+  <label>
+    {{ if lang == 'de' }}A. Wie risikobereit sind Sie beim Autofahren?{{ else
+    }}A. How willing are you to take risks while driving?{{ endif }}
+  </label>
+
+  {{ if lang == 'de' }} {{ formfield 'questionnaire_riskdrivingde' }} {{
+  formfield_errors 'questionnaire_riskdrivingde' }} {{ else }} {{ formfield
+  'questionnaire_riskdriving' }} {{ formfield_errors
+  'questionnaire_riskdriving'}} {{ endif }}
+</div>
+
+<div class="form-con">
+  <label>
+    {{ if lang == 'de' }}B. Wie bereit sind Sie, finanzielle Risiken
+    einzugehen?{{ else }}B. How willing are you to take financial risks?{{ endif
+    }}
+  </label>
+
+  {{ if lang == 'de' }} {{ formfield 'questionnaire_riskfinancede' }} {{
+  formfield_errors 'questionnaire_riskfinancede' }} {{ else }} {{ formfield
+  'questionnaire_riskfinance' }} {{ formfield_errors
+  'questionnaire_riskfinance'}} {{ endif }}
+</div>
+
+<div class="form-con">
+  <label>
+    {{ if lang == 'de' }}C. Wie risikofreudig sind Sie in Freizeit und Sport?{{
+    else }}C. How willing are you to take risks in leisure and sport?{{ endif }}
+  </label>
+
+  {{ if lang == 'de' }} {{ formfield 'questionnaire_risksportde' }} {{
+  formfield_errors 'questionnaire_risksportde' }} {{ else }} {{ formfield
+  'questionnaire_risksport' }} {{ formfield_errors 'questionnaire_risksport'}}
+  {{ endif }}
+</div>
+
+<div class="form-con">
+  <label>
+    {{ if lang == 'de' }}D. Wie bereit sind Sie, berufliche Risiken
+    einzugehen?{{ else }}D. How willing are you to take occupational risks?{{
+    endif }}
+  </label>
+
+  {{ if lang == 'de' }} {{ formfield 'questionnaire_riskjobde' }} {{
+  formfield_errors 'questionnaire_riskjobde' }} {{ else }} {{ formfield
+  'questionnaire_riskjob' }} {{ formfield_errors 'questionnaire_riskjob'}} {{
+  endif }}
+</div>
+
+<div class="form-con">
+  <label>
+    {{ if lang == 'de' }}E. Wie sehr sind Sie bereit, gesundheitliche Risiken
+    einzugehen?{{ else }}E. How willing are you to take health risks?{{ endif }}
+  </label>
+
+  {{ if lang == 'de' }} {{ formfield 'questionnaire_riskhealthde' }} {{
+  formfield_errors 'questionnaire_riskhealthde' }} {{ else }} {{ formfield
+  'questionnaire_riskhealth' }} {{ formfield_errors 'questionnaire_riskhealth'}}
+  {{ endif }}
+</div>
+
+<div class="form-con">
+  <label>
+    {{ if lang == 'de' }}F. Wie risikofreudig sind Sie im Allgemeinen?{{ else
+    }}F. How willing are you to take risks in general?{{ endif }}
+  </label>
+
+  {{ if lang == 'de' }} {{ formfield 'questionnaire_riskde' }} {{
+  formfield_errors 'questionnaire_riskde' }} {{ else }} {{ formfield
+  'questionnaire_risk' }} {{ formfield_errors 'questionnaire_risk'}} {{ endif }}
+</div>
+
+{{ next_button }}
+
+<script>
+  var inputs = document.querySelectorAll("input");
+
+  inputs.forEach((input) => {
+    let max = input.getAttribute("max");
+    let min = input.getAttribute("min");
+    input.addEventListener("invalid", function (e) {
+      e.target.setCustomValidity(
+        "{{ if lang == 'de' }}Bitte füllen Sie dieses Feld aus. Der Wert muss zwischen {{ else }}Please fill out this field. The number must be between {{ endif }}" +
+          min.toString() +
+          "{{ if lang == 'de' }} und {{ else }} and {{ endif }}" +
+          max.toString() +
+          "{{ if lang == 'de' }} liegen.{{ else }}.{{ endif }}"
+      );
+    });
+
+    let inputType = input.getAttribute("class");
+
+    if (inputType === "form-check-input") {
+      input.addEventListener("mouseover", function (e) {
+        e.target.setCustomValidity(
+          "{{ if lang == 'de' }}Bitte wählen Sie eine der folgenden Optionen.{{ else }}Please select one of these options.{{ endif }}"
+        );
+      });
+    }
+
+    input.addEventListener("input", function (e) {
+      e.target.setCustomValidity("");
+    });
+  });
+
+  var selects = document.querySelectorAll(".form-select");
+
+  selects.forEach((select) => {
+    select.addEventListener("invalid", function (e) {
+      e.target.setCustomValidity(
+        "{{ if lang == 'de' }}Bitte wählen Sie einen Artikel aus der Liste.{{ else }}Please select an item in the list.{{ endif }}"
+      );
+    });
+
+    select.addEventListener("input", function (e) {
+      e.target.setCustomValidity("");
+    });
+  });
+
+  document.getElementsByClassName(
+    "otree-form-errors alert alert-danger"
+  )[0].innerHTML =
+    "{{ if lang == 'de' }}Bitte beheben Sie die Fehler.{{ else }}Please fix the errors.{{ endif }}";
+  document.getElementsByClassName("form-control-errors")[0].innerHTML =
+    "{{ if lang == 'de' }}Kein gültiger Float-Wert<br>Die Zahl muss zwischen 0 und 100 liegen.<br>{{ else }}Not a valid float value<br>Number must be between 0 and 100.<br>{{ endif }}";
+  document.getElementsByClassName("form-control-errors")[1].innerHTML =
+    "{{ if lang == 'de' }}Die Zahl muss zwischen 0 und 24 liegen.{{ else }}Number must be between 0 and 24.{{ endif }}";
+</script>
+{{ endblock }}

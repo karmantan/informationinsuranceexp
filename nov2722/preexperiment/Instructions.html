@@ -1,0 +1,53 @@
+{{ block title }}
+    {{ if lang == 'de' }}Struktur des Experiments{{ else }}Structure of the Experiment{{ endif }}
+{{ endblock }}
+
+{{ block content }}
+
+<style>
+    body {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+    font-size: 25px;
+    }
+</style>
+
+{{ if lang == 'de' }}
+    <p>
+        Das heutige Experiment ist in drei Teile gegliedert. Unten sehen Sie eine kurze Zusammenfassung. Wenn Sie mit den einzelnen Teilen beginnen, werden wir Ihnen weitere Einzelheiten mitteilen.
+
+        <ul>
+            <li>Im ersten Teil beantworten Sie eine Umfrage und erhalten nach Abschluss {{C.survey_reward }} Punkte. Sie haben danach die Möglichkeit Ihre Verdienste in ein potenziell ertragreiches Projekt zu investieren. </li>
+            <li>Im zweiten Teil können Sie Geld verdienen, indem Sie zwischen Lotterien mit unterschiedlichen Ergebnissen und Gewinnwahrscheinlichkeiten wählen.</li>
+            <li>Der dritte Teil ist der Hauptteil des Experiments. Er wird für {{ C.no_of_rounds }} Perioden wiederholt. In jeder Periode werden Sie Punkte verdienen, aber es besteht die Möglichkeit, dass
+                dass Sie einige dieser Punkte verlieren werden. Wir geben Ihnen einige Informationen über die Wahrscheinlichkeit, dass Sie Ihre Punkte verlieren. Sie haben dann die Möglichkeit, eine Versicherung gegen den Verlust von Punkten abzuschließen.</li>
+        </ul>
+    </p>
+    <p>Ihre Bezahlung am Ende des Experiments wird durch das folgende Verfahren zur Umrechnung der Punkte in Euro bestimmt:</p>
+    <ul>
+        <li>Ihre Auszahlung im Experiment wird umgerechnet mit einem Wechselkurs von: 1 GBP = 4000 Punkte.</li>
+    </ul>
+    <p>Bitte beachten Sie, dass Ihre Auszahlung im Experiment die Bonuszahlung auf Prolific ist.</p>
+{{ else }}
+    <p>
+        Today's experiment is split into three parts. Below, you can see a short summary. We will provide you with more details when you begin the different parts. 
+
+        <ul>
+            <li>In the first part, you will answer a survey and receive {{C.survey_reward }} p upon completion. You will then have the possibility to invest your survey earnings into a potentially profitable project. </li>
+            <li>In the second part, you can earn money by choosing between lotteries with different outcomes and probabilities of winning.</li>
+            <li>The third part is the main part of the experiment. It is repeated for {{ C.no_of_rounds }} periods. In each period, you will receive an income, but there is a possibility that
+                you will lose part of this income. We will provide you with some information on the probability of losing part of this income. You will then have the possibility to buy insurance against losing part of your income.  </li>
+        </ul>
+    </p>
+
+    <p>Please note that your payoff in the experiment is denominated in pence:</p>
+    <ul>
+        <li>For example, if a task pays 75 p, this means you earn GBP 0.75 for the task. </li>
+        <li>Your earnings count as the bonus payment on Prolific.</li>
+    </ul>
+{{ endif }}
+
+<button class="otree-btn-next btn btn-primary" id="nextButton">Next</button>
+
+{{ endblock }}
+
+

@@ -1,0 +1,49 @@
+{{ block title }} {{ if lang == 'de' }}Investitionsspiel{{ else }}Investment
+Game{{ endif }} {{ endblock }} {{ block content }}
+
+<style>
+  body {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    font-size: 25px;
+  }
+</style>
+
+{{ if lang == 'de' }} Sie haben in der vorherigen Aufgabe {{ C.survey_reward }}
+Punkte verdient. Von diesen {{ C.survey_reward }} Punkten, können Sie zwischen 0
+und {{ C.max_bet}} Punkten investieren. Sie haben eine 67%ige Chance, den
+investierten Betrag zu verlieren, und eine 33%ige Chance, das 2,5-fache Ihrer
+ursprünglichen Investition zu verdienen. <br /><br />
+Wie viele Punkte möchten Sie investieren? {{ else }} You have earned {{
+C.survey_reward }} p from the task before. From these {{ C.survey_reward }} p,
+you can invest between 0 and {{ C.max_bet}} p. You have a 67% chance of losing
+the amount you invested and 33% chance of earning 2.5 times your initial
+investment. <br />
+<br />
+How much would you like to invest? {{ endif }} {{ formfields }} {{ next_button
+}}
+
+<script>
+  var inputs = document.querySelectorAll("input");
+
+  inputs.forEach((input) => {
+    input.addEventListener("invalid", function (e) {
+      e.target.setCustomValidity(
+        "{{ if lang == 'de' }}Bitte füllen Sie dieses Feld aus.{{ else }}Please fill out this field.{{ endif }}"
+      );
+    });
+
+    input.addEventListener("input", function (e) {
+      e.target.setCustomValidity("");
+    });
+  });
+
+  document.getElementsByClassName(
+    "otree-form-errors alert alert-danger"
+  )[0].innerHTML =
+    "{{ if lang == 'de' }}Bitte beheben Sie die Fehler.{{ else }}Please fix the errors.{{ endif }}";
+  document.getElementsByClassName("form-control-errors")[0].innerHTML =
+    "{{ if lang == 'de' }}Die Zahl muss zwischen 0 und {{ C.max_bet }} liegen.{{ else }}Number must be between 0 and {{ C.max_bet }}.{{ endif }}";
+</script>
+
+{{ endblock }}

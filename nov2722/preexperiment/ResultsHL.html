@@ -1,0 +1,197 @@
+{{ block title }}
+Holt Laury Risk Elicitation Task
+{{ endblock }}
+{{ block content }}
+
+<style>
+.table-responsive-stack tr {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+
+.table-responsive-stack td,
+.table-responsive-stack th {
+   display:block;
+/*
+   flex-grow | flex-shrink | flex-basis   */
+   -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+
+.table-responsive-stack .table-responsive-stack-thead {
+   font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+   .table-responsive-stack tr {
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      border-bottom: 3px solid #ccc;
+      display:block;
+
+   }
+   /*  IE9 FIX   */
+   .table-responsive-stack td {
+      float: left\9;
+      width:100%;
+   }
+}
+</style>
+
+<p style='font-family:"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif; font-size: 25px;'>The table below summarizes the bets you have chosen in each lottery and whether you have won the bet.</p> <br>
+<p style='font-family:"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif; font-size: 25px;'>Note that one lottery will be randomly selected and your outcome in the selected lottery will be your earnings in this task.</p> <br>
+
+
+<br>
+
+<div class="container">
+   <table class="table table-bordered table-striped table-responsive-stack"  id="tableOne">
+      <thead class="thead-dark">
+         <tr>
+            <th>Probability</th>
+            <th>Choice</th>
+            <th>Won</th>
+<!--             <th>Result</th>-->
+         </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td> 10% </td>
+            <td> {{ if player.choice1 == True}} A {{ else }} B {{ endif }}</td>
+            <td> {{ player.winHL1 }}</td>
+<!--            <td> {{ player.resultHL1 }}</td>-->
+        </tr>
+        <tr>
+            <td> 20% </td>
+            <td> {{ if player.choice2 == True}} A {{ else }} B {{ endif }}</td>
+            <td> {{ player.winHL2 }}</td>
+<!--            <td> {{ player.resultHL2 }}</td>-->
+        </tr>
+        <tr>
+            <td> 30% </td>
+            <td> {{ if player.choice3 == True}} A {{ else }} B {{ endif }}</td>
+            <td> {{ player.winHL3 }}</td>
+<!--            <td> {{ player.resultHL3 }}</td>-->
+        </tr>
+        <tr>
+            <td> 40% </td>
+            <td> {{ if player.choice4 == True}} A {{ else }} B {{ endif }}</td>
+            <td> {{ player.winHL4 }}</td>
+<!--            <td> {{ player.resultHL4 }}</td>-->
+        </tr>
+        <tr>
+            <td> 50% </td>
+            <td> {{ if player.choice5 == True}} A {{ else }} B {{ endif }}</td>
+            <td> {{ player.winHL5 }}</td>
+<!--            <td> {{ player.resultHL5 }}</td>-->
+        </tr>
+        <tr>
+            <td> 60% </td>
+            <td> {{ if player.choice6 == True}} A {{ else }} B {{ endif }}</td>
+            <td> {{ player.winHL6 }}</td>
+<!--            <td> {{ player.resultHL6 }}</td>-->
+        </tr>
+        <tr>
+            <td> 70% </td>
+            <td> {{ if player.choice7 == True}} A {{ else }} B {{ endif }}</td>
+            <td> {{ player.winHL7 }}</td>
+<!--            <td> {{ player.resultHL7 }}</td>-->
+        </tr>
+        <tr>
+            <td> 80% </td>
+            <td> {{ if player.choice8 == True}} A {{ else }} B {{ endif }}</td>
+            <td> {{ player.winHL8 }}</td>
+<!--            <td> {{ player.resultHL8 }}</td>-->
+        </tr>
+        <tr>
+            <td> 90% </td>
+            <td> {{ if player.choice9 == True}} A {{ else }} B {{ endif }}</td>
+            <td> {{ player.winHL9 }}</td>
+<!--            <td> {{ player.resultHL9 }}</td>-->
+        </tr>
+        <tr>
+            <td> 100% </td>
+            <td> {{ if player.choice10 == True}} A {{ else }} B {{ endif }}</td>
+            <td> {{ player.winHL10 }}</td>
+<!--            <td> {{ player.resultHL10 }}</td>-->
+        </tr>
+
+      </tbody>
+   </table>
+
+
+{{ next_button }}
+
+<script>
+$(document).ready(function() {
+
+
+   // inspired by http://jsfiddle.net/arunpjohny/564Lxosz/1/
+   $('.table-responsive-stack').find("th").each(function (i) {
+
+      $('.table-responsive-stack td:nth-child(' + (i + 1) + ')').prepend('<span class="table-responsive-stack-thead">'+ $(this).text() + ':</span> ');
+      $('.table-responsive-stack-thead').hide();
+   });
+
+
+
+
+
+$( '.table-responsive-stack' ).each(function() {
+  var thCount = $(this).find("th").length;
+   var rowGrow = 100 / thCount + '%';
+   //console.log(rowGrow);
+   $(this).find("th, td").css('flex-basis', rowGrow);
+});
+
+
+
+
+function flexTable(){
+   if ($(window).width() < 768) {
+
+   $(".table-responsive-stack").each(function (i) {
+      $(this).find(".table-responsive-stack-thead").show();
+      $(this).find('thead').hide();
+   });
+
+
+   // window is less than 768px
+   } else {
+
+
+   $(".table-responsive-stack").each(function (i) {
+      $(this).find(".table-responsive-stack-thead").hide();
+      $(this).find('thead').show();
+   });
+
+
+
+   }
+// flextable
+}
+
+flexTable();
+
+window.onresize = function(event) {
+    flexTable();
+};
+
+
+
+
+
+
+// document ready
+});
+</script>
+
+{{ endblock }}

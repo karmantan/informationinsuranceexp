@@ -1,0 +1,84 @@
+{{ block title }} {{ if lang == 'de' }}Wilkommen zu Teil III{{ else }}Welcome to
+Part III{{ endif }} {{ endblock }} {{ block content }}
+
+<style>
+  body {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    font-size: 25px;
+  }
+</style>
+
+{{ if lang == 'de' }}
+
+<p>In diesem Teil gibt es fünf Runden.</p>
+
+<p>
+  Sie erhalten in jeder Runde {{ C.earningseachround }} Punkte, aber es besteht
+  die Möglichkeit, dass Sie einen Teil dieser Punkte verlieren. Die
+  Wahrscheinlichkeit dass Sie einen Teil der Punkte verlieren hängt von
+  sogenannten Merkmalen ab.
+</p>
+
+<p>
+  Sie können sich die Gesamtsituation auch folgendermaßen vorstellen. Zu Beginn
+  jeder Runde erhalten Sie ein Gehalt von Ihrer Arbeit, aber es besteht die
+  Möglichkeit, dass Sie krank werden und für die Behandlung aufkommen müssen.
+  Die Wahrscheinlichkeit, dass Sie krank werden hängt von einigen persönlichen
+  Merkmalen ab. Wer sich zum Beispiel mehr bewegt, hat eine geringere
+  Wahrscheinlichkeit, eine Herzerkrankung zu erleiden.
+</p>
+
+<p>
+  Wir zeigen Ihnen in jeder Runde ein (neues) Profil mit {{ C.no_char }}
+  verschiedenen Merkmalen und einige weitere Informationen. Danach haben Sie
+  zwei Aufgaben. Erstens werden Sie gefragt, wie Sie Ihr Risiko einschätzen und
+  zweitens haben Sie die Möglichkeit eine Versicherung zu kaufen, die die Kosten
+  der Behandlung (bzw. die erlittenen Verluste) vollständig übernimmt.
+</p>
+
+<p>
+  Weitere Details zu Ihren Entscheidungen werden wir Ihnen auf den
+  entsprechenden Seiten zur Verfügung stellen. Dieser Teil des Experiments wird,
+  wie gesagt, fünf mal wiederholt.
+</p>
+
+{{ else }}
+
+<p>There are <span style="font-weight:bold;">five</span> rounds in this part.</p>
+
+<p>
+  You will receive {{ C.earningseachround }} p in each round but you face a
+  possibility of losing part of this. The probility of losing part of your
+  income
+  <span style="font-weight: bold">depends on your characteristics</span>.
+</p>
+
+<p>
+    <span style="font-size: 14pt; font-style:italic; text-decoration: underline;">Note:</span> 
+  <span style="font-size: 14pt; font-style:italic;">You can think of the situation as follows. At the beginning of each period,
+    you will receive an income from your job, but there is a possibility that you
+    get sick and have to pay for your treatment. The probability of getting ill
+    depends on your personal characteristics. For example, those who exercise more
+    have a lower likelihood of suffering heart disease.</span>
+</p>
+
+<p>
+  <span style="font-weight: bold"
+    >We will show you a (new) profile containing {{ C.no_char }} different
+    characteristics.
+  </span>
+  After you learn about your characteristics, you have to make <span style="font-weight: bold;">two</span> decisions:
+  <ol>
+    <li>We would like you to enter an estimate of your risk</li>
+    <li>You have to chose whether to buy an insurance which will cover the entire costs of
+        treatment (the losses you suffered).</li>
+  </ol>
+</p>
+
+<p>
+  We will give you more details on these decisions on the corresponding pages of
+  the experiment.
+</p>
+
+{{ endif }} {{ next_button }} {{ endblock }}

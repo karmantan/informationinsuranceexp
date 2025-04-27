@@ -1,0 +1,288 @@
+{{ block title }} {{ if lang == 'de' }}Zahlungsbereitschaft{{ else }}Willingness
+to Pay{{ endif }} {{ endblock }} {{ block content }}
+
+<style>
+  .mgslider-wrapper {
+    border-spacing: 10px;
+  }
+  .mgslider-limit {
+    width: 10%;
+    min-width: 75px;
+    height: 40px;
+    margin: 100px;
+    text-align: center;
+    background: #eee;
+    border: 1px solid #888;
+  }
+  .mgslider-limit,
+  .mgslider-value {
+    font-variant-numeric: tabular-nums;
+  }
+  .mgslider-before {
+    height: 16px;
+    width: 100%;
+    background: #1e5bff;
+  }
+  body {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    font-size: 25px;
+  }
+</style>
+
+<script>
+  var mgsliders = Array();
+
+  mgsliders.lookup = function (which) {
+    for (var j = 0; j < mgsliders.length; j++) {
+      if (mgsliders[j].field == which) {
+        return mgsliders[j].obj;
+      }
+    }
+
+    return undefined;
+  };
+
+  function mgslider(field, min, max, step, text) {
+    this.field = field;
+    this.min = parseFloat(min);
+    this.max = parseFloat(max);
+    this.step = parseFloat(step);
+    this.digits = this.suggest_digits(step);
+
+    this.prefix = "mgslider_yF5sTZLy";
+    this.textDescription = text.toString();
+
+    mgsliders.push({ field: field, obj: this });
+  }
+
+  mgslider.prototype.fzero = function (s) {
+    for (var c = s.length - 1; c >= 0; c--) {
+      if (s[c] != "0") {
+        return c;
+      }
+    }
+
+    return 0;
+  };
+
+  mgslider.prototype.suggest_digits = function (x) {
+    x = x.toFixed(10);
+    return this.fzero(x) - x.search(/\./);
+  };
+
+  mgslider.prototype.f2s = function (val, detect) {
+    if (detect) {
+      return val.toFixed(this.suggest_digits(val)).replace("-", "&ndash;");
+    }
+    return val.toFixed(this.digits).replace("-", "&ndash;");
+  };
+
+  mgslider.prototype.id = function (id_) {
+    if (id_ === undefined) {
+      id_ = "";
+    }
+
+    return this.prefix + "_" + this.field + "_" + id_;
+  };
+
+  mgslider.prototype.markup = function () {
+    return (
+      "\
+            <table id='" +
+      this.id("wrapper") +
+      "' class='mgslider-wrapper' border='0'>\
+                <tr>\
+                    <td class='mgslider-limit'>" +
+      this.f2s(this.min, true) +
+      "</td>\
+                    <td width='90%'>\
+                        <div id='" +
+      this.id("before") +
+      "' class='mgslider-before' onclick='mgsliders.lookup(\"" +
+      this.field +
+      "\").reveal(event)'></div>\
+                        <input type='range' id='" +
+      this.id() +
+      "' min='" +
+      this.min +
+      "' max='" +
+      this.max +
+      "' step='" +
+      this.step +
+      "' value='' class='mgslider form-range' oninput='mgsliders.lookup(\"" +
+      this.field +
+      "\").change()' onchange='mgsliders.lookup(\"" +
+      this.field +
+      "\").change()'>\
+                    </td>\
+                    <td class='mgslider-limit'>" +
+      this.f2s(this.max, true) +
+      "</td>\
+                </tr>\
+                <tr class='mgslider-feedback'>\
+                    <td id='" +
+      this.id("show") +
+      "' class='mgslider-show' colspan='3'><i> " +
+      this.textDescription +
+      "</i>: <b><span id='" +
+      this.id("cur") +
+      "' class='mgslider-value'></span></b></td>\
+                </tr>\
+            </table>\
+            \
+            <input type='hidden' id='" +
+      this.id("input") +
+      "' name='" +
+      this.field +
+      "' value='' /> " +
+      "p"
+    );
+  };
+
+  mgslider.prototype.hide = function () {
+    document.getElementById(this.id()).style.display = "none";
+    document.getElementById(this.id("show")).style.visibility = "hidden";
+    document.getElementById(this.id("show")).style.textAlign = "center";
+    document.getElementById(this.id("before")).style.display = "block";
+  };
+
+  mgslider.prototype.print = function (el) {
+    el.innerHTML += this.markup();
+    this.hide();
+  };
+
+  mgslider.prototype.value = function () {
+    return parseFloat(document.getElementById(this.id()).value);
+  };
+
+  mgslider.prototype.change = function () {
+    document.getElementById(this.id("cur")).innerHTML = this.f2s(
+      this.value(),
+      false
+    );
+    document.getElementById(this.id("input")).value = this.value();
+  };
+
+  mgslider.prototype.reveal = function (event) {
+    var now;
+
+    if (event !== undefined && typeof event.offsetX !== undefined) {
+      var max = parseInt(
+        getComputedStyle(
+          document.getElementById(this.id("before"))
+        ).width.replace("px", "")
+      );
+      var cur = event.offsetX;
+
+      now = (cur / max) * (this.max - this.min) + this.min;
+    } else {
+      now = this.min + Math.random() * (this.max - this.min);
+    }
+
+    now = Math.round(now / this.step) * this.step;
+
+    document.getElementById(this.id()).style.display = "block";
+    document.getElementById(this.id("before")).style.display = "none";
+    document.getElementById(this.id("show")).style.visibility = "visible";
+
+    document.getElementById(this.id()).value = now;
+    this.change();
+  };
+</script>
+
+{{ if lang == 'de' }} Sie glauben, dass die Wahrscheinlichkeit, einen Verlust zu
+erleiden, beträgt ist:
+<span style="font-weight: bold"> {{ player.belief }}% </span> <br /><br />
+
+Sie haben jetzt die Möglichkeit, sich gegen Ihren Schaden zu versichern. Die
+Versicherung erstattet Ihnen den Schaden vollständig. Im Folgenden erklären wir
+Ihnen, wie Sie in diesem Experiment eine Versicherung kaufen können.
+<br /><br />
+
+Sie kennen den tatsächlichen Preis der Versicherung momentan noch nicht. Sie
+haben allerdings die Möglichkeit, den höchsten Preis, den Sie bezahlen würden
+einzugeben. Falls der tatsächliche Preis Ihren Maximalpreis nicht übersteigt,
+kaufen Sie die Versicherung automatisch zum tatsächlichen Preis. Wenn der
+tatsächliche Preis jedoch höher ist, können Sie die Versicherung nicht mehr
+kaufen. <br /><br />
+
+Falls Sie die Versicherung auf keinen Fall kaufen möchten, können Sie den
+Schieberegler einfach auf 0 stellen. Wenn Sie die Versicherung jedoch
+möglicherweise kaufen möchten,
+<span style="font-weight: bold"
+  >ist es am Besten, wenn Sie Ihre wahre Maximale Zahlungsbereitschaft
+  angeben</span
+>. <br /><br />
+
+Technisch gesehen ist der tatsächliche Preis eine Zufallszahl zwischen 0 und {{
+player.loss_amount }} Punkten, wobei alle Preise in diesem Intervall gleich
+wahrscheilich sein. Beachten Sie bitte, dass der Maximalpreis, den Sie wählen,
+keinen Einfluss auf den tatsächlichen Preis hat.<br /><br />
+
+Was sind Sie bereit, maximal zu zahlen, um sich gegen den Verlust zu versichern?
+<br /><br />
+{{ else }} Your belief of the probability of getting suffering a loss is:
+<span style="font-weight: bold"> {{ player.belief }}% </span> <br />
+<br />
+
+You now have the opportunity to purchase insurance against your loss. The
+insurance will fully reimburse your loss. In what follows, we will explain how
+to buy insurance in this experiment.<br />
+<br />
+
+Currently, you do not know the actual price of the insurance, but you have the
+possibility to enter the maximum number of points you are prepared to pay for
+insurance. If the actual price is less than or equal to the maximum number of
+points you have entered, you will automatically buy the insurance at the actual
+price. If the actual price exceeds your willingness to pay, you will not be able
+to buy the insurance. <br /><br />
+Hence, if you definitely do not want to purchase insurance, simply move the
+slider to 0. However, if you would like to buy the insurance,
+<span style="font-weight: bold"
+  >it is in your best interest to enter your true maximum willingness to
+  pay</span
+>.<br /><br />
+
+Technically, the actual price is a random number between 0 and {{
+player.loss_amount }} points and all prices in that interval are equally likely.
+Note that your choice of the maximum number of points does not affect the actual
+price.<br /><br />
+
+What is the maximum number of points you are prepared to pay to insure yourself
+against the loss?<br />
+
+{{ endif }}
+<p>
+  <span style="font-style: italic; font-size: 12pt"
+    >{{ if lang == 'de' }}Klicken Sie auf den blauen Balken, um den
+    Schieberegler einzublenden.{{ else }}Click on the blue bar to reveal the
+    slider.{{ endif }}</span
+  >
+</p>
+<div id="sliders_here2"></div>
+
+<script>
+  var maxAmount = "{{ player.loss_amount }}";
+  $(document).ready(function (event) {
+    slider2 = new mgslider(
+      "WTP",
+      0,
+      maxAmount,
+      100,
+      "{{ if lang == 'de' }}Ihre Bereitschaft, für die Versicherung zu zahlen (Punkte){{ else }}Your willingness to pay for insurance (points){{ endif }}"
+    );
+    slider2.print(document.getElementById("sliders_here2"));
+  });
+</script>
+
+{{ formfield_errors 'WTP' }} {{ next_button }}
+<script>
+  document.getElementsByClassName(
+    "otree-form-errors alert alert-danger"
+  )[0].innerHTML =
+    "{{ if lang == 'de' }}Bitte beheben Sie die Fehler.{{ else }}Please fix the errors.{{ endif }}";
+  document.getElementsByClassName("form-control-errors")[0].innerHTML =
+    "{{ if lang == 'de' }}Dieses Feld ist erforderlich.{{ else }}This field is required.{{ endif }}";
+</script>
+{{ endblock }}

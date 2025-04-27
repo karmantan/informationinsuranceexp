@@ -1,0 +1,2105 @@
+{{ block title }} {{ if lang == 'de' }}Risikoeinschätzung{{ else }}Belief{{
+endif }} {{ endblock }} {{ block content }} {{ include C.template }}
+
+<style>
+  body {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    font-size: 25px;
+  }
+  table {
+    margin-bottom: 20px;
+  }
+
+  .mgslider-wrapper {
+    border-spacing: 10px;
+  }
+
+  .mgslider-limit {
+    width: 10%;
+    min-width: 75px;
+    height: 40px;
+    margin: 100px;
+    text-align: center;
+    background: #eee;
+    border: 1px solid #888;
+  }
+  .mgslider-limit,
+  .mgslider-value {
+    font-variant-numeric: tabular-nums;
+  }
+  .mgslider-before {
+    height: 16px;
+    width: 100%;
+    background: #1e5bff;
+  }
+  .aansbutton {
+    width: 150px;
+    padding-left: 10px;
+
+    line-height: 40px;
+    background: #eceded;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    transition: background-color 0.1s ease-in;
+  }
+
+  .aansbutton:hover {
+    background-color: #bfe5ff;
+  }
+  .aansbutton:active {
+    background-color: #2d546f;
+    color: #ffffff;
+  }
+  .aansselected {
+    background-color: #226fa3;
+    color: #ffffff;
+  }
+  .aansselected:hover {
+    background-color: #4d99cc;
+  }
+
+  .bansbutton {
+    width: 150px;
+    padding-left: 10px;
+
+    line-height: 40px;
+    background: #eceded;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    transition: background-color 0.1s ease-in;
+  }
+
+  .checkAnswerbutton {
+    cursor: pointer;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    text-decoration: underline;
+    color: blue;
+  }
+
+  .checkAnswerbutton:hover {
+    background-color: #1e5bff;
+    color: white;
+    cursor: pointer;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    text-decoration: underline;
+  }
+
+  .bansbutton:hover {
+    background-color: #bfe5ff;
+  }
+  .bansbutton:active {
+    background-color: #2d546f;
+    color: #ffffff;
+  }
+  .bansselected {
+    background-color: #226fa3;
+    color: #ffffff;
+  }
+  .bansselected:hover {
+    background-color: #4d99cc;
+  }
+
+  .checkifEmptybutton {
+    cursor: pointer;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    text-decoration: underline;
+    color: blue;
+  }
+
+  .checkifEmptybutton:hover {
+    cursor: pointer;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    text-decoration: underline;
+    color: white;
+    background-color: #1e5bff;
+  }
+
+  .goodrange-wrap {
+    position: relative;
+    width: 100%;
+    padding: 1.5em 0.25em; /*  Giving more room for hover  */
+    max-width: 400px;
+  }
+
+  /* Custom Bar */
+  .goodrange-wrap::before {
+    content: "";
+    background: linear-gradient(to right, yellow, lightgreen, green);
+    width: 100%;
+    height: 8px;
+    display: block;
+    position: absolute;
+    border-radius: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: height 100ms ease;
+  }
+
+  .badrange-wrap {
+    position: relative;
+    width: 100%;
+    padding: 1.5em 0.25em; /*  Giving more room for hover  */
+    max-width: 400px;
+  }
+
+  /* Custom Bar */
+  .badrange-wrap::before {
+    content: "";
+    background: linear-gradient(to right, yellow, orange, red);
+    width: 100%;
+    height: 8px;
+    display: block;
+    position: absolute;
+    border-radius: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: height 100ms ease;
+  }
+
+  li::marker {
+    content: "▶";
+    color: lightslategray;
+  }
+  /* .range-wrap:hover::before {
+        height: 10px;
+      } */
+
+  /*  Hide Original */
+  .range {
+    width: 100%;
+    cursor: pointer;
+    opacity: 0;
+  }
+
+  .bubble {
+    background: white;
+    border: 3px solid #cbd2da;
+    position: absolute;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Remove pointer events on Bubble so user can click on the actual thumb beaneath it!  */
+    color: black;
+    display: grid;
+    font-size: 10pt;
+    place-items: center; /*  Place the number on the center  */
+    font-weight: bold;
+    transition: color 100ms ease, transform 100ms ease;
+    user-select: none; /*  Prevent Accidentally highlighting the number while sliding the cursor  */
+  }
+</style>
+
+{{ if player.treatment == "fullinfo" }}
+
+<table>
+  <tr>
+    <td>
+      <div class="button-28red" data-id="char1">1</div>
+      <div
+        class="effectbox"
+        style="box-shadow: red 0px 1px 2px 0px, red 0px 1px 3px 1px"
+        id="char1"
+      >
+        <ul>
+          <div style="text-align: center">
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var1 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="badrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="1"
+                      value="{{ var1 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid red"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var1 == 1 }} {{ else }} &nbsp; 1 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 1:
+            <span style="font-weight: bold">{{ var1 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 1 lead to an increase in risk.
+          </li>
+        </ul>
+      </div>
+    </td>
+    <td>
+      <div class="button-28red" data-id="char2">2</div>
+      <div
+        class="effectbox"
+        style="box-shadow: red 0px 1px 2px 0px, red 0px 1px 3px 1px"
+        id="char2"
+      >
+        <ul>
+          <div style="text-align: center">
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var2 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="badrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="10"
+                      value="{{ var2 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid red"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var2 == 10 }} {{ else }} &nbsp; 10 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 2:
+            <span style="font-weight: bold">{{ var2|to2 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 2 lead to an increase in risk.
+          </li>
+        </ul>
+      </div>
+    </td>
+    <td>
+      <div class="button-28green" data-id="char3">3</div>
+      <div
+        class="effectbox"
+        style="box-shadow: green 0px 1px 2px 0px, green 0px 1px 3px 1px"
+        id="char3"
+      >
+        <ul>
+          <div>
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var3 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="goodrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="1"
+                      value="{{ var3 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid green"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var3 == 1 }} {{ else }} &nbsp; 1 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 3:
+            <span style="font-weight: bold">{{ var3|to2 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 3 lead to an decrease in risk.
+          </li>
+        </ul>
+      </div>
+    </td>
+    <td>
+      <div class="button-28green" data-id="char4">4</div>
+      <div
+        class="effectbox"
+        style="box-shadow: green 0px 1px 2px 0px, green 0px 1px 3px 1px"
+        id="char4"
+      >
+        <ul>
+          <div>
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var4 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="goodrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="10"
+                      value="{{ var4 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid green"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var4 == 10 }} {{ else }} &nbsp; 10 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 4:
+            <span style="font-weight: bold">{{ var4 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 4 lead to an decrease in risk.
+          </li>
+        </ul>
+      </div>
+    </td>
+    <td>
+      <div class="button-28blue" data-id="char7">Additional Info</div>
+      <div
+        class="effectbox"
+        style="box-shadow: blue 0px 1px 2px 0px, blue 0px 1px 3px 1px"
+        id="char7"
+      >
+        {{ if lang == 'de' }}
+        <span style="font-style: italic; text-decoration: underline"
+          >Ihre Wahrscheinlichkeit, einen Verlust zu erleiden, ist aufgrund
+          Ihrer Merkmale</span
+        >
+        <span
+          style="
+            font-weight: bold;
+            font-style: italic;
+            text-decoration: underline;
+          "
+          >{( prob|to2 }}</span
+        >. {{else }}
+        <span style="font-style: italic; text-decoration: underline">Your</span>
+        <span
+          style="
+            font-style: italic;
+            text-decoration: underline;
+            font-weight: bold;
+          "
+        >
+          ACTUAL </span
+        ><span style="font-style: italic; text-decoration: underline"
+          >probability of suffering a loss based on your characteristics
+          is</span
+        >
+        <span
+          style="
+            font-style: italic;
+            font-weight: bold;
+            text-decoration: underline;
+          "
+          >{{prob|to2 }}%</span
+        >. {{ endif }}<br />
+      </div>
+    </td>
+  </tr>
+</table>
+
+{{ elif player.treatment == "varinfo" }}
+
+<table>
+  <tr>
+    <td>
+      <div class="button-28red" data-id="char1">1</div>
+      <div
+        class="effectbox"
+        style="box-shadow: red 0px 1px 2px 0px, red 0px 1px 3px 1px"
+        id="char1"
+      >
+        <ul>
+          <div style="text-align: center">
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var1 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="badrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="1"
+                      value="{{ var1 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid red"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var1 == 1 }} {{ else }} &nbsp; 1 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 1:
+            <span style="font-weight: bold">{{ var1 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 1 lead to an increase in risk.
+          </li>
+          <li>
+            {{ if var1 == 1}}
+            For your value of Characteristic 1,
+            the probability of loss increases by <span style="font-weight: bold">{{ C.var1effect_round1|to2 }} pp </span>
+            from an average of 50%.
+            {{ else }}
+            Your value of Characteristic 1 leads to
+            <span style="font-weight: bold">no change</span> in the probability
+            of loss from an average of 50%.
+            {{ endif }}
+          </li>
+        </ul>
+      </div>
+    </td>
+    <td>
+      <div class="button-28red" data-id="char2">2</div>
+      <div
+        class="effectbox"
+        style="box-shadow: red 0px 1px 2px 0px, red 0px 1px 3px 1px"
+        id="char2"
+      >
+        <ul>
+          <div style="text-align: center">
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var2 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="badrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="10"
+                      value="{{ var2 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid red"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var2 == 10 }} {{ else }} &nbsp; 10 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 2:
+            <span style="font-weight: bold">{{ var2|to2 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 2 lead to an increase in risk.
+          </li>
+          <li>
+            {{ if var2 >= 0 and var2 <= 2 }}
+            For values of Characteristic 2 between 0 and 2, the probability of loss
+            <span style="font-weight: bold">increases by {{ C.var2effect_0|to2 }} to {{ C.var2effect_2|to2 }} pp</span> from the average of 50%. 
+            {{ elif var2 > 2 and var2 <= 4 }}
+            For values of
+            Characteristic 2 between 2 and 4, the probability of loss
+            <span style="font-weight: bold">increases by {{ C.var2effect_2|to2 }} to {{ C.var2effect_4|to2 }} pp</span> from
+            the average of 50%. 
+            {{ elif var2 > 4 and var2 <= 6 }}
+            For values of
+            Characteristic 2 between 4 and 6, the probability of loss
+            <span style="font-weight: bold">increases by {{ C.var2effect_4|to2 }} to {{ C.var2effect_6|to2 }} pp</span> from
+            the average of 50%. 
+            {{ elif var2 > 6 and var2 <= 8 }}
+            For values of
+            Characteristic 2 between 6 and 8, the probability of loss
+            <span style="font-weight: bold">increases by {{ C.var2effect_6|to2 }} to {{ C.var2effect_8|to2 }} pp</span> from
+            the average of 50%. 
+            {{ else }} 
+            For values of Characteristic 2 between 8 and 10, the
+            probability of loss
+            <span style="font-weight: bold">increases by {{ C.var2effect_8|to2 }} to {{ C.var2effect_10|to2 }} pp</span> from
+            the average of 50%. 
+            {{ endif }} 
+          </li>
+        </ul>
+      </div>
+    </td>
+    <td>
+      <div class="button-28red" data-id="char3">3</div>
+      <div
+        class="effectbox"
+        style="box-shadow: green 0px 1px 2px 0px, green 0px 1px 3px 1px"
+        id="char3"
+      >
+        <ul>
+          <div>
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var3 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="goodrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="1"
+                      value="{{ var3 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid green"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var3 == 1 }} {{ else }} &nbsp; 1 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 3:
+            <span style="font-weight: bold">{{ var3|to2 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 3 lead to an decrease in risk.
+          </li>
+          <li>
+            {{ if var3 == 1}}
+            For your value of Characteristic 3,
+            the probability of loss decreases by <span style="font-weight: bold">{{ C.var3effect_round1|to2 }} pp </span>
+            from an average of 50%.
+            {{ else }}
+            Your value of Characteristic 3 leads to
+            <span style="font-weight: bold">no change</span> in the probability
+            of loss from an average of 50%.
+            {{ endif }}
+          </li>
+        </ul>
+      </div>
+    </td>
+    <td>
+      <div class="button-28green" data-id="char4">4</div>
+      <div
+        class="effectbox"
+        style="box-shadow: green 0px 1px 2px 0px, green 0px 1px 3px 1px"
+        id="char4"
+      >
+        <ul>
+          <div>
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var4 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="goodrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="10"
+                      value="{{ var4 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid green"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var4 == 10 }} {{ else }} &nbsp; 10 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 4:
+            <span style="font-weight: bold">{{ var4 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 4 lead to an decrease in risk.
+          </li>
+          <li>
+            {{ if var4 >= 0 and var4 <= 2 }}
+            For values of Characteristic 4 between 0 and 2, the probability of loss
+            <span style="font-weight: bold">increases by {{ C.var4effect_0|to2 }} to {{ C.var4effect_2|to2 }} pp</span> from the average of 50%. 
+            {{ elif var4 > 2 and var4 <= 4 }}
+            For values of
+            Characteristic 4 between 2 and 4, the probability of loss
+            <span style="font-weight: bold">increases by {{ C.var4effect_2|to2 }} to {{ C.var4effect_4|to2 }} pp</span> from
+            the average of 50%. 
+            {{ elif var4 > 4 and var4 <= 6 }}
+            For values of
+            Characteristic 4 between 4 and 6, the probability of loss
+            <span style="font-weight: bold">increases by {{ C.var4effect_4|to2 }} to {{ C.var4effect_6|to2 }} pp</span> from
+            the average of 50%. 
+            {{ elif var4 > 6 and var4 <= 8 }}
+            For values of
+            Characteristic 4 between 6 and 8, the probability of loss
+            <span style="font-weight: bold">increases by {{ C.var4effect_6|to2 }} to {{ C.var4effect_8|to2 }} pp</span> from
+            the average of 50%. 
+            {{ else }} 
+            For values of Characteristic 4 between 8 and 10, the
+            probability of loss
+            <span style="font-weight: bold">increases by {{ C.var4effect_8|to2 }} to {{ C.var4effect_10|to2 }} pp</span> from
+            the average of 50%. 
+            {{ endif }} 
+          </li>
+        </ul>
+      </div>
+    </td>
+  </tr>
+</table>
+
+{{ elif player.treatment == "neginfo" }}
+
+<table>
+  <tr>
+    <td>
+      <div class="button-28red" data-id="char1">1</div>
+      <div
+        class="effectbox"
+        style="box-shadow: red 0px 1px 2px 0px, red 0px 1px 3px 1px"
+        id="char1"
+      >
+        <ul>
+          <div style="text-align: center">
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var1 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="badrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="1"
+                      value="{{ var1 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid red"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var1 == 1 }} {{ else }} &nbsp; 1 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 1:
+            <span style="font-weight: bold">{{ var1 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 1 lead to an increase in risk.
+          </li>
+          <li>
+            {{ if var1 == 1}}
+            For your value of Characteristic 1,
+            the probability of loss increases by <span style="font-weight: bold">{{ C.var1effect_round1|to2 }} pp </span>
+            from an average of 50%.
+            {{ else }}
+            Your value of Characteristic 1 leads to
+            <span style="font-weight: bold">no change</span> in the probability
+            of loss from an average of 50%.
+            {{ endif }}
+          </li>
+        </ul>
+      </div>
+    </td>
+    <td>
+      <div class="button-28red" data-id="char2">2</div>
+      <div
+        class="effectbox"
+        style="box-shadow: red 0px 1px 2px 0px, red 0px 1px 3px 1px"
+        id="char2"
+      >
+        <ul>
+          <div style="text-align: center">
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var2 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="badrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="10"
+                      value="{{ var2 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid red"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var2 == 10 }} {{ else }} &nbsp; 10 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 2:
+            <span style="font-weight: bold">{{ var2|to2 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 2 lead to an increase in risk.
+          </li>
+          <li>
+            {{ if var2 >= 0 and var2 <= 2 }}
+            For values of Characteristic 2 between 0 and 2, the probability of loss
+            <span style="font-weight: bold">increases by {{ C.var2effect_0|to2 }} to {{ C.var2effect_2|to2 }} pp</span> from the average of 50%. 
+            {{ elif var2 > 2 and var2 <= 4 }}
+            For values of
+            Characteristic 2 between 2 and 4, the probability of loss
+            <span style="font-weight: bold">increases by {{ C.var2effect_2|to2 }} to {{ C.var2effect_4|to2 }} pp</span> from
+            the average of 50%. 
+            {{ elif var2 > 4 and var2 <= 6 }}
+            For values of
+            Characteristic 2 between 4 and 6, the probability of loss
+            <span style="font-weight: bold">increases by {{ C.var2effect_4|to2 }} to {{ C.var2effect_6|to2 }} pp</span> from
+            the average of 50%. 
+            {{ elif var2 > 6 and var2 <= 8 }}
+            For values of
+            Characteristic 2 between 6 and 8, the probability of loss
+            <span style="font-weight: bold">increases by {{ C.var2effect_6|to2 }} to {{ C.var2effect_8|to2 }} pp</span> from
+            the average of 50%. 
+            {{ else }} 
+            For values of Characteristic 2 between 8 and 10, the
+            probability of loss
+            <span style="font-weight: bold">increases by {{ C.var2effect_8|to2 }} to {{ C.var2effect_10|to2 }} pp</span> from
+            the average of 50%. 
+            {{ endif }} 
+          </li>
+        </ul>
+      </div>
+    </td>
+    <td>
+      <div class="button-28red" data-id="char3">3</div>
+      <div
+        class="effectbox"
+        style="box-shadow: green 0px 1px 2px 0px, green 0px 1px 3px 1px"
+        id="char3"
+      >
+        <ul>
+          <div>
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var3 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="goodrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="1"
+                      value="{{ var3 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid green"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var3 == 1 }} {{ else }} &nbsp; 1 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 3:
+            <span style="font-weight: bold">{{ var3|to2 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 3 lead to an decrease in risk.
+          </li>
+        </ul>
+      </div>
+    </td>
+    <td>
+      <div class="button-28green" data-id="char4">4</div>
+      <div
+        class="effectbox"
+        style="box-shadow: green 0px 1px 2px 0px, green 0px 1px 3px 1px"
+        id="char4"
+      >
+        <ul>
+          <div>
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var4 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="goodrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="10"
+                      value="{{ var4 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid green"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var4 == 10 }} {{ else }} &nbsp; 10 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 4:
+            <span style="font-weight: bold">{{ var4 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 4 lead to an decrease in risk.
+          </li>
+        </ul>
+      </div>
+    </td>
+  </tr>
+</table>
+
+
+{{ elif player.treatment == "posinfo" }}
+
+<table>
+  <tr>
+    <td>
+      <div class="button-28red" data-id="char1">1</div>
+      <div
+        class="effectbox"
+        style="box-shadow: red 0px 1px 2px 0px, red 0px 1px 3px 1px"
+        id="char1"
+      >
+        <ul>
+          <div style="text-align: center">
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var1 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="badrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="1"
+                      value="{{ var1 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid red"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var1 == 1 }} {{ else }} &nbsp; 1 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 1:
+            <span style="font-weight: bold">{{ var1 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 1 lead to an increase in risk.
+          </li>
+        </ul>
+      </div>
+    </td>
+    <td>
+      <div class="button-28red" data-id="char2">2</div>
+      <div
+        class="effectbox"
+        style="box-shadow: red 0px 1px 2px 0px, red 0px 1px 3px 1px"
+        id="char2"
+      >
+        <ul>
+          <div style="text-align: center">
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var2 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="badrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="10"
+                      value="{{ var2 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid red"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var2 == 10 }} {{ else }} &nbsp; 10 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 2:
+            <span style="font-weight: bold">{{ var2|to2 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 2 lead to an increase in risk.
+          </li>
+        </ul>
+      </div>
+    </td>
+    <td>
+      <div class="button-28red" data-id="char3">3</div>
+      <div
+        class="effectbox"
+        style="box-shadow: green 0px 1px 2px 0px, green 0px 1px 3px 1px"
+        id="char3"
+      >
+        <ul>
+          <div>
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var3 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="goodrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="1"
+                      value="{{ var3 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid green"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var3 == 1 }} {{ else }} &nbsp; 1 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 3:
+            <span style="font-weight: bold">{{ var3|to2 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 3 lead to an decrease in risk.
+          </li>
+          <li>
+            {{ if var3 == 1}}
+            For your value of Characteristic 3,
+            the probability of loss decreases by <span style="font-weight: bold">{{ C.var3effect_round1|to2 }} pp </span>
+            from an average of 50%.
+            {{ else }}
+            Your value of Characteristic 3 leads to
+            <span style="font-weight: bold">no change</span> in the probability
+            of loss from an average of 50%.
+            {{ endif }}
+          </li>
+        </ul>
+      </div>
+    </td>
+    <td>
+      <div class="button-28green" data-id="char4">4</div>
+      <div
+        class="effectbox"
+        style="box-shadow: green 0px 1px 2px 0px, green 0px 1px 3px 1px"
+        id="char4"
+      >
+        <ul>
+          <div>
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var4 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="goodrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="10"
+                      value="{{ var4 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid green"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var4 == 10 }} {{ else }} &nbsp; 10 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 4:
+            <span style="font-weight: bold">{{ var4 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 4 lead to an decrease in risk.
+          </li>
+          <li>
+            {{ if var4 >= 0 and var4 <= 2 }}
+            For values of Characteristic 4 between 0 and 2, the probability of loss
+            <span style="font-weight: bold">increases by {{ C.var4effect_0|to2 }} to {{ C.var4effect_2|to2 }} pp</span> from the average of 50%. 
+            {{ elif var4 > 2 and var4 <= 4 }}
+            For values of
+            Characteristic 4 between 2 and 4, the probability of loss
+            <span style="font-weight: bold">increases by {{ C.var4effect_2|to2 }} to {{ C.var4effect_4|to2 }} pp</span> from
+            the average of 50%. 
+            {{ elif var4 > 4 and var4 <= 6 }}
+            For values of
+            Characteristic 4 between 4 and 6, the probability of loss
+            <span style="font-weight: bold">increases by {{ C.var4effect_4|to2 }} to {{ C.var4effect_6|to2 }} pp</span> from
+            the average of 50%. 
+            {{ elif var4 > 6 and var4 <= 8 }}
+            For values of
+            Characteristic 4 between 6 and 8, the probability of loss
+            <span style="font-weight: bold">increases by {{ C.var4effect_6|to2 }} to {{ C.var4effect_8|to2 }} pp</span> from
+            the average of 50%. 
+            {{ else }} 
+            For values of Characteristic 4 between 8 and 10, the
+            probability of loss
+            <span style="font-weight: bold">increases by {{ C.var4effect_8|to2 }} to {{ C.var4effect_10|to2 }} pp</span> from
+            the average of 50%. 
+            {{ endif }} 
+          </li>
+        </ul>
+      </div>
+    </td>
+  </tr>
+</table>
+{{ else }}
+
+<table>
+  <tr>
+    <td>
+      <div class="button-28red" data-id="char1">1</div>
+      <div
+        class="effectbox"
+        style="box-shadow: red 0px 1px 2px 0px, red 0px 1px 3px 1px"
+        id="char1"
+      >
+        <ul>
+          <div style="text-align: center">
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var1 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="badrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="1"
+                      value="{{ var1 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid red"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var1 == 1 }} {{ else }} &nbsp; 1 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 1:
+            <span style="font-weight: bold">{{ var1 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 1 lead to an increase in risk.
+          </li>
+        </ul>
+      </div>
+    </td>
+    <td>
+      <div class="button-28red" data-id="char2">2</div>
+      <div
+        class="effectbox"
+        style="box-shadow: red 0px 1px 2px 0px, red 0px 1px 3px 1px"
+        id="char2"
+      >
+        <ul>
+          <div style="text-align: center">
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var2 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="badrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="10"
+                      value="{{ var2 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid red"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var2 == 10 }} {{ else }} &nbsp; 10 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 2:
+            <span style="font-weight: bold">{{ var2|to2 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 2 lead to an increase in risk.
+          </li>
+        </ul>
+      </div>
+    </td>
+    <td>
+      <div class="button-28green" data-id="char3">3</div>
+      <div
+        class="effectbox"
+        style="box-shadow: green 0px 1px 2px 0px, green 0px 1px 3px 1px"
+        id="char3"
+      >
+        <ul>
+          <div>
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var3 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="goodrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="1"
+                      value="{{ var3 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid green"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var3 == 1 }} {{ else }} &nbsp; 1 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 3:
+            <span style="font-weight: bold">{{ var3|to2 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 3 lead to an decrease in risk.
+          </li>
+        </ul>
+      </div>
+    </td>
+    <td>
+      <div class="button-28green" data-id="char4">4</div>
+      <div
+        class="effectbox"
+        style="box-shadow: green 0px 1px 2px 0px, green 0px 1px 3px 1px"
+        id="char4"
+      >
+        <ul>
+          <div>
+            <table style="font-size: 8pt">
+              <tr>
+                <td>&nbsp; &nbsp; &nbsp;</td>
+                <td>{{ if var4 == 0 }} {{ else }} 0 &nbsp; {{ endif }}</td>
+                <td>
+                  <div class="goodrange-wrap">
+                    <input
+                      type="range"
+                      class="range"
+                      min="0"
+                      max="10"
+                      value="{{ var4 }}"
+                    />
+                    <output
+                      class="bubble"
+                      style="border: 5px solid green"
+                    ></output>
+                  </div>
+                </td>
+                <td>{{ if var4 == 10 }} {{ else }} &nbsp; 10 {{ endif }}</td>
+              </tr>
+            </table>
+          </div>
+          <li>
+            Your value of Characteristic 4:
+            <span style="font-weight: bold">{{ var4 }}</span>
+          </li>
+          <li>
+            Larger values of Characteristic 4 lead to an decrease in risk.
+          </li>
+        </ul>
+      </div>
+    </td>
+    <td>
+      <div class="button-28blue" data-id="char7">Additional Info</div>
+      <div
+        class="effectbox"
+        style="box-shadow: blue 0px 1px 2px 0px, blue 0px 1px 3px 1px"
+        id="char7"
+      >
+        {{ if lang == 'de' }}
+        <span style="font-style: italic">Das </span
+        ><span style="font-style: italic; text-decoration: underline"
+          >durchschnittliche</span
+        ><span style="font-style: italic"
+          >Risiko, einen Verlust zu erleiden, liegt bei den Teilnehmern
+          bei</span
+        ><span style="font-style: italic; font-weight: bold">50 %</span>
+        <span style="font-style: italic"
+          >. Bitte beachten Sie, dass Sie Ihr persönliches Risiko nicht
+          kennen.</span
+        >
+        {{ else}}
+        <span style="font-style: italic">The</span>
+        <span style="font-style: italic; text-decoration: underline"
+          >average</span
+        ><span style="font-style: italic">
+          risk of suffering a loss among the participants is</span
+        ><span style="font-style: italic; font-weight: bold"> 50%</span>.
+        <span style="font-style: italic; text-decoration: underline"
+          >Please note that you do not know your personal risk. </span
+        >{{ endif }}
+      </div>
+    </td>
+  </tr>
+</table>
+
+{{ endif }} {{ if player.round_number == 1 }}
+<div class="testingquestions">
+  {{ if lang == 'de' }}
+  <div id="checkprompts">
+    <span style="font-style: italic; font-size: 16pt"
+      >Um zu überprüfen, ob Sie verstehen, wie sich die Merkmale auf Ihr Risiko
+      auswirken, beantworten Sie bitte die folgenden Fragen. Sobald Sie die
+      Frage richtig beantwortet haben, wird eine neue Frage angezeigt. Es gibt
+      drei Fragen.</span
+    >
+  </div>
+  {{ else }}
+  <div id="checkprompts">
+    <span style="font-style: italic; font-size: 16pt"
+      >To check if you understand how the characteristics affect your risk,
+      please answer the following questions. Once you answer the question
+      correctly, a new question will appear. There are three questions.</span
+    >
+  </div>
+  {{ endif }}
+  <div class="tablerow" quesno="ques1" id="ques1container"></div>
+  <table>
+    <tr class="tablerows" quesno="ques1" id="ques1q">
+      {{ if lang == 'de' }}
+      <p class="question" data-id="ques1">
+        A) Wenn Ihr Wert für <span style="font-weight: bold">Merkmal 1</span>
+        <span style="font-weight: bold; color: blue">1 </span> ist, ist Ihr
+        Verlustrisiko dann <span style="font-style: italic">höher </span> oder
+        <span style="font-style: italic">niedriger</span> als bei einem Wert von
+        <span style="font-weight: bold; color: blue"> 0</span> für
+        <span style="font-weight: bold">Merkmal 1</span>?
+      </p>
+      {{ else}}
+      <p class="question" data-id="ques1">
+        A) If your value of
+        <span style="font-weight: bold">Characteristic 1</span> is
+        <span style="font-weight: bold; color: blue">1</span>, is your risk of
+        loss <span style="font-style: italic"> higher</span> or
+        <span style="font-style: italic"> lower</span> compared to having a
+        value of <span style="font-weight: bold; color: blue">0</span> for
+        <span style="font-weight: bold">Characteristic 1</span>?
+      </p>
+      {{ endif }}
+    </tr>
+    <tr class="tablerows" quesno="ques1" id="ques1a">
+      <td>
+        <div class="aansbutton" id="correct" quesno="ques1">
+          {{ if lang == 'de' }}höher{{ else }}higher{{ endif }}
+        </div>
+      </td>
+      <td>
+        <div class="aansbutton" id="wrong" quesno="ques1">
+          {{ if lang == 'de' }}niedriger{{ else }}lower{{ endif }}
+        </div>
+      </td>
+      <td><span style="color: white">********</span></td>
+      <td>
+        <div
+          class="checkAnswerbutton"
+          id="ques1"
+          onclick="checkAnswer(); hideAndRemoveDiv(); setquesAEltonull()"
+        >
+          {{ if lang == 'de' }}Prüfen{{ else }}Check{{ endif }}
+        </div>
+      </td>
+      <td><span style="color: white">********</span></td>
+      <td>
+        <div id="error"></div>
+      </td>
+    </tr>
+  </table>
+  <div
+    class="tablerow"
+    quesno="ques2"
+    id="ques2container"
+    style="display: none"
+  >
+    <table>
+      <tr class="tablerows" quesno="ques2" id="ques2q">
+        {{ if lang == 'de' }}
+        <p class="question" data-id="ques2">
+          B) Angenommen, Ihr Wert für
+          <span style="font-weight: bold">Merkmal 2</span> liegt zwischen
+          <span style="font-weight: bold; color: blue">2 </span> und
+          <span style="font-weight: bold; color: blue">4 </span>. Nehmen Sie
+          an, dass die Wahrscheinlichkeit, einen Verlust zu erleiden, für eine
+          Person, deren Wert für
+          <span style="font-weight: bold">Merkmal 2</span> zwischen 2 und 4
+          liegt, um 0 bis 10 pp höher ist als die (bevölkerungsbezogene)
+          Durchschnittswahrscheinlichkeit von 50%. Wie hoch ist Ihr
+          <span style="font-style: italic"> maximale</span> Wahrscheinlichkeit,
+          einen Verlust zu erleiden?
+        </p>
+        {{ else}}
+        <p class="question" data-id="ques2">
+          B) Suppose your value of
+          <span style="font-weight: bold">Characteristic 2</span> is between
+          <span style="font-weight: bold; color: blue">2 </span> and
+          <span style="font-weight: bold; color: blue">4 </span>. Assume that
+          the probability of suffering a loss is 0 to 10 pp higher than the
+          (population) average probability of 50% for a person whose value of
+          <span style="font-weight: bold">Characteristic 2</span>
+          lies between 2 and 4. What is your
+          <span style="font-style: italic">maximum</span> probability of
+          suffering a loss?
+        </p>
+        {{ endif }}
+      </tr>
+      <tr class="tablerows" quesno="ques2" id="ques2a">
+        <td>
+          <div class="aansbutton" id="wrong" quesno="ques2">10%</div>
+        </td>
+        <td>
+          <div class="aansbutton" id="correct" quesno="ques2">60%</div>
+        </td>
+        <td><span style="color: white">********</span></td>
+        <td>
+          <div
+            class="checkAnswerbutton"
+            id="ques2"
+            onclick="checkAnswer(); hideAndRemoveDiv(); setquesAEltonull()"
+          >
+            {{ if lang == 'de' }}Prüfen{{ else }}Check{{ endif }}
+          </div>
+        </td>
+        <td><span style="color: white">********</span></td>
+        <td>
+          <div id="error"></div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div
+    class="tablerow"
+    quesno="ques3"
+    id="ques3container"
+    style="display: none"
+  >
+    <table>
+      <tr class="tablerows" quesno="ques3" id="ques3q">
+        {{ if lang == 'de' }}
+        <p class="question" data-id="ques3">
+          C) Angenommen, Ihr Wert für
+          <span style="font-weight: bold">Merkmal 4</span> liegt zwischen
+          <span style="font-weight: bold; color: blue">5 </span> und
+          <span style="font-weight: bold; color: blue">10 </span>. Nehmen Sie
+          an, dass die Wahrscheinlichkeit, einen Verlust zu erleiden, für eine
+          Person, deren Wert für
+          <span style="font-weight: bold">Merkmal 6</span> zwischen 5 und 10
+          liegt, um 3 bis 20 pp niedriger ist als die (bevölkerungsbezogene)
+          Durchschnittswahrscheinlichkeit von 50%. Wie hoch ist Ihr
+          <span style="font-style: italic"> maximale</span> Wahrscheinlichkeit,
+          einen Verlust zu erleiden?
+        </p>
+        {{ else}}
+        <p class="question" data-id="ques3">
+          C) Suppose your value of
+          <span style="font-weight: bold">Characteristic 4</span> is between
+          <span style="font-weight: bold; color: blue">5 </span> and
+          <span style="font-weight: bold; color: blue">10 </span>. For a person
+          whose <span style="font-weight: bold">Characteristic 4</span> value
+          lie between 5 and 10, assume that the probability of suffering a loss
+          is 3 to 20 pp lower than the average probability of 50%. What is your
+          <span style="font-style: italic">minimum</span> probability of
+          suffering a loss?
+        </p>
+        {{ endif }}
+      </tr>
+      <tr class="tablerows" quesno="ques3" id="ques3a">
+        <td>
+          <div class="aansbutton" id="correct" quesno="ques3">30%</div>
+        </td>
+        <td>
+          <div class="aansbutton" id="wrong" quesno="ques3">47%</div>
+        </td>
+        <td><span style="color: white">********</span></td>
+        <td>
+          <div
+            class="checkAnswerbutton"
+            id="ques3"
+            onclick="checkAnswer(); hideAndRemoveDiv(); setquesAEltonull()"
+          >
+            {{ if lang == 'de' }}Prüfen{{ else }}Check{{ endif }}
+          </div>
+        </td>
+        <td><span style="color: white">********</span></td>
+        <td>
+          <div id="error"></div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <table>
+    <tr>
+      <td id="righto"></td>
+    </tr>
+  </table>
+</div>
+
+<div id="probquestion" style="display: none">
+  {{ if lang == 'de' }}
+  <p>
+    <span style="text-decoration: underline; font-weight: bold">
+      Wie hoch schätzen Sie angesichts der Informationen, </span
+    >die Sie über Ihre Merkmale erhalten haben,
+    <span style="text-decoration: underline; font-weight: bold"
+      >die Wahrscheinlichkeit ein, dass Sie einen Verlust erleiden?</span
+    >
+    <span
+      style="font-size: 20pt; font-style: italic; text-decoration: underline"
+      >Wichtig:</span
+    >
+    <span style="font-size: 20pt; font-style: italic"
+      >Achten Sie darauf, eine genaue Schätzung abzugeben. Liegt Ihr Tipp
+      innerhalb von <span>&#177;</span> 5 pp der wahren Wahrscheinlichkeit,
+      erhalten Sie zusätzlich {{ C.belief_reward }} Punkte, die Ihrer Auszahlung
+      gutgeschrieben werden. Ihrer Auszahlung gutgeschrieben werden.</span
+    >
+  </p>
+  {{ else }}
+  <p>
+    Given the information you have received about your characteristics: <br />
+    <span style="text-decoration: underline; font-weight: bold"
+      >what do you think your probability of experiencing a loss is?
+    </span>
+    <br />
+    <br />
+    <span
+      style="font-size: 20pt; font-style: italic; text-decoration: underline"
+      >Note:</span
+    >
+    <span style="font-size: 20pt; font-style: italic">
+      Be sure to give an accurate estimate: if your guess is within
+      <span>&#177;</span> 10 percentage points  of true probability, you will earn an additional
+      <b>{{ C.belief_reward }} p</b> which will be credited to your payout.</span
+    >
+  </p>
+  {{ endif }}
+  <p>
+    <span style="font-style: italic; font-size: 12pt"
+      >{{ if lang == 'de' }}Klicken Sie auf den blauen Balken, um den
+      Schieberegler einzublenden.{{ else }}Click on the blue bar to reveal the
+      slider.{{ endif }}</span
+    >
+  </p>
+  <div id="sliders_here1"></div>
+  <div id="buttonWarningText">
+    <span style="font-style: italic; font-size: 12pt"
+      >The next button will appear after 60 seconds.</span
+    >
+  </div>
+  <button class="otree-btn-next btn btn-primary" id="nextButton">Next</button>
+</div>
+{{ else }}
+<div id="probquestion">
+  {{ if lang == 'de' }}
+  <p>
+    <span style="text-decoration: underline; font-weight: bold">
+      Wie hoch schätzen Sie angesichts der Informationen, </span
+    >die Sie über Ihre Merkmale erhalten haben,
+    <span style="text-decoration: underline; font-weight: bold"
+      >die Wahrscheinlichkeit ein, dass Sie einen Verlust erleiden?</span
+    >
+    <span
+      style="font-size: 24pt; font-style: italic; text-decoration: underline"
+      >Wichtig:</span
+    >
+    <span style="font-size: 24pt; font-style: italic"
+      >Achten Sie darauf, eine genaue Schätzung abzugeben. Liegt Ihr Tipp
+      innerhalb von <span>&#177;</span> 5 pp der wahren Wahrscheinlichkeit,
+      erhalten Sie zusätzlich {{ C.belief_reward }} Punkte, die Ihrer Auszahlung
+      gutgeschrieben werden. Ihrer Auszahlung gutgeschrieben werden.</span
+    >
+  </p>
+  {{ else }}
+  <p>
+    Given the information you have received about your characteristics: <br />
+    <span style="text-decoration: underline; font-weight: bold"
+      >what do you think your probability of experiencing a loss is?
+    </span>
+    <br />
+    <span
+      style="font-size: 24pt; font-style: italic; text-decoration: underline"
+      >Note:</span
+    >
+    <span style="font-size: 24pt; font-style: italic">
+      Be sure to give an accurate estimate: if your guess is within
+      <span>&#177;</span> 10 percentage points of true probability, you will earn an additional
+      <b>{{ C.belief_reward }} p</b> which will be credited to your payout.</span
+    >
+  </p>
+  {{ endif }}
+  <p>
+    <span style="font-style: italic; font-size: 12pt"
+      >{{ if lang == 'de' }}Klicken Sie auf den blauen Balken, um den
+      Schieberegler einzublenden.{{ else }}Click on the blue bar to reveal the
+      slider.{{ endif }}</span
+    >
+  </p>
+  <div id="sliders_here1"></div>
+  <div id="buttonWarningText">
+    <span style="font-style: italic; font-size: 12pt"
+      >The next button will appear after 60 seconds.</span
+    >
+  </div>
+  <button class="otree-btn-next btn btn-primary" id="nextButton">Next</button>
+</div>
+{{ endif }} {{ if player.round_number != 1 }}
+<script>
+  (function buttonTimer() {
+    const nxtBtn1 = document.getElementById("nextButton");
+    nxtBtn1.style.display = "none";
+    setTimeout(function () {
+      nxtBtn1.style.display = "block";
+      document.getElementById("buttonWarningText").style.display = "none";
+    }, 60000);
+  })();
+</script>
+{{ else }} {{ endif }}
+
+<script>
+  var mgsliders = Array();
+
+  mgsliders.lookup = function (which) {
+    for (var j = 0; j < mgsliders.length; j++) {
+      if (mgsliders[j].field == which) {
+        return mgsliders[j].obj;
+      }
+    }
+
+    return undefined;
+  };
+
+  function mgslider(field, min, max, step, text) {
+    this.field = field;
+    this.min = parseFloat(min);
+    this.max = parseFloat(max);
+    this.step = parseFloat(step);
+    this.digits = this.suggest_digits(step);
+
+    this.prefix = "mgslider_yF5sTZLy";
+    this.yourvalue = text.toString();
+
+    mgsliders.push({ field: field, obj: this });
+  }
+
+  mgslider.prototype.fzero = function (s) {
+    for (var c = s.length - 1; c >= 0; c--) {
+      if (s[c] != "0") {
+        return c;
+      }
+    }
+
+    return 0;
+  };
+
+  mgslider.prototype.suggest_digits = function (x) {
+    x = x.toFixed(10);
+    return this.fzero(x) - x.search(/\./);
+  };
+
+  mgslider.prototype.f2s = function (val, detect) {
+    if (detect) {
+      return val.toFixed(this.suggest_digits(val)).replace("-", "&ndash;");
+    }
+    return val.toFixed(this.digits).replace("-", "&ndash;");
+  };
+
+  mgslider.prototype.id = function (id_) {
+    if (id_ === undefined) {
+      id_ = "";
+    }
+
+    return this.prefix + "_" + this.field + "_" + id_;
+  };
+
+  mgslider.prototype.markup = function () {
+    return (
+      "\
+            <table id='" +
+      this.id("wrapper") +
+      "' class='mgslider-wrapper' border='0'>\
+                <tr>\
+                    <td class='mgslider-limit'>" +
+      this.f2s(this.min, true) +
+      "</td>\
+                    <td width='90%'>\
+                        <div id='" +
+      this.id("before") +
+      "' class='mgslider-before' onclick='mgsliders.lookup(\"" +
+      this.field +
+      "\").reveal(event)'></div>\
+                        <input type='range' id='" +
+      this.id() +
+      "' min='" +
+      this.min +
+      "' max='" +
+      this.max +
+      "' step='" +
+      this.step +
+      "' value='' class='mgslider form-range' oninput='mgsliders.lookup(\"" +
+      this.field +
+      "\").change()' onchange='mgsliders.lookup(\"" +
+      this.field +
+      "\").change()'>\
+                    </td>\
+                    <td class='mgslider-limit'>" +
+      this.f2s(this.max, true) +
+      "</td>\
+                </tr>\
+                <tr class='mgslider-feedback'>\
+                    <td id='" +
+      this.id("show") +
+      "' class='mgslider-show' colspan='3'><i>" +
+      this.yourvalue +
+      "</i>: <b><span id='" +
+      this.id("cur") +
+      "' class='mgslider-value'></span>%</b></td>\
+                </tr>\
+            </table>\
+            \
+            <input type='hidden' id='" +
+      this.id("input") +
+      "' name='" +
+      this.field +
+      "' value='' />"
+    );
+  };
+
+  mgslider.prototype.hide = function () {
+    document.getElementById(this.id()).style.display = "none";
+    document.getElementById(this.id("show")).style.visibility = "hidden";
+    document.getElementById(this.id("show")).style.textAlign = "center";
+    document.getElementById(this.id("before")).style.display = "block";
+  };
+
+  mgslider.prototype.print = function (el) {
+    el.innerHTML += this.markup();
+    this.hide();
+  };
+
+  mgslider.prototype.value = function () {
+    return parseFloat(document.getElementById(this.id()).value);
+  };
+
+  mgslider.prototype.change = function () {
+    document.getElementById(this.id("cur")).innerHTML = this.f2s(
+      this.value(),
+      false
+    );
+    document.getElementById(this.id("input")).value = this.value();
+  };
+
+  mgslider.prototype.reveal = function (event) {
+    var now;
+
+    if (event !== undefined && typeof event.offsetX !== undefined) {
+      var max = parseInt(
+        getComputedStyle(
+          document.getElementById(this.id("before"))
+        ).width.replace("px", "")
+      );
+      var cur = event.offsetX;
+
+      now = (cur / max) * (this.max - this.min) + this.min;
+    } else {
+      now = this.min + Math.random() * (this.max - this.min);
+    }
+
+    now = Math.round(now / this.step) * this.step;
+
+    document.getElementById(this.id()).style.display = "block";
+    document.getElementById(this.id("before")).style.display = "none";
+    document.getElementById(this.id("show")).style.visibility = "visible";
+
+    document.getElementById(this.id()).value = now;
+    this.change();
+  };
+</script>
+
+<p>
+  <script>
+    $(document).ready(function (event) {
+      slider1 = new mgslider(
+        "belief",
+        0,
+        100,
+        0.25,
+        "{{ if lang == 'de' }}Ihr Annahme an die Wahrscheinlichkeit{{ else }}Your belief of the probability{{ endif }}"
+      );
+      slider1.print(document.getElementById("sliders_here1"));
+    });
+  </script>
+</p>
+{{ formfield_errors 'belief' }}
+
+<script>
+  let timerID;
+  let counter = 0;
+  let tracker1 = 0;
+  let tracker2 = 0;
+  let tracker3 = 0;
+  let tracker4 = 0;
+  let tracker7 = 0;
+  let holdStart = 0;
+  let holdTime = 0;
+
+  let pressHoldEvent = new CustomEvent("pressHold");
+  let pressHoldDuration = 1000000000000000000000000000000000000000000000;
+
+  var buttontoShowBox = document.querySelectorAll(
+    ".button-28green,.button-28red,.button-28blue"
+  );
+  var infoBox = document.querySelectorAll(".effectbox");
+
+  buttontoShowBox.forEach(function (el) {
+    el.addEventListener("mousedown", pressingDown, false);
+    el.addEventListener("mouseup", notPressingDown, false);
+
+    function pressingDown(e) {
+      // requestAnimationFrame(timer);
+      e.preventDefault();
+      holdStart = Date.now()
+
+      var id = el.getAttribute("data-id");
+      document.getElementById(id).classList.add("show");
+    }
+
+    function notPressingDown(e) {
+      // Stop the timer
+      // cancelAnimationFrame(timerID);
+      holdTime = Date.now() - holdStart;
+      counter = holdTime;
+
+      var id = el.getAttribute("data-id");
+      document.getElementById(id).classList.remove("show");
+
+      if (id == "char1") {
+        tracker1 += counter;
+        sendTracker1();
+      } else if (id == "char2") {
+        tracker2 += counter;
+        sendTracker2();
+      } else if (id == "char3") {
+        tracker3 += counter;
+        sendTracker3();
+      } else if (id == "char4") {
+        tracker4 += counter;
+        sendTracker4();
+      } else {
+        tracker7 += counter;
+        sendTracker7();
+      }
+
+      console.log(
+        "Time: " +
+          tracker1 +
+          ", " +
+          tracker2 +
+          ", " +
+          tracker3 +
+          ", " +
+          tracker4 +
+          ", " +
+          tracker7
+      );
+      counter = 0;
+    }
+  });
+
+  //
+  // Runs at 60fps when you are pressing down
+  //
+
+  function sendTracker1() {
+    liveSend({ which_char: "char_1", value: tracker1 });
+  }
+
+  function sendTracker2() {
+    liveSend({ which_char: "char_2", value: tracker2 });
+  }
+
+  function sendTracker3() {
+    liveSend({ which_char: "char_3", value: tracker3 });
+  }
+
+  function sendTracker4() {
+    liveSend({ which_char: "char_4", value: tracker4 });
+  }
+
+  function sendTracker7() {
+    liveSend({ which_char: "char_7", value: tracker7 });
+  }
+</script>
+<script>
+  let quesAEl;
+  let quesAAnsId;
+  let quesAQuesno;
+  let otherAEl;
+  let otherAAnsId;
+  let otherAQuesno;
+  let currentQuesno;
+
+  var quesAAnswers = document.querySelectorAll(".aansbutton");
+  var quesBAnswers = document.querySelectorAll(".bansbutton");
+
+  quesAAnswers.forEach(function (el) {
+    el.addEventListener(
+      "click",
+      function () {
+        selectedEl = document.querySelector(".aansselected");
+        // If there was a selected element which is not this
+        if (selectedEl && selectedEl !== this) {
+          selectedEl.classList.remove("aansselected");
+        }
+        // Toggle this
+        this.classList.toggle("aansselected");
+      },
+      false
+    );
+  });
+
+  quesAAnswers.forEach(function (el) {
+    el.addEventListener("click", populateWord, false);
+    el.addEventListener("click", populateOthers, false);
+
+    function populateWord() {
+      quesAEl = el;
+      quesAAnsId = el.getAttribute("id");
+      quesAQuesno = el.getAttribute("quesno");
+    }
+
+    function populateOthers() {
+      quesAAnswers.forEach(function (e) {
+        let tempId = e.getAttribute("id");
+        let tempquesno = e.getAttribute("quesno");
+        if (tempId !== quesAAnsId && quesAQuesno == tempquesno) {
+          otherAEl = e;
+          otherAAnsId = e.getAttribute("id");
+        }
+      });
+    }
+  });
+
+  var questions = document.querySelectorAll(".question");
+  var alltablerows = document.querySelectorAll(".tablerows");
+  var checkButtons = document.querySelectorAll(".checkAnswerbutton");
+  var alltablerow = document.querySelectorAll(".tablerow");
+
+  function checkAnswer() {
+    if (!quesAEl) {
+      // alert(
+      //   "{{ if lang == 'de' }}Bitte beantworten Sie die andere Teilfrage.{{ else }}Please answer the other subquestion.{{ endif }}"
+      // );
+
+      var error = document.getElementById("error");
+      error.textContent =
+        "{{ if lang == 'de' }}Bitte beantworten Sie die Frage.{{ else }}Please answer the question.{{ endif }}";
+      error.style.color = "red";
+      setTimeout(function () {
+        error.textContent = "";
+      }, 1000);
+      return;
+    }
+    if (quesAAnsId == "correct") {
+      let currentQuesno = quesAEl.getAttribute("quesno");
+      questions.forEach(function (elem) {
+        if (elem.getAttribute("data-id") == quesAQuesno) {
+          elem.remove();
+        }
+      });
+
+      checkButtons.forEach(function (button) {
+        if (button.getAttribute("id") == quesAQuesno) {
+          button.remove();
+        }
+      });
+
+      alltablerows.forEach(function (row) {
+        if (row.getAttribute("quesno") == quesAQuesno) {
+          row.remove();
+        }
+      });
+
+      quesAEl.remove();
+      otherAEl.remove();
+
+      var righto = document.getElementById("righto");
+      righto.textContent =
+        "{{ if lang == 'de' }}Richtig!{{ else }}Correct!{{ endif }}";
+      righto.style.color = "green";
+      setTimeout(function () {
+        righto.textContent = "";
+      }, 1000);
+    } else {
+      // alert(
+      //   "{{ if lang == 'de' }}Falsch! Bitte versuchen Sie es erneut.{{ else }}Incorrect! Please try again.{{ endif }}"
+      // );
+      var error = document.getElementById("error");
+      error.textContent =
+        "{{ if lang == 'de' }}Falsch! Bitte versuchen Sie es erneut.{{ else }}Incorrect! Please try again.{{ endif }}";
+      error.style.color = "red";
+      setTimeout(function () {
+        error.textContent = "";
+      }, 1000);
+    }
+  }
+
+  function setquesAEltonull() {
+    quesAEl = null;
+  }
+  function buttonIdequalPrevious() {
+    var currentButtonId = this.getElementById("id");
+    if (currentButtonId !== quesAAnsId) {
+      var righto = null;
+      let quesAEl = null;
+    }
+  }
+
+  function hideAndRemoveDiv() {
+    if (quesAAnsId == "correct") {
+      if (quesAQuesno == "ques1") {
+        document.getElementById("ques2container").style.display = "block";
+        document.getElementById("ques1container").style.display = "none";
+      } else if (quesAQuesno == "ques2") {
+        document.getElementById("ques3container").style.display = "block";
+        document.getElementById("ques2container").style.display = "none";
+      }
+      //   else if (quesAQuesno == "ques3") {
+      //   document.getElementById("ques4container").style.display = "block";
+      //   document.getElementById("ques3container").style.display = "none";
+      // } else if (quesAQuesno == "ques4") {
+      //   document.getElementById("ques5container").style.display = "block";
+      //   document.getElementById("ques4container").style.display = "none";
+      // } else if (quesAQuesno == "ques5") {
+      //   document.getElementById("ques6container").style.display = "block";
+      //   document.getElementById("ques5container").style.display = "none";
+      // }
+      else {
+        checkifEmpty();
+      }
+    }
+  }
+
+  document.getElementsByClassName(
+    "otree-form-errors alert alert-danger"
+  )[0].innerHTML =
+    "{{ if lang == 'de' }}Bitte beheben Sie die Fehler.{{ else }}Please fix the errors.{{ endif }}";
+  document.getElementsByClassName("form-control-errors")[0].innerHTML =
+    "{{ if lang == 'de' }}Dieses Feld ist erforderlich.{{ else }}This field is required.{{ endif }}";
+
+  function checkifEmpty() {
+    const nxtbtn = document.getElementById("nextButton");
+    let empty = document.querySelector(".aansbutton");
+    if (empty !== null) {
+      nxtbtn.disabled = true;
+      document.getElementById("probquestion").style.display = "none";
+      alert(
+        "{{ if lang == 'de' }}Bitte erledigen Sie die Aufgabe!{{ else }}Please complete the task!{{ endif }}"
+      );
+    } else {
+      nxtbtn.style.display = "none";
+      setTimeout(function () {
+        nxtbtn.style.display = "block";
+        document.getElementById("buttonWarningText").style.display = "none";
+      }, 60000);
+      nxtbtn.disabled = false;
+      document.getElementById("probquestion").style.display = "block";
+      // document.getElementById("proceed").style.display = "none";
+      document.querySelector(".testingquestions").remove();
+    }
+  }
+
+  // function buttonTimer() {
+  //   const nxtBtn1 = document.getElementById("nextButton")
+  //   nxtBtn1.style.display = "none";
+  //   setTimeout(function() {
+  //     nxtBtn1.style.display = "block";
+  //   }, 1000);
+  // }
+</script>
+
+<script>
+  var rangeWraps = document.querySelectorAll(".badrange-wrap,.goodrange-wrap");
+  rangeWraps.forEach((wrap) => {
+    let range = wrap.querySelector(".range");
+    let bubble = wrap.querySelector(".bubble");
+    // range.addEventListener("input", () => {
+    //   setBubble(range, bubble);
+    // });
+    // setting bubble on DOM load
+    setBubble(range, bubble);
+
+    function setBubble(range, bubble) {
+      let val = range.value;
+      let min = range.min || 0;
+      let max = range.max || 100;
+      let offset = Number(((val - min) * 100) / (max - min));
+      bubble.textContent = val;
+      // yes, 14px is a magic number
+      bubble.style.left = `calc(${offset}% - 14px)`;
+    }
+  });
+</script>
+
+{{ endblock }}

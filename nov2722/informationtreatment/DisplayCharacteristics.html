@@ -1,0 +1,1133 @@
+{{ block title }} {{ if lang == 'de' }}Annahme{{ else }}Belief{{ endif }} {{
+endblock }} {{ block content }} {{ include C.template }}
+
+<style>
+  body {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    font-size: 25px;
+  }
+  table {
+    margin-bottom: 20px;
+  }
+
+  .mgslider-wrapper {
+    border-spacing: 10px;
+  }
+
+  .mgslider-limit {
+    width: 10%;
+    min-width: 75px;
+    height: 40px;
+    margin: 100px;
+    text-align: center;
+    background: #eee;
+    border: 1px solid #888;
+  }
+  .mgslider-limit,
+  .mgslider-value {
+    font-variant-numeric: tabular-nums;
+  }
+  .mgslider-before {
+    height: 16px;
+    width: 100%;
+    background: #1e5bff;
+  }
+</style>
+
+{{ if player.treatment == "fullinfo" }} {{ if lang == 'de' }}Ihre
+Wahrscheinlichkeit, einen Verlust zu erleiden, ist aufgrund Ihrer Merkmale {{
+prob|to2 }}.{{ else }}Your probability of suffering a loss based on your
+characteristics is {{ prob|to2 }}. {{ endif }}<br />
+{{ elif player.treatment == "varinfo" }} {{ if lang == 'de' }}Bitte klicken Sie
+auf die nachstehenden Schaltflächen, um mehr darüber zu erfahren, wie sich die
+einzelnen Merkmale auf Ihr Risiko auswirken. Die Auswirkungen sind spezifisch
+für Sie.{{ else}}Please click on the buttons below to find out more about how
+each of the characteristics affect your risk. The effects are specific to you.
+{{ endif }}<br />
+
+<table>
+  <tr>
+    <td>
+      <div class="button-28red" data-id="char1">1</div>
+      <div
+        class="effectbox"
+        style="box-shadow: red 0px 1px 2px 0px, red 0px 1px 3px 1px"
+        id="char1"
+      >
+        {{ if var1 == 1}} {{ if player.round_number == 1}} {{ if lang == 'de'
+        }}Für Ihren Wert des Merkmals 1 erhöht sich die
+        Verlustwahrscheinlichkeit um {{ C.var1effect_round1|to2 }} von
+        durchschnittlich 50%.{{ else }}For your value of Characteristic 1, the
+        probability of loss increases by {{ C.var1effect_round1|to2 }} from an
+        average of 50%.{{ endif }} {{ elif player.round_number == 2 }} {{ if
+        lang == 'de' }}Für Ihren Wert des Merkmals 1 erhöht sich die
+        Verlustwahrscheinlichkeit um {{ C.var1effect_round2|to2 }} von
+        durchschnittlich 50%.{{ else }}For your value of Characteristic 1, the
+        probability of loss increases by {{ C.var1effect_round2|to2 }} from an
+        average of 50%.{{ endif }} {{ elif player.round_number == 3 }} {{ if
+        lang == 'de' }}Für Ihren Wert des Merkmals 1 steigt die
+        Verlustwahrscheinlichkeit um {{ C.var1effect_round3|to2 }} von
+        durchschnittlich 50%.{{ else }}For your value of Characteristic 1, the
+        probability of loss increases by {{ C.var1effect_round3|to2 }} from an
+        average of 50%.{{ endif }} {{ elif player.round_number == 4 }} {{ if
+        lang == 'de' }}Für Ihren Wert des Merkmals 1 steigt die
+        Verlustwahrscheinlichkeit um {{ C.var1effect_round4|to2 }} von
+        durchschnittlich 50%.{{ else }}For your value of Characteristic 1, the
+        probability of loss increases by {{ C.var1effect_round4|to2 }} from an
+        average of 50%.{{ endif }} {{ else }} {{ if lang == 'de' }}Für Ihren
+        Wert des Merkmals 1 erhöht sich die Verlustwahrscheinlichkeit um {{
+        C.var1effect_round5|to2 }} von durchschnittlich 50%.{{ else }}For your
+        value of Characteristic 1, the probability of loss increases by {{
+        C.var1effect_round5|to2 }} from an average of 50%.{{ endif }} {{ endif
+        }} {{ else }} {{ if lang == 'de' }}Ihre Ausprägung des Merkmals 1 führt
+        zu keiner Veränderung der Verlustwahrscheinlichkeit von durchschnittlich
+        50%.{{ else }}Your value of Characteristic 1 leads to no change in the
+        probability of loss from an average of 50%.{{ endif }} {{ endif }}
+      </div>
+    </td>
+    <td>
+      <div class="button-28red" data-id="char2">2</div>
+      <div
+        class="effectbox"
+        style="box-shadow: red 0px 1px 2px 0px, red 0px 1px 3px 1px"
+        id="char2"
+      >
+        {{ if player.round_number == 1 }} {{ if var2 >= 20 and var2 <= 30 }} {{
+        if lang == 'de' }}Da Ihr Wert für Merkmal 2 zwischen 20 und 30 liegt,
+        erhöht sich die Verlustwahrscheinlichkeit um 0 bis 7 pp gegenüber dem
+        Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2 is
+        between 20 and 30, the probability of loss increases by 0 to 7 pp from
+        the average of 50%.{{ endif }} {{ elif var2 > 30 and var2 <= 40 }} {{ if
+        lang == 'de' }}Da Ihr Wert für Merkmal 2 zwischen 30 und 40 liegt,
+        erhöht sich die Verlustwahrscheinlichkeit um 7 bis 15 pp gegenüber dem
+        Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2 is
+        between 30 and 40, the probability of loss increases by 7 to 15 pp from
+        the average of 50%.{{ endif }} {{ elif var2 > 40 and var2 <= 50 }} {{ if
+        lang == 'de' }}Da Ihr Wert für Merkmal 2 zwischen 40 und 50 liegt,
+        erhöht sich die Verlustwahrscheinlichkeit um 15 bis 21 pp gegenüber dem
+        Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2 is
+        between 40 and 50, the probability of loss increases by 15 to 21 pp from
+        the average of 50%.{{ endif }} {{ elif var2 > 50 and var2 <= 60 }} {{ if
+        lang == 'de' }}Da Ihr Wert für Merkmal 2 zwischen 50 und 60 liegt,
+        erhöht sich die Verlustwahrscheinlichkeit um 21 bis 27 pp gegenüber dem
+        Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2 is
+        between 50 and 60, the probability of loss increases by 21 to 27 pp from
+        the average of 50%.{{ endif }} {{ elif var2 > 60 and var2 <= 70 }} {{ if
+        lang == 'de' }}Da Ihr Wert für Merkmal 2 zwischen 60 und 70 liegt,
+        erhöht sich die Verlustwahrscheinlichkeit um 27 bis 32 pp gegenüber dem
+        Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2 is
+        between 60 and 70, the probability of loss increases by 27 to 32 pp from
+        the average of 50%.{{ endif }} {{ else }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 über 70 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 32 bis 36 pp gegenüber dem Durchschnitt von
+        50%.{{ else }}Since your value of Characteristic 2 is above 70, the
+        probability of loss increases by 32 to 36 pp from the average of 50%.{{
+        endif }} {{ endif }} {{ elif player.round_number == 2 }} {{ if var2 >=
+        20 and var2 <= 30 }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 2
+        zwischen 20 und 30 liegt, erhöht sich die Verlustwahrscheinlichkeit um 0
+        bis 10 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 2 is between 20 and 30, the probability of loss increases
+        by 0 to 10 pp from the average of 50%.{{ endif }} {{ elif var2 > 30 and
+        var2 <= 40 }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 2 zwischen 30
+        und 40 liegt, erhöht sich die Verlustwahrscheinlichkeit um 10 bis 19 pp
+        vom Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2
+        is between 30 and 40, the probability of loss increases by 10 to 19 pp
+        from the average of 50%.{{ endif }} {{ elif var2 > 40 and var2 <= 50 }}
+        {{ if lang == 'de' }}Da Ihr Wert für Merkmal 2 zwischen 40 und 50 liegt,
+        erhöht sich die Verlustwahrscheinlichkeit um 19 bis 27 pp vom
+        Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2 is
+        between 40 and 50, the probability of loss increases by 19 to 27 pp from
+        the average of 50%.{{ endif }} {{ elif var2 > 50 and var2 <= 60 }} {{ if
+        lang == 'de' }}Da Ihr Wert für Merkmal 2 zwischen 50 und 60 liegt,
+        erhöht sich die Verlustwahrscheinlichkeit um 27 bis 33 pp vom
+        Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2 is
+        between 50 and 60, the probability of loss increases by 27 to 33 pp from
+        the average of 50%.{{ endif }} {{ elif var2 > 60 and var2 <= 70 }} {{ if
+        lang == 'de' }}Da Ihr Wert für Merkmal 2 zwischen 60 und 70 liegt,
+        erhöht sich die Verlustwahrscheinlichkeit um 33 bis 38 pp vom
+        Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2 is
+        between 60 and 70, the probability of loss increases by 33 to 38 pp from
+        the average of 50%.{{ endif }} {{ else }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 über 70 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 38 bis 41 pp gegenüber dem Durchschnitt von
+        50%.{{ else }}Since your value of Characteristic 2 is above 70, the
+        probability of loss increases by 38 to 41 pp from the average of 50%.{{
+        endif }} {{ endif }} {{ elif player.round_number == 3 }} {{ if var2 >=
+        20 and var2 <= 30 }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 2
+        zwischen 20 und 30 liegt, erhöht sich die Verlustwahrscheinlichkeit um 0
+        bis 7 pp gegenüber dem Durchschnitt von 50%.{{ else }}Since your value
+        of Characteristic 2 is between 20 and 30, the probability of loss
+        increases by 0 to 7 pp from the average of 50%.{{ endif }} {{ elif var2
+        > 30 and var2 <= 40 }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 2
+        zwischen 30 und 40 liegt, erhöht sich die Verlustwahrscheinlichkeit um 7
+        bis 15 pp gegenüber dem Durchschnitt von 50%.{{ else }}Since your value
+        of Characteristic 2 is between 30 and 40, the probability of loss
+        increases by 7 to 15 pp from the average of 50%.{{ endif }} {{ elif var2
+        > 40 and var2 <= 50 }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 2
+        zwischen 40 und 50 liegt, erhöht sich die Verlustwahrscheinlichkeit um
+        15 bis 21 pp gegenüber dem Durchschnitt von 50%.{{ else }}Since your
+        value of Characteristic 2 is between 40 and 50, the probability of loss
+        increases by 15 to 21 pp from the average of 50%.{{ endif }} {{ elif
+        var2 > 50 and var2 <= 60 }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal
+        2 zwischen 50 und 60 liegt, erhöht sich die Verlustwahrscheinlichkeit um
+        21 bis 27 pp gegenüber dem Durchschnitt von 50%.{{ else }}Since your
+        value of Characteristic 2 is between 50 and 60, the probability of loss
+        increases by 21 to 27 pp from the average of 50%.{{ endif }} {{ elif
+        var2 > 60 and var2 <= 70 }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal
+        2 zwischen 60 und 70 liegt, erhöht sich die Verlustwahrscheinlichkeit um
+        27 bis 32 pp gegenüber dem Durchschnitt von 50%.{{ else }}Since your
+        value of Characteristic 2 is between 60 and 70, the probability of loss
+        increases by 27 to 32 pp from the average of 50%.{{ endif }} {{ else }}
+        {{ if lang == 'de' }}Da Ihr Wert für Merkmal 2 über 70 liegt, erhöht
+        sich die Verlustwahrscheinlichkeit um 32 bis 36 pp gegenüber dem
+        Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2 is
+        above 70, the probability of loss increases by 32 to 36 pp from the
+        average of 50%.{{ endif }} {{ endif }} {{ elif player.round_number == 4
+        }} {{ if var2 >= 20 and var2 <= 30 }} {{ if lang == 'de' }}Da Ihr Wert
+        für Merkmal 2 zwischen 20 und 30 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 0 bis 10 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 2 is between 20 and 30, the
+        probability of loss increases by 0 to 10 pp from the average of 50%.{{
+        endif }} {{ elif var2 > 30 and var2 <= 40 }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 zwischen 30 und 40 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 10 bis 19 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 2 is between 30 and 40, the
+        probability of loss increases by 10 to 19 pp from the average of 50%.{{
+        endif }} {{ elif var2 > 40 and var2 <= 50 }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 zwischen 40 und 50 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 19 bis 27 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 2 is between 40 and 50, the
+        probability of loss increases by 19 to 27 pp from the average of 50%.{{
+        endif }} {{ elif var2 > 50 and var2 <= 60 }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 zwischen 50 und 60 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 27 bis 33 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 2 is between 50 and 60, the
+        probability of loss increases by 27 to 33 pp from the average of 50%.{{
+        endif }} {{ elif var2 > 60 and var2 <= 70 }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 zwischen 60 und 70 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 33 bis 38 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 2 is between 60 and 70, the
+        probability of loss increases by 33 to 38 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 2 über
+        70 liegt, erhöht sich die Verlustwahrscheinlichkeit um 38 bis 42 pp
+        gegenüber dem Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 2 is above 70, the probability of loss increases by 38 to
+        42 pp from the average of 50%.{{ endif }} {{ endif }} {{ else }} {{ if
+        var2 >= 20 and var2 <= 30 }} {{ if lang == 'de' }}Da Ihr Wert für
+        Merkmal 2 zwischen 20 und 30 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 0 bis 5 pp vom Durchschnitt von 50%.{{ else
+        }}Since your value of Characteristic 2 is between 20 and 30, the
+        probability of loss increases by 0 to 5 pp from the average of 50%.{{
+        endif }} {{ elif var2 > 30 and var2 <= 40 }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 zwischen 30 und 40 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 5 bis 10 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 2 is between 30 and 40, the
+        probability of loss increases by 5 to 10 pp from the average of 50%.{{
+        endif }} {{ elif var2 > 40 and var2 <= 50 }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 zwischen 40 und 50 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 10 bis 15 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 2 is between 40 and 50, the
+        probability of loss increases by 10 to 15 pp from the average of 50%.{{
+        endif }} {{ elif var2 > 50 and var2 <= 60 }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 zwischen 50 und 60 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 15 bis 19 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 2 is between 50 and 60, the
+        probability of loss increases by 15 to 19 pp from the average of 50%.{{
+        endif }} {{ elif var2 > 60 and var2 <= 70 }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 zwischen 60 und 70 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 19 bis 23 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 2 is between 60 and 70, the
+        probability of loss increases by 19 to 23 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 2 über
+        70 liegt, erhöht sich die Verlustwahrscheinlichkeit um 23 bis 27
+        Prozentpunkte gegenüber dem Durchschnitt von 50%.{{ else }}Since your
+        value of Characteristic 2 is above 70, the probability of loss increases
+        by 23 to 27 pp from the average of 50%.{{ endif }} {{ endif }} {{ endif
+        }}
+      </div>
+    </td>
+    <td>
+      <div class="button-28green" data-id="char3">3</div>
+      <div
+        class="effectbox"
+        style="box-shadow: green 0px 1px 2px 0px, green 0px 1px 3px 1px"
+        id="char3"
+      >
+        {{ if var3 == 1}} {{ if player.round_number == 1}} {{ if lang == 'de'
+        }}Für Ihren Wert des Merkmals 3 sinkt die Verlustwahrscheinlichkeit um
+        {{ C.var3effect_round1|to2 }} pp von durchschnittlich 50%.{{ else }}For
+        your value of Characteristic 3, the probability of loss decreases by {{
+        C.var3effect_round1|to2 }} pp from an average of 50%.{{ endif }} {{ elif
+        player.round_number == 2 }} {{ if lang == 'de' }}Für Ihren Wert des
+        Merkmals 3 sinkt die Verlustwahrscheinlichkeit um {{
+        C.var3effect_round2|to2 }} pp von durchschnittlich 50%.{{ else }}For
+        your value of Characteristic 3, the probability of loss decreases by {{
+        C.var3effect_round2|to2 }} pp from an average of 50%.{{ endif }} {{ elif
+        player.round_number == 3 }} {{ if lang == 'de' }}Für Ihren Wert des
+        Merkmals 3 sinkt die Verlustwahrscheinlichkeit um {{
+        C.var3effect_round3|to2 }} pp von durchschnittlich 50%.{{ else }}For
+        your value of Characteristic 3, the probability of loss decreases by {{
+        C.var3effect_round3|to2 }} pp from an average of 50%.{{ endif }} {{ elif
+        player.round_number == 4 }} {{ if lang == 'de' }}Für Ihren Wert des
+        Merkmals 3 sinkt die Verlustwahrscheinlichkeit um {{
+        C.var3effect_round4|to2 }} pp von durchschnittlich 50%.{{ else }}For
+        your value of Characteristic 3, the probability of loss decreases by {{
+        C.var3effect_round4|to2 }} pp from an average of 50%.{{ endif }} {{ else
+        }} {{ if lang == 'de' }}Für Ihren Wert des Merkmals 3 sinkt die
+        Verlustwahrscheinlichkeit um {{ C.var3effect_round5|to2 }} pp von
+        durchschnittlich 50%.{{ else }}For your value of Characteristic 3, the
+        probability of loss decreases by {{ C.var3effect_round5|to2 }} pp from
+        an average of 50%.{{ endif }} {{ endif }} {{ else }} {{ if lang == 'de'
+        }}Ihr Wert von Merkmal 3 führt zu keiner Veränderung der
+        Verlustwahrscheinlichkeit von einem Durchschnitt von 50%.{{ else }}Your
+        value of Characteristic 3 leads to no change in the probability of loss
+        from an average of 50%.{{ endif }} {{ endif }}
+      </div>
+    </td>
+    <td>
+      <div class="button-28green" data-id="char4">4</div>
+      <div
+        class="effectbox"
+        style="box-shadow: green 0px 1px 2px 0px, green 0px 1px 3px 1px"
+        id="char4"
+      >
+        {{ if player.round_number == 1}} {{ if var4 >= 0 and var4 <= 5 }} {{ if
+        lang == 'de' }}Da Ihr Wert für Merkmal 4 zwischen 0 und 5 liegt, sinkt
+        die Verlustwahrscheinlichkeit um 0 bis 12 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 4 is between 0 and 5, the
+        probability of loss decreases by 0 to 12 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 4
+        zwischen 5 und 10 liegt, sinkt die Verlustwahrscheinlichkeit um 12 bis
+        23 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 4 is between 5 and 10, the probability of loss decreases
+        by 12 to 23 pp from the average of 50%.{{ endif }} {{ endif }} {{ elif
+        player.round_number == 2 }} {{ if var4 >= 0 and var4 <= 5 }} {{ if lang
+        == 'de' }}Da Ihr Wert für Merkmal 4 zwischen 0 und 5 liegt, sinkt die
+        Verlustwahrscheinlichkeit um 0 bis 18 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 4 is between 0 and 5, the
+        probability of loss decreases by 0 to 18 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 4
+        zwischen 5 und 10 liegt, sinkt die Verlustwahrscheinlichkeit um 18 bis
+        32 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 4 is between 5 and 10, the probability of loss decreases
+        by 18 to 32 pp from the average of 50%.{{ endif }} {{ endif }} {{ elif
+        player.round_number == 3 }} {{ if var4 >= 0 and var4 <= 5 }} {{ if lang
+        == 'de' }}Da Ihr Wert für Merkmal 4 zwischen 0 und 5 liegt, sinkt die
+        Verlustwahrscheinlichkeit um 0 bis 23 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 4 is between 0 and 5, the
+        probability of loss decreases by 0 to 23 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 4
+        zwischen 5 und 10 liegt, sinkt die Verlustwahrscheinlichkeit um 23 bis
+        38 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 4 is between 5 and 10, the probability of loss decreases
+        by 23 to 38 pp from the average of 50%.{{ endif }} {{ endif }} {{ elif
+        player.round_number == 4 }} {{ if var4 >= 0 and var4 <= 5 }} {{ if lang
+        == 'de' }}Da Ihr Wert für Merkmal 4 zwischen 0 und 5 liegt, sinkt die
+        Verlustwahrscheinlichkeit um 0 bis 32 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 4 is between 0 and 5, the
+        probability of loss decreases by 0 to 32 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 4
+        zwischen 5 und 10 liegt, sinkt die Verlustwahrscheinlichkeit um 32 bis
+        45 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 4 is between 5 and 10, the probability of loss decreases
+        by 32 to 45 pp from the average of 50%.{{ endif }} {{ endif }} {{ else
+        }} {{ if var4 >= 0 and var4 <= 5 }} {{ if lang == 'de' }}Da Ihr Wert für
+        Merkmal 4 zwischen 0 und 5 liegt, sinkt die Verlustwahrscheinlichkeit um
+        0 bis 6 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 4 is between 0 and 5, the probability of loss decreases
+        by 0 to 6 pp from the average of 50%.{{ endif }} {{ else }} {{ if lang
+        == 'de' }}Da Ihr Wert für Merkmal 4 zwischen 5 und 10 liegt, sinkt die
+        Verlustwahrscheinlichkeit um 6 bis 12 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 4 is between 5 and 10, the
+        probability of loss decreases by 6 to 12 pp from the average of 50%.{{
+        endif }} {{ endif }} {{ endif }}
+      </div>
+    </td>
+    <td>
+      <div class="button-28green" data-id="char5">5</div>
+      <div
+        class="effectbox"
+        style="box-shadow: green 0px 1px 2px 0px, green 0px 1px 3px 1px"
+        id="char5"
+      >
+        {{ if player.round_number == 1 }} {{ if var5 >= 0 and var5 <= 5 }} {{ if
+        lang == 'de' }}Da Ihr Wert für Merkmal 5 zwischen 0 und 5 liegt, sinkt
+        die Verlustwahrscheinlichkeit um 0 bis 23 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 5 is between 0 and 5, the
+        probability of loss decreases by 0 to 23 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 5
+        zwischen 5 und 10 liegt, sinkt die Verlustwahrscheinlichkeit um 23 bis
+        38 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 5 is between 5 and 10, the probability of loss decreases
+        by 23 to 38 pp from the average of 50%.{{ endif }} {{ endif }} {{ elif
+        player.round_number == 2 }} {{ if var5 >= 0 and var5 <= 5 }} {{ if lang
+        == 'de' }}Da Ihr Wert für Merkmal 5 zwischen 0 und 5 liegt, sinkt die
+        Verlustwahrscheinlichkeit um 0 bis 28 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 5 is between 0 and 5, the
+        probability of loss decreases by 0 to 28 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 5
+        zwischen 5 und 10 liegt, sinkt die Verlustwahrscheinlichkeit um 28 bis
+        42 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 5 is between 5 and 10, the probability of loss decreases
+        by 28 to 42 pp from the average of 50%.{{ endif }} {{ endif }} {{ elif
+        player.round_number == 3 }} {{ if var5 >= 0 and var5 <= 5 }} {{ if lang
+        == 'de' }}Da Ihr Wert für Merkmal 5 zwischen 0 und 5 liegt, sinkt die
+        Verlustwahrscheinlichkeit um 0 bis 26 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 5 is between 0 and 5, the
+        probability of loss decreases by 0 to 26 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 5
+        zwischen 5 und 10 liegt, sinkt die Verlustwahrscheinlichkeit um 26 bis
+        41 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 5 is between 5 and 10, the probability of loss decreases
+        by 26 to 41 pp from the average of 50%.{{ endif }} {{ endif }} {{ elif
+        player.round_number == 4 }} {{ if var5 >= 0 and var5 <= 5 }} {{ if lang
+        == 'de' }}Da Ihr Wert für Merkmal 5 zwischen 0 und 5 liegt, sinkt die
+        Verlustwahrscheinlichkeit um 0 bis 32 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 5 is between 0 and 5, the
+        probability of loss decreases by 0 to 32 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 5
+        zwischen 5 und 10 liegt, sinkt die Verlustwahrscheinlichkeit um 32 bis
+        45 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 5 is between 5 and 10, the probability of loss decreases
+        by 32 to 45 pp from the average of 50%.{{ endif }} {{ endif }} {{ else
+        }} {{ if var5 >= 0 and var5 <= 5 }} {{ if lang == 'de' }}Da Ihr Wert für
+        Merkmal 5 zwischen 0 und 5 liegt, sinkt die Verlustwahrscheinlichkeit um
+        0 bis 12 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 5 is between 0 and 5, the probability of loss decreases
+        by 0 to 12 pp from the average of 50%.{{ endif }} {{ else }} {{ if lang
+        == 'de' }}Da Ihr Wert für Merkmal 5 zwischen 5 und 10 liegt, sinkt die
+        Verlustwahrscheinlichkeit um 12 bis 23 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 5 is between 5 and 10, the
+        probability of loss decreases by 12 to 23 pp from the average of 50%.{{
+        endif }} {{ endif }} {{ endif }}
+      </div>
+    </td>
+  </tr>
+</table>
+
+{{ elif player.treatment == "neginfo" }} {{ if lang == 'de' }} Auf dieser Seite
+erfahren Sie mehr über die gesundheitlichen Merkmale, die Ihre
+Erkrankungswahrscheinlichkeit erhöhen. <br />
+Bitte klicken Sie auf die nachstehenden Schaltflächen, um mehr darüber zu
+erfahren, wie sich die einzelnen Merkmale auf Ihr Risiko auswirken. Die
+Auswirkungen sind spezifisch für Sie. <br />
+{{ else }} On this page, you can find out more about the health characteristics
+which increase your probability of illness. <br />
+Please click on the buttons below to find out more about how each of the
+characteristics affect your risk. The effects are specific to you. <br />
+{{ endif }}
+
+<table>
+  <tr>
+    <td>
+      <div class="button-28red" data-id="char1">1</div>
+      <div
+        class="effectbox"
+        style="box-shadow: red 0px 1px 2px 0px, red 0px 1px 3px 1px"
+        id="char1"
+      >
+        {{ if var1 == 1}} {{ if player.round_number == 1}} {{ if lang == 'de'
+        }}Für Ihren Wert des Merkmals 1 erhöht sich die
+        Verlustwahrscheinlichkeit um {{ C.var1effect_round1|to2 }} von
+        durchschnittlich 50%.{{ else }}For your value of Characteristic 1, the
+        probability of loss increases by {{ C.var1effect_round1|to2 }} from an
+        average of 50%.{{ endif }} {{ elif player.round_number == 2 }} {{ if
+        lang == 'de' }}Für Ihren Wert des Merkmals 1 erhöht sich die
+        Verlustwahrscheinlichkeit um {{ C.var1effect_round2|to2 }} von
+        durchschnittlich 50%.{{ else }}For your value of Characteristic 1, the
+        probability of loss increases by {{ C.var1effect_round2|to2 }} from an
+        average of 50%.{{ endif }} {{ elif player.round_number == 3 }} {{ if
+        lang == 'de' }}Für Ihren Wert des Merkmals 1 steigt die
+        Verlustwahrscheinlichkeit um {{ C.var1effect_round3|to2 }} von
+        durchschnittlich 50%.{{ else }}For your value of Characteristic 1, the
+        probability of loss increases by {{ C.var1effect_round3|to2 }} from an
+        average of 50%.{{ endif }} {{ elif player.round_number == 4 }} {{ if
+        lang == 'de' }}Für Ihren Wert des Merkmals 1 steigt die
+        Verlustwahrscheinlichkeit um {{ C.var1effect_round4|to2 }} von
+        durchschnittlich 50%.{{ else }}For your value of Characteristic 1, the
+        probability of loss increases by {{ C.var1effect_round4|to2 }} from an
+        average of 50%.{{ endif }} {{ else }} {{ if lang == 'de' }}Für Ihren
+        Wert des Merkmals 1 erhöht sich die Verlustwahrscheinlichkeit um {{
+        C.var1effect_round5|to2 }} von durchschnittlich 50%.{{ else }}For your
+        value of Characteristic 1, the probability of loss increases by {{
+        C.var1effect_round5|to2 }} from an average of 50%.{{ endif }} {{ endif
+        }} {{ else }} {{ if lang == 'de' }}Ihre Ausprägung des Merkmals 1 führt
+        zu keiner Veränderung der Verlustwahrscheinlichkeit von durchschnittlich
+        50%.{{ else }}Your value of Characteristic 1 leads to no change in the
+        probability of loss from an average of 50%.{{ endif }} {{ endif }}
+      </div>
+    </td>
+    <td>
+      <div class="button-28red" data-id="char2">2</div>
+      <div
+        class="effectbox"
+        style="box-shadow: red 0px 1px 2px 0px, red 0px 1px 3px 1px"
+        id="char2"
+      >
+        {{ if player.round_number == 1 }} {{ if var2 >= 20 and var2 <= 30 }} {{
+        if lang == 'de' }}Da Ihr Wert für Merkmal 2 zwischen 20 und 30 liegt,
+        erhöht sich die Verlustwahrscheinlichkeit um 0 bis 7 pp gegenüber dem
+        Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2 is
+        between 20 and 30, the probability of loss increases by 0 to 7 pp from
+        the average of 50%.{{ endif }} {{ elif var2 > 30 and var2 <= 40 }} {{ if
+        lang == 'de' }}Da Ihr Wert für Merkmal 2 zwischen 30 und 40 liegt,
+        erhöht sich die Verlustwahrscheinlichkeit um 7 bis 15 pp gegenüber dem
+        Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2 is
+        between 30 and 40, the probability of loss increases by 7 to 15 pp from
+        the average of 50%.{{ endif }} {{ elif var2 > 40 and var2 <= 50 }} {{ if
+        lang == 'de' }}Da Ihr Wert für Merkmal 2 zwischen 40 und 50 liegt,
+        erhöht sich die Verlustwahrscheinlichkeit um 15 bis 21 pp gegenüber dem
+        Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2 is
+        between 40 and 50, the probability of loss increases by 15 to 21 pp from
+        the average of 50%.{{ endif }} {{ elif var2 > 50 and var2 <= 60 }} {{ if
+        lang == 'de' }}Da Ihr Wert für Merkmal 2 zwischen 50 und 60 liegt,
+        erhöht sich die Verlustwahrscheinlichkeit um 21 bis 27 pp gegenüber dem
+        Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2 is
+        between 50 and 60, the probability of loss increases by 21 to 27 pp from
+        the average of 50%.{{ endif }} {{ elif var2 > 60 and var2 <= 70 }} {{ if
+        lang == 'de' }}Da Ihr Wert für Merkmal 2 zwischen 60 und 70 liegt,
+        erhöht sich die Verlustwahrscheinlichkeit um 27 bis 32 pp gegenüber dem
+        Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2 is
+        between 60 and 70, the probability of loss increases by 27 to 32 pp from
+        the average of 50%.{{ endif }} {{ else }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 über 70 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 32 bis 36 pp gegenüber dem Durchschnitt von
+        50%.{{ else }}Since your value of Characteristic 2 is above 70, the
+        probability of loss increases by 32 to 36 pp from the average of 50%.{{
+        endif }} {{ endif }} {{ elif player.round_number == 2 }} {{ if var2 >=
+        20 and var2 <= 30 }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 2
+        zwischen 20 und 30 liegt, erhöht sich die Verlustwahrscheinlichkeit um 0
+        bis 10 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 2 is between 20 and 30, the probability of loss increases
+        by 0 to 10 pp from the average of 50%.{{ endif }} {{ elif var2 > 30 and
+        var2 <= 40 }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 2 zwischen 30
+        und 40 liegt, erhöht sich die Verlustwahrscheinlichkeit um 10 bis 19 pp
+        vom Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2
+        is between 30 and 40, the probability of loss increases by 10 to 19 pp
+        from the average of 50%.{{ endif }} {{ elif var2 > 40 and var2 <= 50 }}
+        {{ if lang == 'de' }}Da Ihr Wert für Merkmal 2 zwischen 40 und 50 liegt,
+        erhöht sich die Verlustwahrscheinlichkeit um 19 bis 27 pp vom
+        Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2 is
+        between 40 and 50, the probability of loss increases by 19 to 27 pp from
+        the average of 50%.{{ endif }} {{ elif var2 > 50 and var2 <= 60 }} {{ if
+        lang == 'de' }}Da Ihr Wert für Merkmal 2 zwischen 50 und 60 liegt,
+        erhöht sich die Verlustwahrscheinlichkeit um 27 bis 33 pp vom
+        Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2 is
+        between 50 and 60, the probability of loss increases by 27 to 33 pp from
+        the average of 50%.{{ endif }} {{ elif var2 > 60 and var2 <= 70 }} {{ if
+        lang == 'de' }}Da Ihr Wert für Merkmal 2 zwischen 60 und 70 liegt,
+        erhöht sich die Verlustwahrscheinlichkeit um 33 bis 38 pp vom
+        Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2 is
+        between 60 and 70, the probability of loss increases by 33 to 38 pp from
+        the average of 50%.{{ endif }} {{ else }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 über 70 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 38 bis 41 pp gegenüber dem Durchschnitt von
+        50%.{{ else }}Since your value of Characteristic 2 is above 70, the
+        probability of loss increases by 38 to 41 pp from the average of 50%.{{
+        endif }} {{ endif }} {{ elif player.round_number == 3 }} {{ if var2 >=
+        20 and var2 <= 30 }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 2
+        zwischen 20 und 30 liegt, erhöht sich die Verlustwahrscheinlichkeit um 0
+        bis 7 pp gegenüber dem Durchschnitt von 50%.{{ else }}Since your value
+        of Characteristic 2 is between 20 and 30, the probability of loss
+        increases by 0 to 7 pp from the average of 50%.{{ endif }} {{ elif var2
+        > 30 and var2 <= 40 }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 2
+        zwischen 30 und 40 liegt, erhöht sich die Verlustwahrscheinlichkeit um 7
+        bis 15 pp gegenüber dem Durchschnitt von 50%.{{ else }}Since your value
+        of Characteristic 2 is between 30 and 40, the probability of loss
+        increases by 7 to 15 pp from the average of 50%.{{ endif }} {{ elif var2
+        > 40 and var2 <= 50 }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 2
+        zwischen 40 und 50 liegt, erhöht sich die Verlustwahrscheinlichkeit um
+        15 bis 21 pp gegenüber dem Durchschnitt von 50%.{{ else }}Since your
+        value of Characteristic 2 is between 40 and 50, the probability of loss
+        increases by 15 to 21 pp from the average of 50%.{{ endif }} {{ elif
+        var2 > 50 and var2 <= 60 }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal
+        2 zwischen 50 und 60 liegt, erhöht sich die Verlustwahrscheinlichkeit um
+        21 bis 27 pp gegenüber dem Durchschnitt von 50%.{{ else }}Since your
+        value of Characteristic 2 is between 50 and 60, the probability of loss
+        increases by 21 to 27 pp from the average of 50%.{{ endif }} {{ elif
+        var2 > 60 and var2 <= 70 }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal
+        2 zwischen 60 und 70 liegt, erhöht sich die Verlustwahrscheinlichkeit um
+        27 bis 32 pp gegenüber dem Durchschnitt von 50%.{{ else }}Since your
+        value of Characteristic 2 is between 60 and 70, the probability of loss
+        increases by 27 to 32 pp from the average of 50%.{{ endif }} {{ else }}
+        {{ if lang == 'de' }}Da Ihr Wert für Merkmal 2 über 70 liegt, erhöht
+        sich die Verlustwahrscheinlichkeit um 32 bis 36 pp gegenüber dem
+        Durchschnitt von 50%.{{ else }}Since your value of Characteristic 2 is
+        above 70, the probability of loss increases by 32 to 36 pp from the
+        average of 50%.{{ endif }} {{ endif }} {{ elif player.round_number == 4
+        }} {{ if var2 >= 20 and var2 <= 30 }} {{ if lang == 'de' }}Da Ihr Wert
+        für Merkmal 2 zwischen 20 und 30 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 0 bis 10 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 2 is between 20 and 30, the
+        probability of loss increases by 0 to 10 pp from the average of 50%.{{
+        endif }} {{ elif var2 > 30 and var2 <= 40 }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 zwischen 30 und 40 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 10 bis 19 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 2 is between 30 and 40, the
+        probability of loss increases by 10 to 19 pp from the average of 50%.{{
+        endif }} {{ elif var2 > 40 and var2 <= 50 }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 zwischen 40 und 50 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 19 bis 27 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 2 is between 40 and 50, the
+        probability of loss increases by 19 to 27 pp from the average of 50%.{{
+        endif }} {{ elif var2 > 50 and var2 <= 60 }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 zwischen 50 und 60 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 27 bis 33 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 2 is between 50 and 60, the
+        probability of loss increases by 27 to 33 pp from the average of 50%.{{
+        endif }} {{ elif var2 > 60 and var2 <= 70 }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 zwischen 60 und 70 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 33 bis 38 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 2 is between 60 and 70, the
+        probability of loss increases by 33 to 38 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 2 über
+        70 liegt, erhöht sich die Verlustwahrscheinlichkeit um 38 bis 42 pp
+        gegenüber dem Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 2 is above 70, the probability of loss increases by 38 to
+        42 pp from the average of 50%.{{ endif }} {{ endif }} {{ else }} {{ if
+        var2 >= 20 and var2 <= 30 }} {{ if lang == 'de' }}Da Ihr Wert für
+        Merkmal 2 zwischen 20 und 30 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 0 bis 5 pp vom Durchschnitt von 50%.{{ else
+        }}Since your value of Characteristic 2 is between 20 and 30, the
+        probability of loss increases by 0 to 5 pp from the average of 50%.{{
+        endif }} {{ elif var2 > 30 and var2 <= 40 }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 zwischen 30 und 40 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 5 bis 10 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 2 is between 30 and 40, the
+        probability of loss increases by 5 to 10 pp from the average of 50%.{{
+        endif }} {{ elif var2 > 40 and var2 <= 50 }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 zwischen 40 und 50 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 10 bis 15 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 2 is between 40 and 50, the
+        probability of loss increases by 10 to 15 pp from the average of 50%.{{
+        endif }} {{ elif var2 > 50 and var2 <= 60 }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 zwischen 50 und 60 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 15 bis 19 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 2 is between 50 and 60, the
+        probability of loss increases by 15 to 19 pp from the average of 50%.{{
+        endif }} {{ elif var2 > 60 and var2 <= 70 }} {{ if lang == 'de' }}Da Ihr
+        Wert für Merkmal 2 zwischen 60 und 70 liegt, erhöht sich die
+        Verlustwahrscheinlichkeit um 19 bis 23 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 2 is between 60 and 70, the
+        probability of loss increases by 19 to 23 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 2 über
+        70 liegt, erhöht sich die Verlustwahrscheinlichkeit um 23 bis 27
+        Prozentpunkte gegenüber dem Durchschnitt von 50%.{{ else }}Since your
+        value of Characteristic 2 is above 70, the probability of loss increases
+        by 23 to 27 pp from the average of 50%.{{ endif }} {{ endif }} {{ endif
+        }}
+      </div>
+    </td>
+  </tr>
+</table>
+
+{{ elif player.treatment == "posinfo" }} {{ if lang == 'de' }} Auf dieser Seite
+erfahren Sie mehr über die Gesundheitsmerkmale, die Ihre
+Erkrankungswahrscheinlichkeit verringern. <br />
+Bitte klicken Sie auf die nachstehenden Schaltflächen, um mehr darüber zu
+erfahren, wie sich die einzelnen Merkmale auf Ihr Risiko auswirken. Die
+Auswirkungen sind spezifisch für Sie. <br />
+{{ else }} On this page, you can find out more about the health characteristics
+which reduce your probability of illness. <br />
+Please click on the buttons below to find out more about how each of the
+characteristics affect your risk. The effects are specific to you. <br />
+{{ endif }}
+<table>
+  <tr>
+    <td>
+      <div class="button-28green" data-id="char3">3</div>
+      <div
+        class="effectbox"
+        style="box-shadow: green 0px 1px 2px 0px, green 0px 1px 3px 1px"
+        id="char3"
+      >
+        {{ if var3 == 1}} {{ if player.round_number == 1}} {{ if lang == 'de'
+        }}Für Ihren Wert des Merkmals 3 sinkt die Verlustwahrscheinlichkeit um
+        {{ C.var3effect_round1|to2 }} pp von durchschnittlich 50%.{{ else }}For
+        your value of Characteristic 3, the probability of loss decreases by {{
+        C.var3effect_round1|to2 }} pp from an average of 50%.{{ endif }} {{ elif
+        player.round_number == 2 }} {{ if lang == 'de' }}Für Ihren Wert des
+        Merkmals 3 sinkt die Verlustwahrscheinlichkeit um {{
+        C.var3effect_round2|to2 }} pp von durchschnittlich 50%.{{ else }}For
+        your value of Characteristic 3, the probability of loss decreases by {{
+        C.var3effect_round2|to2 }} pp from an average of 50%.{{ endif }} {{ elif
+        player.round_number == 3 }} {{ if lang == 'de' }}Für Ihren Wert des
+        Merkmals 3 sinkt die Verlustwahrscheinlichkeit um {{
+        C.var3effect_round3|to2 }} pp von durchschnittlich 50%.{{ else }}For
+        your value of Characteristic 3, the probability of loss decreases by {{
+        C.var3effect_round3|to2 }} pp from an average of 50%.{{ endif }} {{ elif
+        player.round_number == 4 }} {{ if lang == 'de' }}Für Ihren Wert des
+        Merkmals 3 sinkt die Verlustwahrscheinlichkeit um {{
+        C.var3effect_round4|to2 }} pp von durchschnittlich 50%.{{ else }}For
+        your value of Characteristic 3, the probability of loss decreases by {{
+        C.var3effect_round4|to2 }} pp from an average of 50%.{{ endif }} {{ else
+        }} {{ if lang == 'de' }}Für Ihren Wert des Merkmals 3 sinkt die
+        Verlustwahrscheinlichkeit um {{ C.var3effect_round5|to2 }} pp von
+        durchschnittlich 50%.{{ else }}For your value of Characteristic 3, the
+        probability of loss decreases by {{ C.var3effect_round5|to2 }} pp from
+        an average of 50%.{{ endif }} {{ endif }} {{ else }} {{ if lang == 'de'
+        }}Ihr Wert von Merkmal 3 führt zu keiner Veränderung der
+        Verlustwahrscheinlichkeit von einem Durchschnitt von 50%.{{ else }}Your
+        value of Characteristic 3 leads to no change in the probability of loss
+        from an average of 50%.{{ endif }} {{ endif }}
+      </div>
+    </td>
+    <td>
+      <div class="button-28green" data-id="char4">4</div>
+      <div
+        class="effectbox"
+        style="box-shadow: green 0px 1px 2px 0px, green 0px 1px 3px 1px"
+        id="char4"
+      >
+        {{ if player.round_number == 1}} {{ if var4 >= 0 and var4 <= 5 }} {{ if
+        lang == 'de' }}Da Ihr Wert für Merkmal 4 zwischen 0 und 5 liegt, sinkt
+        die Verlustwahrscheinlichkeit um 0 bis 12 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 4 is between 0 and 5, the
+        probability of loss decreases by 0 to 12 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 4
+        zwischen 5 und 10 liegt, sinkt die Verlustwahrscheinlichkeit um 12 bis
+        23 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 4 is between 5 and 10, the probability of loss decreases
+        by 12 to 23 pp from the average of 50%.{{ endif }} {{ endif }} {{ elif
+        player.round_number == 2 }} {{ if var4 >= 0 and var4 <= 5 }} {{ if lang
+        == 'de' }}Da Ihr Wert für Merkmal 4 zwischen 0 und 5 liegt, sinkt die
+        Verlustwahrscheinlichkeit um 0 bis 18 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 4 is between 0 and 5, the
+        probability of loss decreases by 0 to 18 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 4
+        zwischen 5 und 10 liegt, sinkt die Verlustwahrscheinlichkeit um 18 bis
+        32 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 4 is between 5 and 10, the probability of loss decreases
+        by 18 to 32 pp from the average of 50%.{{ endif }} {{ endif }} {{ elif
+        player.round_number == 3 }} {{ if var4 >= 0 and var4 <= 5 }} {{ if lang
+        == 'de' }}Da Ihr Wert für Merkmal 4 zwischen 0 und 5 liegt, sinkt die
+        Verlustwahrscheinlichkeit um 0 bis 23 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 4 is between 0 and 5, the
+        probability of loss decreases by 0 to 23 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 4
+        zwischen 5 und 10 liegt, sinkt die Verlustwahrscheinlichkeit um 23 bis
+        38 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 4 is between 5 and 10, the probability of loss decreases
+        by 23 to 38 pp from the average of 50%.{{ endif }} {{ endif }} {{ elif
+        player.round_number == 4 }} {{ if var4 >= 0 and var4 <= 5 }} {{ if lang
+        == 'de' }}Da Ihr Wert für Merkmal 4 zwischen 0 und 5 liegt, sinkt die
+        Verlustwahrscheinlichkeit um 0 bis 32 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 4 is between 0 and 5, the
+        probability of loss decreases by 0 to 32 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 4
+        zwischen 5 und 10 liegt, sinkt die Verlustwahrscheinlichkeit um 32 bis
+        45 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 4 is between 5 and 10, the probability of loss decreases
+        by 32 to 45 pp from the average of 50%.{{ endif }} {{ endif }} {{ else
+        }} {{ if var4 >= 0 and var4 <= 5 }} {{ if lang == 'de' }}Da Ihr Wert für
+        Merkmal 4 zwischen 0 und 5 liegt, sinkt die Verlustwahrscheinlichkeit um
+        0 bis 6 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 4 is between 0 and 5, the probability of loss decreases
+        by 0 to 6 pp from the average of 50%.{{ endif }} {{ else }} {{ if lang
+        == 'de' }}Da Ihr Wert für Merkmal 4 zwischen 5 und 10 liegt, sinkt die
+        Verlustwahrscheinlichkeit um 6 bis 12 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 4 is between 5 and 10, the
+        probability of loss decreases by 6 to 12 pp from the average of 50%.{{
+        endif }} {{ endif }} {{ endif }}
+      </div>
+    </td>
+    <td>
+      <div class="button-28green" data-id="char5">5</div>
+      <div
+        class="effectbox"
+        style="box-shadow: green 0px 1px 2px 0px, green 0px 1px 3px 1px"
+        id="char5"
+      >
+        {{ if player.round_number == 1 }} {{ if var5 >= 0 and var5 <= 5 }} {{ if
+        lang == 'de' }}Da Ihr Wert für Merkmal 5 zwischen 0 und 5 liegt, sinkt
+        die Verlustwahrscheinlichkeit um 0 bis 23 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 5 is between 0 and 5, the
+        probability of loss decreases by 0 to 23 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 5
+        zwischen 5 und 10 liegt, sinkt die Verlustwahrscheinlichkeit um 23 bis
+        38 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 5 is between 5 and 10, the probability of loss decreases
+        by 23 to 38 pp from the average of 50%.{{ endif }} {{ endif }} {{ elif
+        player.round_number == 2 }} {{ if var5 >= 0 and var5 <= 5 }} {{ if lang
+        == 'de' }}Da Ihr Wert für Merkmal 5 zwischen 0 und 5 liegt, sinkt die
+        Verlustwahrscheinlichkeit um 0 bis 28 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 5 is between 0 and 5, the
+        probability of loss decreases by 0 to 28 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 5
+        zwischen 5 und 10 liegt, sinkt die Verlustwahrscheinlichkeit um 28 bis
+        42 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 5 is between 5 and 10, the probability of loss decreases
+        by 28 to 42 pp from the average of 50%.{{ endif }} {{ endif }} {{ elif
+        player.round_number == 3 }} {{ if var5 >= 0 and var5 <= 5 }} {{ if lang
+        == 'de' }}Da Ihr Wert für Merkmal 5 zwischen 0 und 5 liegt, sinkt die
+        Verlustwahrscheinlichkeit um 0 bis 26 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 5 is between 0 and 5, the
+        probability of loss decreases by 0 to 26 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 5
+        zwischen 5 und 10 liegt, sinkt die Verlustwahrscheinlichkeit um 26 bis
+        41 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 5 is between 5 and 10, the probability of loss decreases
+        by 26 to 41 pp from the average of 50%.{{ endif }} {{ endif }} {{ elif
+        player.round_number == 4 }} {{ if var5 >= 0 and var5 <= 5 }} {{ if lang
+        == 'de' }}Da Ihr Wert für Merkmal 5 zwischen 0 und 5 liegt, sinkt die
+        Verlustwahrscheinlichkeit um 0 bis 32 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 5 is between 0 and 5, the
+        probability of loss decreases by 0 to 32 pp from the average of 50%.{{
+        endif }} {{ else }} {{ if lang == 'de' }}Da Ihr Wert für Merkmal 5
+        zwischen 5 und 10 liegt, sinkt die Verlustwahrscheinlichkeit um 32 bis
+        45 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 5 is between 5 and 10, the probability of loss decreases
+        by 32 to 45 pp from the average of 50%.{{ endif }} {{ endif }} {{ else
+        }} {{ if var5 >= 0 and var5 <= 5 }} {{ if lang == 'de' }}Da Ihr Wert für
+        Merkmal 5 zwischen 0 und 5 liegt, sinkt die Verlustwahrscheinlichkeit um
+        0 bis 12 pp vom Durchschnitt von 50%.{{ else }}Since your value of
+        Characteristic 5 is between 0 and 5, the probability of loss decreases
+        by 0 to 12 pp from the average of 50%.{{ endif }} {{ else }} {{ if lang
+        == 'de' }}Da Ihr Wert für Merkmal 5 zwischen 5 und 10 liegt, sinkt die
+        Verlustwahrscheinlichkeit um 12 bis 23 pp vom Durchschnitt von 50%.{{
+        else }}Since your value of Characteristic 5 is between 5 and 10, the
+        probability of loss decreases by 12 to 23 pp from the average of 50%.{{
+        endif }} {{ endif }} {{ endif }}
+      </div>
+    </td>
+  </tr>
+</table>
+{{ else }} {{ if lang == 'de' }}Das durchschnittliche Risiko, einen Verlust zu
+erleiden, liegt bei den Teilnehmern bei 50 %. Bitte beachten Sie, dass Sie Ihr
+persönliches Risiko nicht kennen.{{ else }}The average risk of suffering a loss
+among the participants is 50%. Please note that you do not know your personal
+risk.{{ endif }} {{ endif }} {{ if lang == 'de' }}
+<p>
+  Wie hoch schätzen Sie angesichts der Informationen, die Sie über Ihre Merkmale
+  erhalten haben, die Wahrscheinlichkeit ein, dass Sie einen Verlust erleiden?
+  Achten Sie darauf, eine genaue Schätzung abzugeben. Liegt Ihr Tipp innerhalb
+  von <span>&#177;</span> 10 der wahren Wahrscheinlichkeit, erhalten Sie
+  zusätzlich 20 Punkte, die Ihrer Auszahlung gutgeschrieben werden. Ihrer
+  Auszahlung gutgeschrieben werden.
+</p>
+{{ else }}
+<p>
+  Given the information you have received about your characteristics, what do
+  you think your probability of experiencing a loss is? Be sure to give an
+  accurate estimate. If your guess is within <span>&#177;</span> 10 of true
+  probability, you will earn an additional 20 points which will be credited to
+  your payout.
+</p>
+{{ endif }}
+
+<p>
+  <span style="font-style: italic; font-size: 12pt"
+    >{{ if lang == 'de' }}Klicken Sie auf den blauen Balken, um den
+    Schieberegler einzublenden.{{ else }}Click on the blue bar to reveal the
+    slider.{{ endif }}</span
+  >
+</p>
+<div id="sliders_here1"></div>
+
+<script>
+  var mgsliders = Array();
+
+  mgsliders.lookup = function (which) {
+    for (var j = 0; j < mgsliders.length; j++) {
+      if (mgsliders[j].field == which) {
+        return mgsliders[j].obj;
+      }
+    }
+
+    return undefined;
+  };
+
+  function mgslider(field, min, max, step, text) {
+    this.field = field;
+    this.min = parseFloat(min);
+    this.max = parseFloat(max);
+    this.step = parseFloat(step);
+    this.digits = this.suggest_digits(step);
+
+    this.prefix = "mgslider_yF5sTZLy";
+    this.yourvalue = text.toString();
+
+    mgsliders.push({ field: field, obj: this });
+  }
+
+  mgslider.prototype.fzero = function (s) {
+    for (var c = s.length - 1; c >= 0; c--) {
+      if (s[c] != "0") {
+        return c;
+      }
+    }
+
+    return 0;
+  };
+
+  mgslider.prototype.suggest_digits = function (x) {
+    x = x.toFixed(10);
+    return this.fzero(x) - x.search(/\./);
+  };
+
+  mgslider.prototype.f2s = function (val, detect) {
+    if (detect) {
+      return val.toFixed(this.suggest_digits(val)).replace("-", "&ndash;");
+    }
+    return val.toFixed(this.digits).replace("-", "&ndash;");
+  };
+
+  mgslider.prototype.id = function (id_) {
+    if (id_ === undefined) {
+      id_ = "";
+    }
+
+    return this.prefix + "_" + this.field + "_" + id_;
+  };
+
+  mgslider.prototype.markup = function () {
+    return (
+      "\
+            <table id='" +
+      this.id("wrapper") +
+      "' class='mgslider-wrapper' border='0'>\
+                <tr>\
+                    <td class='mgslider-limit'>" +
+      this.f2s(this.min, true) +
+      "</td>\
+                    <td width='90%'>\
+                        <div id='" +
+      this.id("before") +
+      "' class='mgslider-before' onclick='mgsliders.lookup(\"" +
+      this.field +
+      "\").reveal(event)'></div>\
+                        <input type='range' id='" +
+      this.id() +
+      "' min='" +
+      this.min +
+      "' max='" +
+      this.max +
+      "' step='" +
+      this.step +
+      "' value='' class='mgslider form-range' oninput='mgsliders.lookup(\"" +
+      this.field +
+      "\").change()' onchange='mgsliders.lookup(\"" +
+      this.field +
+      "\").change()'>\
+                    </td>\
+                    <td class='mgslider-limit'>" +
+      this.f2s(this.max, true) +
+      "</td>\
+                </tr>\
+                <tr class='mgslider-feedback'>\
+                    <td id='" +
+      this.id("show") +
+      "' class='mgslider-show' colspan='3'><i>" +
+      this.yourvalue +
+      "</i>: <b><span id='" +
+      this.id("cur") +
+      "' class='mgslider-value'></span></b></td>\
+                </tr>\
+            </table>\
+            \
+            <input type='hidden' id='" +
+      this.id("input") +
+      "' name='" +
+      this.field +
+      "' value='' />"
+    );
+  };
+
+  mgslider.prototype.hide = function () {
+    document.getElementById(this.id()).style.display = "none";
+    document.getElementById(this.id("show")).style.visibility = "hidden";
+    document.getElementById(this.id("show")).style.textAlign = "center";
+    document.getElementById(this.id("before")).style.display = "block";
+  };
+
+  mgslider.prototype.print = function (el) {
+    el.innerHTML += this.markup();
+    this.hide();
+  };
+
+  mgslider.prototype.value = function () {
+    return parseFloat(document.getElementById(this.id()).value);
+  };
+
+  mgslider.prototype.change = function () {
+    document.getElementById(this.id("cur")).innerHTML = this.f2s(
+      this.value(),
+      false
+    );
+    document.getElementById(this.id("input")).value = this.value();
+  };
+
+  mgslider.prototype.reveal = function (event) {
+    var now;
+
+    if (event !== undefined && typeof event.offsetX !== undefined) {
+      var max = parseInt(
+        getComputedStyle(
+          document.getElementById(this.id("before"))
+        ).width.replace("px", "")
+      );
+      var cur = event.offsetX;
+
+      now = (cur / max) * (this.max - this.min) + this.min;
+    } else {
+      now = this.min + Math.random() * (this.max - this.min);
+    }
+
+    now = Math.round(now / this.step) * this.step;
+
+    document.getElementById(this.id()).style.display = "block";
+    document.getElementById(this.id("before")).style.display = "none";
+    document.getElementById(this.id("show")).style.visibility = "visible";
+
+    document.getElementById(this.id()).value = now;
+    this.change();
+  };
+</script>
+
+<p>
+  <script>
+    $(document).ready(function (event) {
+      slider1 = new mgslider(
+        "belief",
+        0,
+        100,
+        0.25,
+        "{{ if lang == 'de' }}Ihr Annahme an die Wahrscheinlichkeit (%){{ else }}Your belief of the probability (%){{ endif }}"
+      );
+      slider1.print(document.getElementById("sliders_here1"));
+    });
+  </script>
+</p>
+{{ formfield_errors 'belief' }}
+
+<script>
+  let timerID;
+  let counter = 0;
+  let tracker1 = 0;
+  let tracker2 = 0;
+  let tracker3 = 0;
+  let tracker4 = 0;
+  let tracker5 = 0;
+
+  let pressHoldEvent = new CustomEvent("pressHold");
+  let pressHoldDuration = 1000000000000000000000000000000000000000000000;
+
+  var buttontoShowBox = document.querySelectorAll(
+    ".button-28green,.button-28red"
+  );
+  var infoBox = document.querySelectorAll(".effectbox");
+
+  buttontoShowBox.forEach(function (el) {
+    el.addEventListener("mousedown", pressingDown, false);
+    el.addEventListener("mouseup", notPressingDown, false);
+    el.addEventListener("mouseleave", notPressingDown, false);
+
+    el.addEventListener("touchstart", pressingDown, false);
+    el.addEventListener("touchend", notPressingDown, false);
+
+    el.addEventListener("pressHold", doSomething, false);
+
+    function pressingDown(e) {
+      requestAnimationFrame(timer);
+      e.preventDefault();
+      console.log("Pressing");
+
+      // infoBox.forEach(function (e) {
+      //  e.classList.remove("show");
+      // });
+      var id = el.getAttribute("data-id");
+      document.getElementById(id).classList.add("show");
+    }
+
+    function notPressingDown(e) {
+      // Stop the timer
+      cancelAnimationFrame(timerID);
+
+      var id = el.getAttribute("data-id");
+      document.getElementById(id).classList.remove("show");
+
+      if (id == "char1") {
+        tracker1 += counter;
+        sendTracker1();
+      } else if (id == "char2") {
+        tracker2 += counter;
+        sendTracker2();
+      } else if (id == "char3") {
+        tracker3 += counter;
+        sendTracker3();
+      } else if (id == "char4") {
+        tracker4 += counter;
+        sendTracker4();
+      } else {
+        tracker5 += counter;
+        sendTracker5();
+      }
+
+      console.log(
+        "Not pressing! Time: " +
+          tracker1 +
+          ", " +
+          tracker2 +
+          ", " +
+          tracker3 +
+          ", " +
+          tracker4 +
+          ", " +
+          tracker5
+      );
+      counter = 0;
+    }
+
+    function timer() {
+      console.log("Timer tick!");
+
+      if (counter < pressHoldDuration) {
+        timerID = requestAnimationFrame(timer);
+        counter++;
+      } else {
+        console.log("Press threshold reached!");
+        item.dispatchEvent(pressHoldEvent);
+      }
+    }
+  });
+
+  //
+  // Runs at 60fps when you are pressing down
+  //
+
+  function sendTracker1() {
+    liveSend({ which_char: "char_1", value: tracker1 });
+  }
+
+  function sendTracker2() {
+    liveSend({ which_char: "char_2", value: tracker2 });
+  }
+
+  function sendTracker3() {
+    liveSend({ which_char: "char_3", value: tracker3 });
+  }
+
+  function sendTracker4() {
+    liveSend({ which_char: "char_4", value: tracker4 });
+  }
+
+  function sendTracker5() {
+    liveSend({ which_char: "char_5", value: tracker5 });
+  }
+
+  function doSomething(e) {
+    console.log("pressHold event fired!");
+  }
+</script>
+
+<script>
+  document.getElementsByClassName(
+    "otree-form-errors alert alert-danger"
+  )[0].innerHTML =
+    "{{ if lang == 'de' }}Bitte beheben Sie die Fehler.{{ else }}Please fix the errors.{{ endif }}";
+  document.getElementsByClassName("form-control-errors")[0].innerHTML =
+    "{{ if lang == 'de' }}Dieses Feld ist erforderlich.{{ else }}This field is required.{{ endif }}";
+</script>
+
+{{ next_button }} {{ endblock }}

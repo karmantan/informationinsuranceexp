@@ -1,0 +1,18 @@
+{{ block title }}
+    {{ if lang == 'de' }} Umfrage {{ else }} Survey {{ endif }}
+{{ endblock }}
+{{ block content }}
+
+    {{ if lang == 'de' }}
+        2. Welches ist Ihr Geschlecht?
+        {{ formfield 'gender_de'}}
+    {{ else }}
+        2. What is your gender?
+        {{ formfield 'gender_en' }}
+    {{ endif }}
+
+    {{ formfields }}
+
+    {{ next_button }}
+
+{{ endblock }}
